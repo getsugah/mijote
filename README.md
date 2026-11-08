@@ -375,17 +375,6 @@ Ces pistes ne sont pas encore disponibles et ne constituent pas un calendrier de
 
 Le partage Android en HTTPS reste à vérifier sur un appareil réel.
 
-## Confidentialité du développement
-
-Les consignes de [AGENTS.md](AGENTS.md) interdisent les chemins personnels et les
-données personnelles dans les sources, tests, exemples et documents distribués.
-Les paramètres propres à l’installation restent dans `.env`, les bases et
-sauvegardes dans les emplacements privés exclus. Les contenus de recette du foyer
-ne servent pas de fixtures. `python3 scripts/check_privacy.py` contrôle les chemins
-personnels et adresses privées des fichiers distribuables ; les adresses fictives
-nécessaires aux tests de sécurité réseau sont conservées. Ce contrôle ciblé ne
-remplace pas la revue du contenu.
-
 ## Notices à conserver dans une distribution
 
 Conserver `LICENSE`, `NOTICE`, `COMMERCIAL.md`, `ASSETS.md`,
