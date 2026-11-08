@@ -173,3 +173,11 @@ backend, 31 tests frontend, compilation et parcours HTTP isolé réussis ; une p
 publique a été proposée et normalisée sans enregistrer la recette. Schéma 0004,
 compte et volume conservés, intégrité contrôlée. La sauvegarde SQLite contient les
 photos. Sélection et confort sur le téléphone restent à confirmer manuellement.
+
+## Installateur de déploiement
+
+Réutiliser Dockerfile, Compose et volume existants sans changement métier. Ajouter
+un script Bash avec configuration initiale privée, relance sans écrasement, mise
+à jour Git en avance rapide et désinstallation confirmée sans suppression du volume.
+Valider la syntaxe et les parcours avec des outils simulés et des données fictives ;
+ne pas toucher au service familial ni automatiser l’interface ZimaOS.

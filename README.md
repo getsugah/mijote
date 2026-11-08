@@ -199,6 +199,106 @@ Le traitement utilise [Pillow](https://python-pillow.org/), sous licence [MIT-CM
 licences tierces indiquées dans sa distribution. La dépendance est verrouillée ;
 elle ne change pas la licence du code de l’application.
 
+## Installation guidée sur ZimaOS ou Linux
+
+Prérequis : **Bash, Git, Docker Engine démarré et Docker Compose v2**. Le script
+vérifie leur présence sans installer de paquets système. Une connexion Internet
+et suffisamment d’espace pour construire l’image sont nécessaires.
+
+Depuis un terminal, dans le dossier où conserver les sources :
+
+```sh
+git clone https://github.com/getsugah/migote.git
+cd migote
+bash install.sh
+```
+
+Le script demande le port HTTP (**8095 par défaut**), l’adresse d’écoute
+(**0.0.0.0 par défaut**) et l’IPv4 privée du serveur. Il propose l’IP détectée,
+à vérifier : un serveur peut avoir plusieurs interfaces. Il prépare les origines
+autorisées, construit l’image puis attend que le conteneur soit sain avant
+d’afficher les URL. Créez ensuite le compte familial dans le navigateur ; aucun
+mot de passe n’est prédéfini.
+
+Le fichier `.env` est créé avec des droits privés. S’il existe déjà, il est
+**conservé intégralement**, y compris son ancien port ou sa configuration HTTPS :
+aucune nouvelle question ne remplace ses valeurs. Pour changer le port, modifier
+`MIJOTE_PORT` et les ports dans `MIJOTE_ALLOWED_ORIGINS`, puis relancer le script.
+La relance reconstruit et redémarre au besoin avec le même volume de données.
+
+### Télécharger depuis GitHub sans exécuter de script distant
+
+La page [GitHub de Mijote](https://github.com/getsugah/migote) propose **Code →
+Download ZIP**. Extraire l’archive entière dans un dossier permanent, lire
+`install.sh`, puis y ouvrir un terminal et lancer `bash install.sh`. Git doit
+également être installé pour les vérifications du script. Ne pas utiliser
+`curl | bash` : le script est téléchargé et consultable avant son lancement.
+La mise à jour automatique du code nécessite un clone Git ; elle n’est pas
+proposée pour une archive ZIP. Pour cette raison, le clone est recommandé.
+
+### Mettre à jour
+
+Faire d’abord une sauvegarde avec la procédure **Sauvegarder et restaurer**
+ci-dessous, puis, depuis le même dossier :
+
+```sh
+bash install.sh update
+```
+
+Après confirmation, le script récupère la branche suivie (ou celle du même nom
+sur `origin` en l’absence de suivi), accepte seulement une avance rapide, puis
+reconstruit et relance les conteneurs. Il refuse les modifications locales et les
+fichiers non suivis non ignorés ; `.env`, données et sauvegardes ignorés restent
+en place. Il ne fait aucun stash, reset ou écrasement automatique. Si Git diverge,
+une résolution manuelle est nécessaire. Un échec de construction laisse le code
+actualisé ; corriger l’erreur puis relancer `bash install.sh`. Les migrations
+s’appliquent au démarrage : conserver la sauvegarde pour tout retour en arrière.
+
+Pour une installation par ZIP, sauvegarder puis extraire la nouvelle version
+dans un autre dossier, y recopier le `.env` existant et relire le script avant de
+le lancer. Le nom du projet Compose reste `mijote`, donc le volume existant est
+réutilisé sur le même démon Docker. Conserver l’ancienne copie ; ne pas lancer
+simultanément deux installations utilisant cette même base.
+
+### Désinstaller en conservant les données
+
+```sh
+bash install.sh uninstall
+```
+
+La saisie exacte de `DESINSTALLER` est nécessaire. Seuls les conteneurs et le réseau
+Compose sont retirés. Le volume, les sources, `.env`, les images et les sauvegardes
+restent en place. Relancer `bash install.sh` permet de reprendre l’installation.
+Aucune commande de suppression des données n’est exécutée ou proposée par le script.
+
+### Particularités ZimaOS et accès réseau
+
+- Utiliser un terminal SSH ou le terminal disponible sur le serveur. Le script
+  déploie avec Compose ; il ne crée pas de fiche dans le catalogue d’applications
+  ZimaOS. Son exécution sur un appareil ZimaOS réel reste à valider.
+- Choisir un dossier permanent sur un disque monté, où le compte peut écrire.
+  Les données applicatives résident dans le volume Docker `mijote_mijote_data`,
+  pas dans le dossier du clone. Sauvegarder la base par la procédure dédiée.
+- Docker et le plugin Compose v2 doivent être disponibles dans le terminal.
+  Si les permissions Docker le demandent, utiliser `sudo bash install.sh`
+  (ou `sudo bash install.sh update` / `uninstall`) avec un compte autorisé.
+  Le script ne modifie pas les groupes ni les permissions du socket Docker.
+  Éviter d’alterner les comptes : Git peut refuser un dépôt possédé par un autre
+  utilisateur. Ne pas désactiver globalement ses contrôles de propriété.
+- Le port choisi doit être libre. Si un autre service le réserve, modifier `.env`
+  puis relancer. Les erreurs du démon Docker restent affichées ; le script ne
+  désactive aucun service existant. Une réservation sur une autre interface peut
+  aussi être signalée par le contrôle préliminaire du port.
+- L’écoute sur `0.0.0.0` couvre toutes les interfaces IPv4 : utiliser HTTP seulement
+  sur un réseau privé de confiance. Le script n’ouvre aucun port du pare-feu ou du
+  routeur. Pour un accès distant, utiliser un VPN privé ou un reverse proxy HTTPS.
+- Pour HTTPS ultérieurement, configurer le proxy, limiter l’écoute au réseau du
+  proxy ou à `127.0.0.1`, définir l’origine exacte `https://…` dans
+  `MIJOTE_ALLOWED_ORIGINS` et `MIJOTE_SECURE_COOKIE=true`, puis relancer.
+  Voir aussi **Configuration et accès depuis le téléphone** ci-dessous.
+- Une seule installation Compose nommée `mijote` est gérée par démon Docker.
+  Plusieurs foyers isolés nécessitent une configuration manuelle distincte.
+
 ## Démarrer avec Docker Compose
 
 Sur un hôte Debian 13 disposant de Docker Engine et de Compose v2 :

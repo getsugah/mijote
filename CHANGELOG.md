@@ -1,5 +1,11 @@
 # Journal de Mijote
 
+## Installateur interactif de déploiement
+
+- Script Bash pour Linux et ZimaOS : prérequis, port 8095 proposé, IPv4 et origines, construction et contrôle de santé.
+- Configuration existante préservée, mise à jour Git en avance rapide, désinstallation confirmée sans suppression des données.
+- Guide GitHub, téléchargement ZIP, sauvegardes, HTTPS et limites ZimaOS ; aucun changement métier ni modification des restrictions Docker.
+
 ## Préparation de publication — licence, 8 novembre 2026
 
 - Code propre du projet sous PolyForm Noncommercial 1.0.0, texte officiel intégral sans modification ; mention Required Notice séparée, copyright Getsugah uniquement pour ses droits.

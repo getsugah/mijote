@@ -239,3 +239,20 @@ Les prochaines constructions reprennent les notices via les fichiers publics
 existants. Une image Docker publique nécessite aussi de conserver les obligations
 propres aux composants système ; l’inventaire applicatif n’est pas un SBOM système
 exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’audit.
+
+## Installateur interactif de déploiement
+
+- `bash -n install.sh` : syntaxe valide.
+- `python3 -m unittest discover -s tests -p 'test_install.py' -v` :
+  11 tests réussis, avec Docker, Git, réseau local et attente simulés.
+- Parcours : installation initiale (port 8095, origines, droits 0600), relance,
+  conservation du .env HTTPS, refus d’un port invalide ou occupé et d’une IPv4
+  publique, permissions Docker, Compose v1 refusé, mise à jour en avance rapide,
+  refus des modifications locales et de la divergence, désinstallation annulée
+  et confirmée, erreurs de construction/démarrage/santé et expiration de l’attente.
+- Une donnée fictive sentinelle reste intacte après chaque exécution ; aucune
+  commande de suppression de volume n’est appelée. La conservation d’un volume
+  Docker réel n’a pas été retestée par cet installateur.
+- Contrôle de confidentialité et `git diff --check` réussis.
+- Dockerfile et Compose inchangés. Aucun build, redémarrage du service réel,
+  parcours graphique ou accès ZimaOS réalisé. Validation sur ZimaOS réel restante.
