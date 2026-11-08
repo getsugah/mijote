@@ -295,6 +295,46 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
         values = history(db, limit, before)
         return {'items': values, 'next_before': values[-1]['meal_id'] if len(values) == limit else None}
 
+    @app.get(api + '/suggestions/web/sources', dependencies=access)
+    def web_sources(db=Depends(database)):
+        from .web_ideas import SOURCE, INDEX_URL
+        return {'items': [{'id': 0, 'name': SOURCE, 'url': INDEX_URL},
+                          *[dict(row) for row in db.execute('SELECT * FROM web_sources ORDER BY id')]]}
+
+    @app.post(api + '/suggestions/web/sources', dependencies=[Depends(preview_access)])
+    def add_web_source(data: m.WebSource):
+        from . import web_ideas as web
+        from .safe_fetch import ImportProblem
+        from urllib.parse import urlsplit
+        url = web.normalized_link(data.url)
+        if not url:
+            raise HTTPException(422, 'Utiliser un lien HTTP ou HTTPS public sans identifiants.')
+
+        def check(db):
+            if db.execute('SELECT 1 FROM web_sources WHERE url=?', (url,)).fetchone():
+                raise HTTPException(409, 'Ce lien est déjà dans vos sources.')
+            if db.execute('SELECT COUNT(*) FROM web_sources').fetchone()[0] >= web.MAX_SOURCES:
+                raise HTTPException(409, 'Vous pouvez conserver 20 liens. Retirez une source avant d’en ajouter une autre.')
+
+        with connect(path) as db:
+            check(db)
+        try:
+            items = web.source_catalogue(url)
+        except ImportProblem as error:
+            raise HTTPException(422, 'Lien non ajouté. ' + str(error)) from None
+        with connect(path) as db:
+            check(db)
+            name = urlsplit(url).hostname
+            ident = db.execute('INSERT INTO web_sources (name,url) VALUES (?,?)', (name, url)).lastrowid
+        return {'id': ident, 'name': name, 'url': url, 'count': len(items)}
+
+    @app.delete(api + '/suggestions/web/sources/{ident}', dependencies=access)
+    def delete_web_source(ident: int, db=Depends(database)):
+        if not db.execute('SELECT 1 FROM web_sources WHERE id=?', (ident,)).fetchone():
+            raise HTTPException(404, 'Source introuvable. La source initiale est conservée.')
+        db.execute('DELETE FROM web_sources WHERE id=?', (ident,))
+        return {'ok': True}
+
     @app.post(api + '/suggestions/web', dependencies=[Depends(preview_access)])
     def web_suggestion(data: m.WebDiscovery):
         from .web_ideas import discover
@@ -302,8 +342,13 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
         # Release SQLite before requesting the public index.
         with connect(path) as db:
             saved = [row['source_url'] for row in db.execute("SELECT source_url FROM recipes WHERE source_url != ''")]
+            source = None
+            if data.source_id:
+                source = db.execute('SELECT url FROM web_sources WHERE id=?', (data.source_id,)).fetchone()
+                if not source:
+                    raise HTTPException(404, 'Cette source a été retirée. Choisissez une autre source.')
         try:
-            return discover(data.exclude, saved)
+            return discover(data.exclude, saved, source['url'] if source else None)
         except ImportProblem as error:
             raise HTTPException(422, 'Découverte web indisponible. ' + str(error)) from None
 

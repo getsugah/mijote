@@ -276,4 +276,9 @@ class OfflineSync(Input):
 
 
 class WebDiscovery(Input):
+    source_id: int = Field(default=0, ge=0)
     exclude: list[Annotated[str, Field(max_length=2000)]] = Field(default_factory=list, max_length=100)
+
+
+class WebSource(Input):
+    url: str = Field(min_length=1, max_length=2000)

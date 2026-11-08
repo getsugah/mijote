@@ -275,3 +275,19 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
   du site. Parcours visuel sur Chrome/Android restant à valider par l’utilisateur.
 - Aucun redémarrage du service familial ou build Docker effectué. Après récupération
   du code, `bash install.sh update` reconstruit le conteneur sur le serveur cible.
+
+## Liens personnalisés pour les idées
+
+- 136 tests backend réussis ; huit nouveaux tests de sources personnalisées couvrent
+  lecture de pages/listes structurées, ajout/liste/sélection/retrait, doublons et
+  limite, refus réseau privé avant connexion, contrôle de session/CSRF, exclusion
+  des recettes importées, sauvegarde/restauration et migration additive 0004 → 0005.
+- 36 tests frontend réussis ; ajout vérifié puis choix de la source, envoi de son
+  identifiant, remise à zéro des idées vues, refus d’ajout avec texte conservé,
+  annulation et confirmation du retrait couverts sans automatisation graphique.
+- Essai public sans base : l’index initial utilisé comme lien personnalisé fournit
+  12 recettes reconnues et une sélection réussie. Aucun contenu réel dans les tests.
+- Compilation TypeScript/Vite, confidentialité et `git diff --check` réussis. La nouvelle migration
+  conserve les recettes, photos et données existantes sur les bases de test.
+- Vérification visuelle Chrome/Android restante ; compatibilité des autres sites
+  à vérifier par l’ajout d’un lien. Aucun déploiement du service familial réalisé.

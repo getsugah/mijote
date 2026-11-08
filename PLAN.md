@@ -190,3 +190,11 @@ téléchargement borné et l’import après validation. Exclure les liens vus e
 recettes déjà importées ; cache temporaire en mémoire et gestion des pannes.
 Valider autorisation, absence d’effets métier, exclusion des liens non conformes,
 cache et passage au formulaire d’import avec des fixtures synthétiques.
+
+## Liens personnalisés pour les idées
+
+Permettre d’ajouter une URL vérifiée et de choisir la source, sans parcours du site
+entier ni ajout automatique de recettes. Migration additive pour les liens privés,
+limite de 20 sources et cache en mémoire borné ; réutiliser fetch sécurisé et import.
+Valider sécurité réseau, permissions, absence d’effets métier, migration, sauvegarde
+et gestion des liens avec des données fictives.

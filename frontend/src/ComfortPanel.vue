@@ -8,6 +8,8 @@ const busy = ref(false), error = ref(''), notice = ref('')
 const mode = ref('varier'), ideas = ref<any[]>([]), excluded = ref<number[]>([])
 interface WebIdea { name: string; url: string; source: string }
 const webIdea = ref<WebIdea | null>(null), webSeen = ref<string[]>([]), webMessage = ref(''), webRequested = ref(false), webBusy = ref(false)
+interface WebSource { id: number; name: string; url: string }
+const webSources = ref<WebSource[]>([]), webSourceId = ref(0), webSourceUrl = ref(''), webSourcesError = ref(''), webSourcesLoading = ref(false)
 const events = ref<any[]>([]), cursor = ref<number | null>(null), target = ref(0)
 const source = ref(''), preview = ref<any>(null), preferences = ref<any>({})
 const ratings = { '': 'Pas encore d’avis', a_refaire: 'À refaire', pas_mal: 'Pas mal', a_ameliorer: 'À améliorer', ne_plus_proposer: 'Ne plus proposer' }
@@ -24,12 +26,36 @@ async function discoverWeb(reset = false) {
     if (reset) webSeen.value = []
     webBusy.value = true
     try {
-      const result = await api<{ item: WebIdea | null; message: string }>('/suggestions/web', 'POST', { exclude: webSeen.value })
+      const result = await api<{ item: WebIdea | null; message: string }>('/suggestions/web', 'POST', { exclude: webSeen.value, source_id: webSourceId.value })
       webRequested.value = true; webIdea.value = result.item; webMessage.value = result.message
       if (result.item) webSeen.value = [...webSeen.value, result.item.url].slice(-100)
     } finally { webBusy.value = false }
   })
 }
+function resetWebIdea() { webSeen.value = []; webIdea.value = null; webMessage.value = ''; webRequested.value = false }
+async function loadWebSources() {
+  webSourcesLoading.value = true; webSourcesError.value = ''
+  try { webSources.value = (await api<{ items: WebSource[] }>('/suggestions/web/sources')).items }
+  catch (e: any) { webSourcesError.value = e.message; if (e.status === 401) emit('unauthorized') }
+  finally { webSourcesLoading.value = false }
+}
+async function addWebSource() {
+  await run(async () => {
+    const result = await api<WebSource & { count: number }>('/suggestions/web/sources', 'POST', { url: webSourceUrl.value })
+    webSources.value.push(result); webSourceId.value = result.id; webSourceUrl.value = ''; resetWebIdea()
+    notice.value = `Lien ajouté : ${result.count} recette(s) reconnue(s). Vous pouvez demander une idée.`
+  })
+}
+async function removeWebSource(source: WebSource) {
+  if (!window.confirm(`Retirer ce lien des idées ? ${source.url} Les recettes déjà importées seront conservées.`)) return
+  await run(async () => {
+    await api(`/suggestions/web/sources/${source.id}`, 'DELETE')
+    webSources.value = webSources.value.filter(s => s.id !== source.id)
+    if (webSourceId.value === source.id) { webSourceId.value = 0; resetWebIdea() }
+    notice.value = 'Lien retiré. Vos recettes sont conservées.'
+  })
+}
+watch(webSourceId, resetWebIdea)
 async function history(more = false) { await run(async () => { const result = await api(`/history?limit=30${more && cursor.value ? `&before=${cursor.value}` : ''}`); events.value = more ? [...events.value, ...result.items] : result.items; cursor.value = result.next_before }) }
 async function plan(recipeId: number) { await run(async () => { await api(`/meals/${target.value}/suggestion`, 'POST', { operation_id: uuid(), recipe_id: recipeId }); emit('changed'); notice.value = 'Recette ajoutée au créneau choisi. Aucun stock consommé.' }) }
 async function reuse(id: number) { await run(async () => { await api(`/meals/${target.value}/reuse`, 'POST', { operation_id: uuid(), source_meal_id: id }); emit('changed'); notice.value = 'Repas replanifié. Sa préparation passée n’a pas été recopiée.' }) }
@@ -41,7 +67,7 @@ watch(() => [props.section, props.recipe?.id, props.data.week.start], () => {
   error.value = ''; notice.value = ''; preview.value = null
   if (props.section === 'preferences' && props.recipe) { const r: any = props.recipe; preferences.value = { favorite: !!r.favorite, to_try: !!r.to_try, rating: r.rating || '', category: r.category || 'autre', comment: r.comment || '', variant: r.variant || '' } }
   if (props.section === 'history') void history()
-  if (props.section === 'ideas') void suggestions(true)
+  if (props.section === 'ideas') { void suggestions(true); void loadWebSources() }
 }, { immediate: true })
 
 watch(target, () => { if (props.section === 'ideas') void suggestions(true) })
@@ -69,7 +95,14 @@ watch(target, () => { if (props.section === 'ideas') void suggestions(true) })
       <template v-if="section === 'ideas'"><div class="comfort-actions"><label>Envie de…<select v-model="mode" @change="suggestions(true)"><option value="varier">Varier</option><option value="stock">Utiliser le stock</option><option value="rapide">Cuisiner rapidement</option><option value="decouverte">Découvrir</option></select></label><button class="secondary" @click="suggestions(true)" :disabled="busy">Actualiser</button><button class="secondary" @click="another" :disabled="busy || !ideas.length">Une autre idée</button></div><div class="comfort-grid"><article v-for="idea in ideas" :key="idea.recipe_id" class="comfort-card"><h4>{{ idea.name }}</h4><ul><li v-for="reason in idea.reasons" :key="reason">{{ reason }}</li></ul><button class="secondary small" @click="plan(idea.recipe_id)" :disabled="busy || !selected">Ajouter au créneau choisi</button></article></div><p v-if="!busy && !ideas.length">Aucune autre suggestion. <button class="text-button" @click="suggestions(true)">Revoir toutes les idées</button></p>
         <section class="web-discovery" aria-labelledby="web-discovery-title">
           <h4 id="web-discovery-title">Une découverte sur le web</h4>
-          <p>Une recette au hasard parmi les dernières publications du Journal des Femmes Cuisine. Rien n’est ajouté à votre carnet ni aux courses sans votre validation.</p>
+          <p>Une recette au hasard depuis la source choisie. Rien n’est ajouté à votre carnet ni aux courses sans votre validation.</p>
+          <label>Source des idées<select v-model.number="webSourceId" :disabled="busy || webSourcesLoading"><option v-if="!webSources.length" :value="0">Journal des Femmes Cuisine</option><option v-for="source in webSources" :key="source.id" :value="source.id">{{ source.name }}{{ source.id ? ` · ${source.url}` : '' }}</option></select></label>
+          <p v-if="webSourcesError" class="alert error" role="alert">{{ webSourcesError }} <button class="text-button" @click="loadWebSources" :disabled="webSourcesLoading">Réessayer</button></p>
+          <details class="web-sources"><summary>Ajouter ou gérer les liens pour les idées</summary>
+            <p>Ajoutez le lien d’un site, d’une page qui liste des recettes ou d’une recette précise. La page sera vérifiée avant l’ajout ; certains sites ne sont pas compatibles.</p>
+            <form class="comfort-form" @submit.prevent="addWebSource"><label>Lien HTTP ou HTTPS public<input v-model="webSourceUrl" type="url" maxlength="2000" required placeholder="https://…" :disabled="busy || webSourcesLoading"></label><button class="secondary" :disabled="busy || webSourcesLoading || !webSourceUrl.trim()">Vérifier et ajouter ce lien</button></form>
+            <ul class="web-source-list"><li v-for="source in webSources" :key="source.id"><a :href="source.url" target="_blank" rel="noopener noreferrer">{{ source.url }}</a><button v-if="source.id" type="button" class="text-button" @click="removeWebSource(source)" :disabled="busy || webSourcesLoading">Retirer ce lien</button><small v-else>Source initiale</small></li></ul>
+          </details>
           <button class="secondary" @click="discoverWeb()" :disabled="busy || (webRequested && !webIdea)">{{ webRequested ? 'Une autre idée sur le web' : 'Découvrir un plat sur le web' }}</button>
           <p v-if="webBusy" role="status">Recherche en cours…</p>
           <article v-if="webIdea" class="comfort-card web-idea" aria-live="polite">

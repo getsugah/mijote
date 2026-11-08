@@ -38,4 +38,4 @@ def test_backup_does_not_overwrite_and_restore_rejects_other_files(tmp_path):
     with pytest.raises((ValueError, sqlite3.Error)):
         restore(invalid, target)
     with sqlite3.connect(target) as db:
-        assert db.execute('SELECT version_num FROM alembic_version').fetchone()[0] == '0004'
+        assert db.execute('SELECT version_num FROM alembic_version').fetchone()[0] == '0005'

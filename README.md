@@ -139,8 +139,8 @@ hors calcul.
 ## Découvrir une recette sur le web
 
 Dans **Ma semaine → Des idées**, choisir **Découvrir un plat sur le web** pour
-recevoir une recette au hasard parmi les dernières publications du
-[Journal des Femmes Cuisine](https://cuisine.journaldesfemmes.fr/derniererecette/).
+recevoir une recette au hasard depuis la source choisie. Par défaut, les idées
+viennent des dernières publications du [Journal des Femmes Cuisine](https://cuisine.journaldesfemmes.fr/derniererecette/).
 Son nom, sa source et un lien vers la recette sont affichés. **Une autre idée sur
 le web** propose un autre résultat ; les liens déjà vus dans ce panneau et les
 recettes déjà importées depuis la même URL sont écartés. Quand la sélection est
@@ -152,14 +152,34 @@ sur **Prévisualiser**, vérifier puis confirmer pour l’ajouter au carnet. La 
 découverte n’enregistre rien et ne modifie ni le planning, ni les stocks, ni les
 courses. Elle reste disponible même si le carnet est vide.
 
-Cette première source propose un choix limité aux recettes présentes sur son
-index, sans filtre selon les réserves, les préférences ou le temps de préparation.
-Une connexion Internet est nécessaire. Le serveur lit uniquement les titres et
-les liens de l’index public sur demande, avec les protections réseau de l’import ;
-aucune photo ni recette complète n’est téléchargée pendant la découverte. La
-sélection est gardée en mémoire pendant 15 minutes au maximum, sans stockage en
-base. Un changement du site, une panne ou un blocage peuvent rendre la découverte
-ou l’import indisponibles ; les idées du carnet continuent de fonctionner.
+Dans **Ajouter ou gérer les liens pour les idées**, coller l’URL d’un site, d’une
+page qui liste des recettes ou d’une recette précise, puis choisir **Vérifier et
+ajouter ce lien**. Mijote lit la page avec les protections de l’import et ne garde
+le lien que si des recettes sont reconnues. Choisir ensuite cette source dans
+**Source des idées** et demander une découverte. Jusqu’à 20 liens personnels
+peuvent être conservés, en plus de la source initiale. Les doublons sont signalés.
+**Retirer ce lien** demande confirmation et conserve les recettes déjà importées.
+
+Les liens restent privés dans la base SQLite : ils sont conservés au redémarrage,
+à la mise à jour et par la sauvegarde/restauration habituelle. La migration 0005
+ajoute cette liste sans modifier les recettes existantes. Faire une sauvegarde
+avant de mettre à jour l’installation.
+
+Chaque source fournit un choix limité aux recettes reconnues sur la page donnée,
+sans filtre selon les réserves, les préférences ou le temps de préparation.
+L’extraction reconnaît les données structurées Recipe/ItemList et certains liens
+de recettes usuels, sur le même domaine que la page finale. Elle ne parcourt pas
+le site entier et ne garantit pas la compatibilité de tous les sites. Si rien
+n’est reconnu, essayer une page listant les recettes plutôt que la page d’accueil,
+ou directement une recette. Les pages protégées, rendues uniquement en JavaScript
+ou bloquant l’accès automatisé peuvent être refusées ; aucun accès n’est contourné.
+
+Une connexion Internet est nécessaire pour vérifier et actualiser une source.
+Seuls les titres et liens sont utilisés pour les idées, sans téléchargement des
+photos ni enregistrement d’ingrédients. Les sélections sont gardées en mémoire
+pendant 15 minutes au maximum ; seul le lien source est conservé en base.
+Un changement du site, une panne ou un blocage peuvent rendre une source
+indisponible ; une autre source et les idées du carnet restent utilisables.
 
 ## Partager une recette depuis Android
 

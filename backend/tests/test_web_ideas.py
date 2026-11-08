@@ -14,6 +14,7 @@ HTML = f'<a href="{URL_A}"><h2>Plat témoin</h2></a><a href="{URL_B}">Autre plat
 def empty_cache(monkeypatch):
     monkeypatch.setattr(web, '_cached', ())
     monkeypatch.setattr(web, '_expires', 0)
+    monkeypatch.setattr(web, '_custom_cache', web.OrderedDict())
 
 
 def test_parser_deduplicates_and_ignores_non_recipe_and_unsafe_links():
