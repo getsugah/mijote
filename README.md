@@ -41,7 +41,7 @@ La provenance du nom, du logo SVG et des variantes PNG est documentée dans
 Les recettes, photos et autres contenus personnels ajoutés ou importés ne sont
 pas couverts par cette licence du projet et restent exclus de sa publication.
 
-## Les bases — phase A
+## Organiser les repas et les courses
 
 - Planning sur sept jours, midi et soir, selon un modèle de présence modifiable.
 - Portions familiales par défaut et exception par repas ; plat et accompagnement.
@@ -51,11 +51,10 @@ pas couverts par cette licence du projet et restent exclus de sa publication.
 - Courses calculées et ajouts manuels ; panier distinct de la confirmation d’achat.
 - Confirmation des quantités réellement achetées ou consommées, sans double mouvement.
 
-Le cahier des charges de référence reste `../MIJOTE_CODEX.md` ; l’architecture et
-les étapes sont décrites dans [PLAN.md](PLAN.md), les changements dans
-[CHANGELOG.md](CHANGELOG.md), les vérifications dans [VALIDATION.md](VALIDATION.md).
+Les changements sont décrits dans [CHANGELOG.md](CHANGELOG.md) et les
+vérifications dans [VALIDATION.md](VALIDATION.md).
 
-## Calendrier et impression — 0.1.1
+## Calendrier et impression
 
 Les jours fériés nationaux français ont un en-tête coloré et leur nom dans le
 calendrier. Les dates sont calculées localement, sans service externe à l’exécution.
@@ -73,7 +72,7 @@ vérifier sur Chrome et sur l’imprimante utilisée.
 Le champ **Source** conserve l’URL. Depuis la version 0.2.0, utiliser **Importer une
 recette** dans le carnet pour lire un lien et préremplir la recette avant validation.
 
-## Importer une recette — 0.2.0
+## Importer une recette
 
 Dans **Mes recettes → Importer une recette** :
 
@@ -110,7 +109,7 @@ et [Good Food](https://www.bbcgoodfood.com/recipes/easy-pancakes) en JSON-LD,
 promet pas la lecture de tous les sites. Les contenus réels ne sont pas intégrés aux
 fixtures du projet ; les tests enregistrent seulement des recettes synthétiques.
 
-## Confort et inspiration — phase B, 0.3.0
+## Favoris, suggestions et courses hors connexion
 
 - **Mes recettes** : bouton favori, filtre favoris/à tester/catégorie et **Mon avis**
   pour l’appréciation, le commentaire et la variante personnelle. Les variantes
@@ -137,7 +136,7 @@ aux portions du repas et calcule les manquants après réservation du stock. Exe
 400 g figurent aux courses. Les ingrédients restés uniquement dans les notes sont
 hors calcul.
 
-## Partager une recette depuis Android — 0.4.0
+## Partager une recette depuis Android
 
 Avec Mijote installé depuis Chrome sur Android, ouvrir une recette puis choisir
 **Partager → Mijote**. Le lien ou le texte préremplit le formulaire d’import.
@@ -164,7 +163,7 @@ Annuler l’import l’efface ; fermer ou recharger la page peut le perdre. Refa
 partage si nécessaire. Le contrôle d’accès et les protections SSRF habituels
 s’appliquent à la prévisualisation, puis la confirmation reste authentifiée.
 
-## Une photo pour chaque recette — 0.5.0
+## Une photo pour chaque recette
 
 Dans **Mes recettes**, le bouton **Photo** permet de choisir une image depuis le
 téléphone ou l’ordinateur. Vérifier l’aperçu puis **Conserver cette photo**. Le même
@@ -351,7 +350,7 @@ http://localhost:5173 ; Vite transmet `/api` à FastAPI. La base locale est dans
 les dépendances de production verrouillées dans `requirements-lock.txt`, et les
 versions frontend dans `package-lock.json`.
 
-## Limites de cette livraison
+## Limites actuelles
 
 - Une seule maison et un compte familial ; pas de comptes individuels ni de récupération par courriel.
 - Partage Android/PWA préparé pour une installation HTTPS, à valider sur l’appareil ; pas encore de codes-barres, OCR ou IA. L’import URL et le collage manuel restent disponibles.
@@ -359,7 +358,22 @@ versions frontend dans `package-lock.json`.
 - Photos JPEG/PNG/WebP disponibles ; HEIC et animations non pris en charge. Aucun contenu importé n’est redistribué publiquement.
 - L’ergonomie réelle sur Chrome/GNOME et Android doit être vérifiée manuellement ; aucun parcours graphique n’est simulé.
 
-Les codes-barres et l’OCR relèvent des itérations suivantes. Le partage natif demande encore la validation Android avec HTTPS. Aucune génération automatique de semaine complète n’est incluse.
+## Ce qui pourrait être ajouté
+
+Ces pistes ne sont pas encore disponibles et ne constituent pas un calendrier de livraison :
+
+- **Lecture de tickets de caisse** : photographier un ticket, reconnaître les articles
+  et proposer des entrées en réserve, avec correction et validation avant tout ajout.
+- **Scan de codes-barres** : retrouver les informations d’un produit pour faciliter
+  la saisie des achats et des réserves.
+- **Import depuis une photo ou une capture d’écran** : extraire le texte d’une recette
+  par reconnaissance de caractères (OCR), puis vérifier les ingrédients et les étapes.
+- **Import de fichiers de recettes** : reprendre un carnet existant dans des formats
+  à définir, avec aperçu et contrôle des doublons.
+- **Proposition d’un menu complet** : suggérer des repas pour les créneaux maison vides,
+  selon les goûts, le temps disponible et les réserves, avec validation avant application.
+
+Le partage Android en HTTPS reste à vérifier sur un appareil réel.
 
 ## Confidentialité du développement
 
