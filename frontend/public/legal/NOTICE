@@ -1,0 +1,25 @@
+Required Notice: Copyright 2026 Getsugah
+
+Mijote est un projet développé à la demande de Getsugah avec l’assistance de Codex.
+Getsugah est le pseudonyme du responsable du projet et propose sous PolyForm
+Noncommercial 1.0.0 les éléments propres à Mijote pour lesquels il détient des droits.
+Cette mention n’attribue aucun droit qui n’existerait pas et ne revendique pas les
+droits des auteurs des composants tiers.
+
+Périmètre : code propre de l’application, tests, scripts, documentation originale
+et visuels propres au projet, sous réserve des mentions distinctes figurant dans
+les fichiers. La provenance du nom et des icônes est décrite dans ASSETS.md.
+
+Le texte intégral, inchangé, de la licence figure dans LICENSE. Toute redistribution
+du logiciel doit transmettre ses conditions ou leur URL ainsi que la ligne
+« Required Notice: » ci-dessus, conformément à la licence.
+
+Les dépendances et éléments tiers restent soumis à leurs licences respectives.
+Leurs textes et attributions sont regroupés dans THIRD_PARTY_NOTICES.txt et leur
+inventaire dans THIRD_PARTY_MANIFEST.json. Ils ne sont pas placés sous PolyForm.
+
+Les recettes, photos et autres contenus ajoutés ou importés par les utilisateurs
+ne sont pas couverts par cette licence du projet et sont exclus de la distribution
+publique du projet. Leur usage reste soumis aux droits et autorisations de leurs titulaires.
+
+Aucune licence de marque n’est accordée par la présente notice.

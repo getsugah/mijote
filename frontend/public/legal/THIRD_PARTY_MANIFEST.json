@@ -1,0 +1,1631 @@
+{
+  "project": "Mijote",
+  "audit_date": "2026-11-08",
+  "application_license": "PolyForm-Noncommercial-1.0.0",
+  "basis": "Locked versions, installed upstream license texts, official npm metadata for absent platform optional packages. No dependency code relicensed.",
+  "packages": [
+    {
+      "ecosystem": "Python",
+      "name": "alembic",
+      "version": "1.20.1",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/alembic/1.20.1/",
+      "notices": [
+        {
+          "file": "alembic-1.20.1.dist-info/licenses/LICENSE",
+          "sha256_utf8": "6e68d94a03a0e3e327ddf3e86d1ebedc14eece3922022618fc246a36296fd0cc"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "annotated-doc",
+      "version": "0.0.5",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/annotated-doc/0.0.5/",
+      "notices": [
+        {
+          "file": "annotated_doc-0.0.5.dist-info/licenses/LICENSE",
+          "sha256_utf8": "fff170779a6acbf65abdb405c087f1cee1786691e4a96a4034517e4a504a0cdf"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "annotated-types",
+      "version": "0.8.0",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/annotated-types/0.8.0/",
+      "notices": [
+        {
+          "file": "annotated_types-0.8.0.dist-info/licenses/LICENSE",
+          "sha256_utf8": "fe1049884b1a0d9342901e88e07f32925d24b3121d9972b6a6805fb9824b095d"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "anyio",
+      "version": "4.16.0",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/anyio/4.16.0/",
+      "notices": [
+        {
+          "file": "anyio-4.16.0.dist-info/licenses/LICENSE",
+          "sha256_utf8": "5361ac9dc58f2ef5fd2e9b09c68297c17f04950909bbc8023bdb82eacf22c2b0"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "certifi",
+      "version": "2026.10.23",
+      "license": "MPL-2.0",
+      "scope": "tests",
+      "source": "https://pypi.org/project/certifi/2026.10.23/",
+      "notices": [
+        {
+          "file": "certifi-2026.10.23.dist-info/licenses/LICENSE",
+          "sha256_utf8": "e93716da6b9c0d5a4a1df60fe695b370f0695603d21f6f83f053e42cfc10caf7"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "click",
+      "version": "8.5.1",
+      "license": "BSD-3-Clause",
+      "scope": "production",
+      "source": "https://pypi.org/project/click/8.5.1/",
+      "notices": [
+        {
+          "file": "click-8.5.1.dist-info/licenses/LICENSE.txt",
+          "sha256_utf8": "9a8ad106a394e853bfe21f42f4e72d592819a22805d991b5f3275029292b658d"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "fastapi",
+      "version": "0.162.2",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/fastapi/0.162.2/",
+      "notices": [
+        {
+          "file": "fastapi-0.162.2.dist-info/licenses/LICENSE",
+          "sha256_utf8": "4ec89ffc81485b97fec584b2d4a961032eeffe834453894fd9c1274906cc744e"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "h11",
+      "version": "0.16.0",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/h11/0.16.0/",
+      "notices": [
+        {
+          "file": "h11-0.16.0.dist-info/licenses/LICENSE.txt",
+          "sha256_utf8": "37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "httpcore",
+      "version": "1.0.9",
+      "license": "BSD-3-Clause",
+      "scope": "tests",
+      "source": "https://pypi.org/project/httpcore/1.0.9/",
+      "notices": [
+        {
+          "file": "httpcore-1.0.9.dist-info/licenses/LICENSE.md",
+          "sha256_utf8": "fdcb59154c74cbaba16a11242f7740bea9f23d6feb5547917d8c5f94a80392a5"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "httpx",
+      "version": "0.28.1",
+      "license": "BSD-3-Clause",
+      "scope": "tests",
+      "source": "https://pypi.org/project/httpx/0.28.1/",
+      "notices": [
+        {
+          "file": "httpx-0.28.1.dist-info/licenses/LICENSE.md",
+          "sha256_utf8": "4ec59d544f12b5f539a3a716fd321ac58ccd8030b465221f2c880200cdf28d8d"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "idna",
+      "version": "3.20",
+      "license": "BSD-3-Clause",
+      "scope": "production",
+      "source": "https://pypi.org/project/idna/3.20/",
+      "notices": [
+        {
+          "file": "idna-3.20.dist-info/licenses/LICENSE.md",
+          "sha256_utf8": "1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "iniconfig",
+      "version": "2.3.1",
+      "license": "MIT",
+      "scope": "tests",
+      "source": "https://pypi.org/project/iniconfig/2.3.1/",
+      "notices": [
+        {
+          "file": "iniconfig-2.3.1.dist-info/licenses/LICENSE",
+          "sha256_utf8": "3409fa91f7ace557894632676656e32264fe5ef7581535725dc9a23774551bd4"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "mako",
+      "version": "1.4.3",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/mako/1.4.3/",
+      "notices": [
+        {
+          "file": "mako-1.4.3.dist-info/licenses/LICENSE",
+          "sha256_utf8": "8c1d171bc5d341ad9cd33d5e2c39b96a82c7bd49b3ae89a470c37e5822232054"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "markupsafe",
+      "version": "3.0.4",
+      "license": "BSD-3-Clause",
+      "scope": "production",
+      "source": "https://pypi.org/project/markupsafe/3.0.4/",
+      "notices": [
+        {
+          "file": "markupsafe-3.0.4.dist-info/licenses/LICENSE.txt",
+          "sha256_utf8": "489a8e1108509ed98a37bb983e11e0f7e1d31f0bd8f99a79c8448e7ff37d07ea"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "opentelemetry-api",
+      "version": "1.45.2",
+      "license": "Apache-2.0",
+      "scope": "production",
+      "source": "https://pypi.org/project/opentelemetry-api/1.45.2/",
+      "notices": [
+        {
+          "file": "opentelemetry_api-1.45.2.dist-info/licenses/LICENSE",
+          "sha256_utf8": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "packaging",
+      "version": "26.3",
+      "license": "Apache-2.0 OR BSD-2-Clause",
+      "scope": "tests",
+      "source": "https://pypi.org/project/packaging/26.3/",
+      "notices": [
+        {
+          "file": "packaging-26.3.dist-info/licenses/LICENSE",
+          "sha256_utf8": "cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+        },
+        {
+          "file": "packaging-26.3.dist-info/licenses/LICENSE.APACHE",
+          "sha256_utf8": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+        },
+        {
+          "file": "packaging-26.3.dist-info/licenses/LICENSE.BSD",
+          "sha256_utf8": "b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "pillow",
+      "version": "13.0.0",
+      "license": "MIT-CMU",
+      "scope": "production",
+      "source": "https://pypi.org/project/pillow/13.0.0/",
+      "notices": [
+        {
+          "file": "pillow-13.0.0.dist-info/licenses/LICENSE",
+          "sha256_utf8": "dda12a98c1979cf3d94df1cff45d27a4cb3f04a60c76f76902ac54cac03ec0ce"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "pluggy",
+      "version": "1.7.0",
+      "license": "MIT",
+      "scope": "tests",
+      "source": "https://pypi.org/project/pluggy/1.7.0/",
+      "notices": [
+        {
+          "file": "pluggy-1.7.0.dist-info/licenses/LICENSE",
+          "sha256_utf8": "d6b65e6c213a5d0b577911d34d6e5949b9f59d76c238c5071a2f3fc16cfb2606"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "pydantic",
+      "version": "2.14.3",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/pydantic/2.14.3/",
+      "notices": [
+        {
+          "file": "pydantic-2.14.3.dist-info/licenses/LICENSE",
+          "sha256_utf8": "a9e186f3ca16b5eef84318e7a701721351a00cb7b8ae3a4394b67b49e3529ef3"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "pydantic-core",
+      "version": "2.50.4",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/pydantic-core/2.50.4/",
+      "notices": [
+        {
+          "file": "pydantic_core-2.50.4.dist-info/licenses/LICENSE",
+          "sha256_utf8": "2afdd30d54b4d62b6f488a6bcc1546e84ec5061f13f4209c03d012348783795a"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "pytest",
+      "version": "8.3.5",
+      "license": "MIT",
+      "scope": "tests",
+      "source": "https://pypi.org/project/pytest/8.3.5/",
+      "notices": [
+        {
+          "file": "pytest-8.3.5.dist-info/LICENSE",
+          "sha256_utf8": "ca836a5f9ecca3b2f350230faa20a48fb8b145653b5568d784862df864706b9b"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "sqlalchemy",
+      "version": "2.1.8",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/sqlalchemy/2.1.8/",
+      "notices": [
+        {
+          "file": "sqlalchemy-2.1.8.dist-info/licenses/AUTHORS",
+          "sha256_utf8": "dc1db0b5d17455adc37b693ff8e409c9a80f603e441695825518c36f786c963e"
+        },
+        {
+          "file": "sqlalchemy-2.1.8.dist-info/licenses/LICENSE",
+          "sha256_utf8": "e862bb5b904fb5513c3e14288d7a25a12eb0ecc7847a0a965d310e9a955e7cb9"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "starlette",
+      "version": "1.10.0",
+      "license": "BSD-3-Clause",
+      "scope": "production",
+      "source": "https://pypi.org/project/starlette/1.10.0/",
+      "notices": [
+        {
+          "file": "starlette-1.10.0.dist-info/licenses/LICENSE.md",
+          "sha256_utf8": "dcb95677a02240243187e964f941847d19b17821cf99e5afae684fab328c19bf"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "typing-extensions",
+      "version": "4.16.0",
+      "license": "PSF-2.0",
+      "scope": "production",
+      "source": "https://pypi.org/project/typing-extensions/4.16.0/",
+      "notices": [
+        {
+          "file": "typing_extensions-4.16.0.dist-info/licenses/LICENSE",
+          "sha256_utf8": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "typing-inspection",
+      "version": "0.4.5",
+      "license": "MIT",
+      "scope": "production",
+      "source": "https://pypi.org/project/typing-inspection/0.4.5/",
+      "notices": [
+        {
+          "file": "typing_inspection-0.4.5.dist-info/licenses/LICENSE",
+          "sha256_utf8": "804b59b25f2c31bd278f9202a19ae49a3945aa2664387e2d0a128c7cacc61ec3"
+        }
+      ]
+    },
+    {
+      "ecosystem": "Python",
+      "name": "uvicorn",
+      "version": "0.54.0",
+      "license": "BSD-3-Clause",
+      "scope": "production",
+      "source": "https://pypi.org/project/uvicorn/0.54.0/",
+      "notices": [
+        {
+          "file": "uvicorn-0.54.0.dist-info/licenses/LICENSE.md",
+          "sha256_utf8": "efe1acf3e62fb99c288b0ec73e5a773b7268ef4320fe757ea994214e4b63c371"
+        }
+      ]
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@babel/helper-string-parser",
+      "version": "7.29.13",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@babel%2Fhelper-string-parser/7.29.13",
+      "notices": [
+        {
+          "file": "node_modules/@babel/helper-string-parser/LICENSE",
+          "sha256_utf8": "117da2af0d4ce0fe1c8e19b5cff9dcd806adf973d328d27b11d4448c4ff24f76"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@babel/helper-validator-identifier",
+      "version": "7.29.7",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@babel%2Fhelper-validator-identifier/7.29.7",
+      "notices": [
+        {
+          "file": "node_modules/@babel/helper-validator-identifier/LICENSE",
+          "sha256_utf8": "117da2af0d4ce0fe1c8e19b5cff9dcd806adf973d328d27b11d4448c4ff24f76"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@babel/parser",
+      "version": "7.29.13",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@babel%2Fparser/7.29.13",
+      "notices": [
+        {
+          "file": "node_modules/@babel/parser/LICENSE",
+          "sha256_utf8": "2e97627cb278aa7556fb9e8817368302301a595b6c7582512b8d74c57b773652"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@babel/types",
+      "version": "7.29.11",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@babel%2Ftypes/7.29.11",
+      "notices": [
+        {
+          "file": "node_modules/@babel/types/LICENSE",
+          "sha256_utf8": "117da2af0d4ce0fe1c8e19b5cff9dcd806adf973d328d27b11d4448c4ff24f76"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/aix-ppc64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Faix-ppc64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/android-arm",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fandroid-arm/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/android-arm64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fandroid-arm64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/android-x64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fandroid-x64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/darwin-arm64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fdarwin-arm64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/darwin-x64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fdarwin-x64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/freebsd-arm64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Ffreebsd-arm64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/freebsd-x64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Ffreebsd-x64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/linux-arm",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Flinux-arm/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/linux-arm64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Flinux-arm64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/linux-ia32",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Flinux-ia32/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/linux-loong64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Flinux-loong64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/linux-mips64el",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Flinux-mips64el/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/linux-ppc64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Flinux-ppc64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/linux-riscv64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Flinux-riscv64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/linux-s390x",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Flinux-s390x/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/linux-x64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Flinux-x64/0.28.2",
+      "notices": [
+        {
+          "file": "node_modules/esbuild/LICENSE.md",
+          "sha256_utf8": "b40ec5baec7bb34fa5b1c09521fa3cd52d5fad7adafed74932a2010d3612a681"
+        }
+      ],
+      "license": "MIT",
+      "installed": true,
+      "notice_origin": "Parent distribution esbuild"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/netbsd-arm64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fnetbsd-arm64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/netbsd-x64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fnetbsd-x64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/openbsd-arm64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fopenbsd-arm64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/openbsd-x64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fopenbsd-x64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/openharmony-arm64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fopenharmony-arm64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/sunos-x64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fsunos-x64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/win32-arm64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fwin32-arm64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/win32-ia32",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fwin32-ia32/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@esbuild/win32-x64",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@esbuild%2Fwin32-x64/0.28.2",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@jridgewell/sourcemap-codec",
+      "version": "1.6.0",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@jridgewell%2Fsourcemap-codec/1.6.0",
+      "notices": [
+        {
+          "file": "node_modules/@jridgewell/sourcemap-codec/LICENSE",
+          "sha256_utf8": "769d154fbde32a915af110b1123650bc79f4cbe675acc66e005265bf069c6c6c"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rolldown/pluginutils",
+      "version": "1.0.1",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rolldown%2Fpluginutils/1.0.1",
+      "notices": [
+        {
+          "file": "node_modules/@rolldown/pluginutils/LICENSE",
+          "sha256_utf8": "e1919b3b98b8bf6c1b99fcc60a0ed46027c97ac947432e1278446c9606f50161"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-android-arm-eabi",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-android-arm-eabi/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-android-arm64",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-android-arm64/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-android-x64",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-android-x64/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-darwin-arm64",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-darwin-arm64/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-darwin-x64",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-darwin-x64/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-freebsd-arm64",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-freebsd-arm64/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-freebsd-x64",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-freebsd-x64/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-arm-gnueabihf",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-arm-gnueabihf/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-arm-musleabihf",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-arm-musleabihf/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-arm64-gnu",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-arm64-gnu/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-arm64-musl",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-arm64-musl/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-loong64-gnu",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-loong64-gnu/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-loong64-musl",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-loong64-musl/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-ppc64-gnu",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-ppc64-gnu/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-ppc64-musl",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-ppc64-musl/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-riscv64-gnu",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-riscv64-gnu/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-riscv64-musl",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-riscv64-musl/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-s390x-gnu",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-s390x-gnu/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-x64-gnu",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-x64-gnu/4.68.0",
+      "notices": [
+        {
+          "file": "node_modules/rollup/LICENSE.md",
+          "sha256_utf8": "fa1bd040c5bdeefe65b3821cebf474f2733ce65df13089bd151dda1778e62fe8"
+        }
+      ],
+      "license": "MIT",
+      "installed": true,
+      "notice_origin": "Parent distribution rollup"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-linux-x64-musl",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-linux-x64-musl/4.68.0",
+      "notices": [
+        {
+          "file": "node_modules/rollup/LICENSE.md",
+          "sha256_utf8": "fa1bd040c5bdeefe65b3821cebf474f2733ce65df13089bd151dda1778e62fe8"
+        }
+      ],
+      "license": "MIT",
+      "installed": true,
+      "notice_origin": "Parent distribution rollup"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-openbsd-x64",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-openbsd-x64/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-openharmony-arm64",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-openharmony-arm64/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-win32-arm64-msvc",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-win32-arm64-msvc/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-win32-ia32-msvc",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-win32-ia32-msvc/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-win32-x64-gnu",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-win32-x64-gnu/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@rollup/rollup-win32-x64-msvc",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@rollup%2Frollup-win32-x64-msvc/4.68.0",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@types/estree",
+      "version": "1.0.10",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@types%2Festree/1.0.10",
+      "notices": [
+        {
+          "file": "node_modules/@types/estree/LICENSE",
+          "sha256_utf8": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vitejs/plugin-vue",
+      "version": "6.0.10",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@vitejs%2Fplugin-vue/6.0.10",
+      "notices": [
+        {
+          "file": "node_modules/@vitejs/plugin-vue/LICENSE",
+          "sha256_utf8": "29b68325fe026047d13e187b44c33b2acacf7dc647dec4583702e59f235e13b5"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@volar/language-core",
+      "version": "2.4.23",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@volar%2Flanguage-core/2.4.23",
+      "notices": [
+        {
+          "file": "node_modules/@volar/language-core/LICENSE",
+          "sha256_utf8": "a56351045b45475385a9479d7310208ff0be9489babdb4e635fcea5d7dc1fb02"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@volar/source-map",
+      "version": "2.4.23",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@volar%2Fsource-map/2.4.23",
+      "notices": [
+        {
+          "file": "node_modules/@volar/source-map/LICENSE",
+          "sha256_utf8": "a56351045b45475385a9479d7310208ff0be9489babdb4e635fcea5d7dc1fb02"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@volar/typescript",
+      "version": "2.4.23",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@volar%2Ftypescript/2.4.23",
+      "notices": [
+        {
+          "file": "node_modules/@volar/typescript/LICENSE",
+          "sha256_utf8": "a56351045b45475385a9479d7310208ff0be9489babdb4e635fcea5d7dc1fb02"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vue/compiler-core",
+      "version": "3.5.45",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@vue%2Fcompiler-core/3.5.45",
+      "notices": [
+        {
+          "file": "node_modules/@vue/compiler-core/LICENSE",
+          "sha256_utf8": "1bb85cc9b13b81ef41c81c51866172fc345e0503c86726a6755b796590b70175"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vue/compiler-dom",
+      "version": "3.5.45",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@vue%2Fcompiler-dom/3.5.45",
+      "notices": [
+        {
+          "file": "node_modules/@vue/compiler-dom/LICENSE",
+          "sha256_utf8": "1bb85cc9b13b81ef41c81c51866172fc345e0503c86726a6755b796590b70175"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vue/compiler-sfc",
+      "version": "3.5.45",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@vue%2Fcompiler-sfc/3.5.45",
+      "notices": [
+        {
+          "file": "node_modules/@vue/compiler-sfc/LICENSE",
+          "sha256_utf8": "1bb85cc9b13b81ef41c81c51866172fc345e0503c86726a6755b796590b70175"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vue/compiler-ssr",
+      "version": "3.5.45",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@vue%2Fcompiler-ssr/3.5.45",
+      "notices": [
+        {
+          "file": "node_modules/@vue/compiler-ssr/LICENSE",
+          "sha256_utf8": "1bb85cc9b13b81ef41c81c51866172fc345e0503c86726a6755b796590b70175"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vue/language-core",
+      "version": "3.1.1",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/@vue%2Flanguage-core/3.1.1",
+      "notices": [
+        {
+          "file": "node_modules/@vue/language-core/LICENSE",
+          "sha256_utf8": "a56351045b45475385a9479d7310208ff0be9489babdb4e635fcea5d7dc1fb02"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vue/reactivity",
+      "version": "3.5.45",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@vue%2Freactivity/3.5.45",
+      "notices": [
+        {
+          "file": "node_modules/@vue/reactivity/LICENSE",
+          "sha256_utf8": "1bb85cc9b13b81ef41c81c51866172fc345e0503c86726a6755b796590b70175"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vue/runtime-core",
+      "version": "3.5.45",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@vue%2Fruntime-core/3.5.45",
+      "notices": [
+        {
+          "file": "node_modules/@vue/runtime-core/LICENSE",
+          "sha256_utf8": "1bb85cc9b13b81ef41c81c51866172fc345e0503c86726a6755b796590b70175"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vue/runtime-dom",
+      "version": "3.5.45",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@vue%2Fruntime-dom/3.5.45",
+      "notices": [
+        {
+          "file": "node_modules/@vue/runtime-dom/LICENSE",
+          "sha256_utf8": "1bb85cc9b13b81ef41c81c51866172fc345e0503c86726a6755b796590b70175"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vue/server-renderer",
+      "version": "3.5.45",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@vue%2Fserver-renderer/3.5.45",
+      "notices": [
+        {
+          "file": "node_modules/@vue/server-renderer/LICENSE",
+          "sha256_utf8": "1bb85cc9b13b81ef41c81c51866172fc345e0503c86726a6755b796590b70175"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@vue/shared",
+      "version": "3.5.45",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/@vue%2Fshared/3.5.45",
+      "notices": [
+        {
+          "file": "node_modules/@vue/shared/LICENSE",
+          "sha256_utf8": "1bb85cc9b13b81ef41c81c51866172fc345e0503c86726a6755b796590b70175"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "alien-signals",
+      "version": "3.2.1",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/alien-signals/3.2.1",
+      "notices": [
+        {
+          "file": "node_modules/alien-signals/LICENSE",
+          "sha256_utf8": "75863f712f8f0603b0dba33edf4b725bab80fc858a51756e5905a3c4c8087169"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "csstype",
+      "version": "3.2.3",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/csstype/3.2.3",
+      "notices": [
+        {
+          "file": "node_modules/csstype/LICENSE",
+          "sha256_utf8": "11d55bd4541c75ee7879547ac49089c489163dae49551389713c3d026cab383e"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "entities",
+      "version": "7.0.1",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/entities/7.0.1",
+      "notices": [
+        {
+          "file": "node_modules/entities/LICENSE",
+          "sha256_utf8": "cb992345949ccd6e8394b2cd6c465f7b897c864f845937dbf64e8997f389e164"
+        }
+      ],
+      "license": "BSD-2-Clause",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "esbuild",
+      "version": "0.28.2",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/esbuild/0.28.2",
+      "notices": [
+        {
+          "file": "node_modules/esbuild/LICENSE.md",
+          "sha256_utf8": "b40ec5baec7bb34fa5b1c09521fa3cd52d5fad7adafed74932a2010d3612a681"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "estree-walker",
+      "version": "2.0.2",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/estree-walker/2.0.2",
+      "notices": [
+        {
+          "file": "node_modules/estree-walker/LICENSE",
+          "sha256_utf8": "8a6dcbabe7179f9c8489c08a7d874d0f1e093ae7449e03756ccf87cb9d0e296e"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "fake-indexeddb",
+      "version": "6.2.7",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/fake-indexeddb/6.2.7",
+      "notices": [
+        {
+          "file": "node_modules/fake-indexeddb/LICENSE",
+          "sha256_utf8": "0c2e77addd3045b932ae0de86b7cf66aa1eeed4248d4dab37e851f9e5499d85e"
+        }
+      ],
+      "license": "Apache-2.0",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "fdir",
+      "version": "6.5.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/fdir/6.5.0",
+      "notices": [
+        {
+          "file": "node_modules/fdir/LICENSE",
+          "sha256_utf8": "9a39f2aadab11a3697edd668ff2d8ad885b649737b7ab4d3bf12b34e5ada0c86"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "fsevents",
+      "version": "2.3.3",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/fsevents/2.3.3",
+      "notices": [],
+      "license": "MIT",
+      "installed": false,
+      "verification": "Exact package version checked against official npm registry during the 2026-11-08 audit; no binary included in this source repository."
+    },
+    {
+      "ecosystem": "npm",
+      "name": "magic-string",
+      "version": "0.30.21",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/magic-string/0.30.21",
+      "notices": [
+        {
+          "file": "node_modules/magic-string/LICENSE",
+          "sha256_utf8": "1cbe51b907662f6cb1492b16c359384a595180bf0e4d101603ed525e75c4e484"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "muggle-string",
+      "version": "0.4.1",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/muggle-string/0.4.1",
+      "notices": [
+        {
+          "file": "node_modules/muggle-string/LICENSE",
+          "sha256_utf8": "df52411dcd3c8f5897bbbec8c94e971519e13e75818c263e9a99a86255dd301b"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "nanoid",
+      "version": "3.3.20",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/nanoid/3.3.20",
+      "notices": [
+        {
+          "file": "node_modules/nanoid/LICENSE",
+          "sha256_utf8": "da4db1480d9beea3483a2eda5c53b22238d0827d57da162b48f122e04d2d9987"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "path-browserify",
+      "version": "1.0.1",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/path-browserify/1.0.1",
+      "notices": [
+        {
+          "file": "node_modules/path-browserify/LICENSE",
+          "sha256_utf8": "a22b9d5763f574e5db347c30acc0b33eaf4846767c03d2e27d012e864e79a824"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "picocolors",
+      "version": "1.1.1",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/picocolors/1.1.1",
+      "notices": [
+        {
+          "file": "node_modules/picocolors/LICENSE",
+          "sha256_utf8": "6582629e2979466878f6014313dcc2f3756c9616148682227ce3063dde310750"
+        }
+      ],
+      "license": "ISC",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "picomatch",
+      "version": "4.0.7",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/picomatch/4.0.7",
+      "notices": [
+        {
+          "file": "node_modules/picomatch/LICENSE",
+          "sha256_utf8": "d0cd141b0c322fded5dfad1d4645bb2fedfc05b7321fe1009469638190d59ef9"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "postcss",
+      "version": "8.5.32",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/postcss/8.5.32",
+      "notices": [
+        {
+          "file": "node_modules/postcss/LICENSE",
+          "sha256_utf8": "5be1f3465bba68a626777f984878814aaf35e7ef8e9fd314d469bcf887050fb8"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "rollup",
+      "version": "4.68.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/rollup/4.68.0",
+      "notices": [
+        {
+          "file": "node_modules/rollup/LICENSE.md",
+          "sha256_utf8": "fa1bd040c5bdeefe65b3821cebf474f2733ce65df13089bd151dda1778e62fe8"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "source-map-js",
+      "version": "1.2.2",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/source-map-js/1.2.2",
+      "notices": [
+        {
+          "file": "node_modules/source-map-js/LICENSE",
+          "sha256_utf8": "6cb0631f71c7749763fd3dd1d5bee52dd1070ec17f2edc1710079ad070bd2fbd"
+        }
+      ],
+      "license": "BSD-3-Clause",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "tinyglobby",
+      "version": "0.2.17",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/tinyglobby/0.2.17",
+      "notices": [
+        {
+          "file": "node_modules/tinyglobby/LICENSE",
+          "sha256_utf8": "22c68811e174cbbfb3813d4135918df4f540959c14d872e601d9abe83d3cde8f"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "typescript",
+      "version": "5.9.3",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/typescript/5.9.3",
+      "notices": [
+        {
+          "file": "node_modules/typescript/LICENSE.txt",
+          "sha256_utf8": "a5e9f9b1575301c7a7a03508fdaa2e05a918cc17fd21c6e898096a96d6a34f61"
+        },
+        {
+          "file": "node_modules/typescript/ThirdPartyNoticeText.txt",
+          "sha256_utf8": "01de8bc3c687a3df5a83e8b80db5006270f9f3361dbb437faf3dcc033dcd6bb1"
+        }
+      ],
+      "license": "Apache-2.0",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "vite",
+      "version": "7.3.7",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/vite/7.3.7",
+      "notices": [
+        {
+          "file": "node_modules/vite/LICENSE.md",
+          "sha256_utf8": "a77a1c089806b39ad339535bdf3677f636c91d96693e8ad7b11fe733f650ea64"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "vscode-uri",
+      "version": "3.2.0",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/vscode-uri/3.2.0",
+      "notices": [
+        {
+          "file": "node_modules/vscode-uri/LICENSE.md",
+          "sha256_utf8": "c669138cb1eb01fbb745e8e460b291e4f2869c14a40061390b6095d845ed4c82"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "vue",
+      "version": "3.5.45",
+      "scope": "frontend",
+      "source": "https://registry.npmjs.org/vue/3.5.45",
+      "notices": [
+        {
+          "file": "node_modules/vue/LICENSE",
+          "sha256_utf8": "1bb85cc9b13b81ef41c81c51866172fc345e0503c86726a6755b796590b70175"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "vue-tsc",
+      "version": "3.1.1",
+      "scope": "development",
+      "source": "https://registry.npmjs.org/vue-tsc/3.1.1",
+      "notices": [
+        {
+          "file": "node_modules/vue-tsc/LICENSE",
+          "sha256_utf8": "a56351045b45475385a9479d7310208ff0be9489babdb4e635fcea5d7dc1fb02"
+        }
+      ],
+      "license": "MIT",
+      "installed": true
+    }
+  ]
+}

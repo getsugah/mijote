@@ -1,0 +1,6 @@
+# Preserve official and third-party legal texts without line-ending conversion.
+# Upstream whitespace is intentional: these notices must remain unmodified.
+LICENSE -text -whitespace
+THIRD_PARTY_NOTICES.txt -text -whitespace
+frontend/public/legal/LICENSE -text -whitespace
+frontend/public/legal/THIRD_PARTY_NOTICES.txt -text -whitespace

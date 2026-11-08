@@ -1,0 +1,49 @@
+<script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { api } from './api'
+import { localItems, queueChange, readTravel, resolveChange, saveSnapshot, syncTravel, updateTravel, type TravelState } from './shoppingTravel'
+const props = defineProps<{ household: string; week: string }>()
+const emit = defineEmits<{ close: []; changed: []; unauthorized: [] }>()
+const state = ref<TravelState | null>(null), busy = ref(false), error = ref(''), online = ref(navigator.onLine)
+const adding = ref(false), editing = ref(''), ingredientId = ref(0), quantity = ref(1), unit = ref('g')
+const items = computed(() => state.value ? localItems(state.value) : [])
+const ingredient = computed(() => state.value?.snapshot.ingredients.find(i => i.id === ingredientId.value))
+const units = computed(() => ingredient.value?.dimension === 'masse' ? ['g','kg'] : ingredient.value?.dimension === 'volume' ? ['ml','l'] : ['piece'])
+const conflicts = computed(() => state.value?.queue.filter(q => q.message) || [])
+const sameHouse = computed(() => !props.household || props.household === state.value?.snapshot.household_id)
+async function run(action: () => Promise<void>) { if (busy.value) return; busy.value = true; error.value = ''; try { await action() } catch (e: any) { error.value = e.message; state.value = await readTravel().catch(() => state.value); if (e.status === 401) emit('unauthorized') } finally { busy.value = false } }
+async function sync() { if (!online.value || !props.household || !sameHouse.value) return; await run(async () => { const current = await readTravel(); const batches = Math.max(1, Math.ceil((current?.queue.filter(q => !q.message).length || 0) / 50)); for (let n = 0; n < batches; n++) state.value = await syncTravel(props.household, api); emit('changed') }) }
+async function enable() { await run(async () => { state.value = await saveSnapshot(await api(`/weeks/${props.week}/shopping/offline`)) }) }
+async function change(action: 'check' | 'add' | 'edit' | 'remove', input: any) { await run(async () => { state.value = await updateTravel(s => { if (!s) throw new Error('Charger une liste avant de la modifier.'); return queueChange(s, action, input) }); adding.value = false }); if (!error.value) await sync() }
+async function submit() { const i = items.value.find(i => i.key === editing.value); await change(editing.value ? 'edit' : 'add', { item_key: editing.value || undefined, expected_version: i?.version, ingredient_id: ingredientId.value, quantity: Number(quantity.value), unit: unit.value, checked: i?.checked || false }) }
+function openAdd() { editing.value = ''; ingredientId.value = state.value?.snapshot.ingredients[0]?.id || 0; quantity.value = 1; setUnit(); adding.value = true }
+function edit(item: any) { editing.value = item.key; ingredientId.value = item.ingredient_id; quantity.value = item.quantity; unit.value = item.unit; adding.value = true }
+function setUnit() { unit.value = units.value[0]! }
+function locked(key: string) { return state.value?.queue.some(q => q.attempted && (q.body.item_key === key || 'local-' + q.body.operation_id === key)) }
+async function resolve(id: string, reapply: boolean) { const q = state.value?.queue.find(q => q.body.operation_id === id); const reviewed = state.value?.snapshot.items.find(i => i.key === q?.body.item_key)?.version; await run(async () => { state.value = await updateTravel(s => s ? resolveChange(s, id, reapply, reviewed) : s) }); if (!error.value) await sync() }
+async function clear() {
+  if (!window.confirm(state.value?.queue.length ? 'Effacer cette copie et abandonner les modifications locales en attente ? Une opération déjà envoyée peut avoir été appliquée au serveur.' : 'Effacer la copie de courses de cet appareil ?')) return
+  await run(async () => { state.value = await updateTravel(() => null) })
+}
+async function onlineChanged() { online.value = navigator.onLine; if (online.value) await sync() }
+async function read() { try { state.value = await readTravel() } catch (e: any) { error.value = e.message } }
+onMounted(async () => { await read(); window.addEventListener('online', onlineChanged); window.addEventListener('offline', onlineChanged); window.addEventListener('focus', read); await sync() })
+onUnmounted(() => { window.removeEventListener('online', onlineChanged); window.removeEventListener('offline', onlineChanged); window.removeEventListener('focus', read) })
+</script>
+<template>
+  <main class="travel-page">
+    <header class="comfort-actions"><h1>Mes courses à emporter</h1><button class="secondary" @click="emit('close')" :disabled="busy">{{ household ? 'Revenir à Mijote' : 'Se connecter' }}</button></header>
+    <p v-if="error" role="alert" class="alert error">{{ error }}</p>
+    <template v-if="!state"><div class="settings-card"><h2>Garder ma liste sur cet appareil</h2><p>Cette copie privée permet de cocher et d’ajouter des articles sans réseau. Elle reste accessible sur cet appareil : utilisez-le seulement si vous lui faites confiance.</p><p>Sur une adresse HTTP locale, gardez cet onglet ouvert avant de partir. La réouverture autonome hors connexion nécessite HTTPS ou localhost.</p><button class="primary" @click="enable" :disabled="busy || !online || !household">Enregistrer la liste de la semaine</button></div></template>
+    <template v-else>
+      <div class="alert" role="status">Semaine du {{ state.snapshot.week_start }} · copie du {{ new Date(state.snapshot.generated_at).toLocaleString('fr-FR') }}<br>{{ online ? 'Réseau disponible' : 'Hors connexion' }} · {{ state.queue.length }} modification(s) en attente.</div>
+      <p v-if="!sameHouse" class="alert error">Cette copie appartient à une autre maison. Aucun changement ne sera envoyé.</p><p v-if="!household" class="alert">Copie locale accessible. Connectez-vous pour synchroniser avec la maison.</p>
+      <div class="comfort-actions"><button class="secondary" @click="sync" :disabled="busy || !online || !household || !sameHouse">Synchroniser</button><button class="secondary" @click="openAdd" :disabled="busy || !sameHouse || !state.snapshot.ingredients.length">Ajouter un article</button><button class="text-button" @click="clear" :disabled="busy">Effacer la copie locale</button></div>
+      <form v-if="adding" @submit.prevent="submit" class="settings-card comfort-form"><h3>{{ editing ? 'Modifier l’article personnel' : 'Ajouter un article' }}</h3><label>Ingrédient<select v-model.number="ingredientId" @change="setUnit" :disabled="!!editing"><option v-for="i in state.snapshot.ingredients" :key="i.id" :value="i.id">{{ i.name }}</option></select></label><div class="form-row"><label>Quantité<input type="number" v-model.number="quantity" min="0.001" max="1000000000" step="0.001" required></label><label>Unité<select v-model="unit"><option v-for="u in units" :key="u" :value="u">{{ u === 'piece' ? 'pièce(s)' : u }}</option></select></label></div><div class="comfort-actions"><button class="primary" :disabled="busy">Enregistrer sur cet appareil</button><button type="button" class="secondary" @click="adding = false">Annuler</button></div></form>
+      <div class="shopping-list"><div v-for="item in items" :key="item.key" class="shopping-line" :class="{ checked: item.checked }"><label><input type="checkbox" :checked="item.checked" :disabled="busy || !sameHouse || locked(item.key)" @change="change('check', { item_key: item.key, expected_version: item.version, checked: !item.checked })"><span><strong>{{ item.name }}</strong><small>{{ item.manual_id ? 'Ajout personnel' : 'Besoin calculé' }}{{ locked(item.key) ? ' · en attente de résolution ou de réponse' : '' }}</small></span><b>{{ item.quantity.toLocaleString('fr-FR') }} {{ item.unit === 'piece' ? 'pièce(s)' : item.unit }}</b></label><div v-if="item.manual_id" class="comfort-actions"><button class="text-button" @click="edit(item)" :disabled="busy || !sameHouse || locked(item.key)">Modifier</button><button class="text-button" @click="change('remove', { item_key: item.key, expected_version: item.version })" :disabled="busy || !sameHouse || locked(item.key)">Retirer</button></div></div><p v-if="!items.length" class="hint">Aucun article dans cette copie.</p></div>
+      <article v-for="q in conflicts" :key="q.body.operation_id" class="comfort-card conflict"><h3>Modification à vérifier</h3><p>{{ state.snapshot.items.find(i => i.key === q.body.item_key)?.name || state.snapshot.ingredients.find(i => i.id === q.body.ingredient_id)?.name || q.body.item_key }} · {{ q.message }}</p><p>Votre demande : {{ q.body.action === 'remove' ? 'retirer' : q.body.action === 'add' ? 'ajouter' : q.body.checked ? 'dans le panier' : 'hors du panier' }}<span v-if="q.body.quantity"> · {{ q.body.quantity }} {{ q.body.unit }}</span>.</p><p v-if="state.snapshot.items.find(i => i.key === q.body.item_key)">Version actuelle : {{ state.snapshot.items.find(i => i.key === q.body.item_key)?.quantity }} {{ state.snapshot.items.find(i => i.key === q.body.item_key)?.unit }} · {{ state.snapshot.items.find(i => i.key === q.body.item_key)?.checked ? 'dans le panier' : 'hors du panier' }}.</p><div class="comfort-actions"><button class="secondary" @click="resolve(q.body.operation_id, false)" :disabled="busy">Conserver la version du serveur</button><button v-if="q.body.action !== 'add' && state.snapshot.items.some(i => i.key === q.body.item_key)" class="secondary" @click="resolve(q.body.operation_id, true)" :disabled="busy || !online || !household || !sameHouse">Réappliquer ma modification</button></div></article>
+      <p class="hint">Cocher ne modifie jamais les réserves. Au retour du réseau, synchronisez puis revenez à Mijote pour « Terminer les courses ».</p>
+      <button v-if="state.snapshot.week_start !== week && !state.queue.length && household" class="secondary" @click="enable" :disabled="busy || !online">Remplacer par la semaine affichée dans Mijote</button>
+    </template>
+  </main>
+</template>
