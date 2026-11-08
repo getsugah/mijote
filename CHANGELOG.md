@@ -1,5 +1,12 @@
 # Journal de Mijote
 
+## Découvertes de recettes sur le web
+
+- Bouton dans « Des idées » pour proposer une recette aléatoire de l’index public du Journal des Femmes Cuisine, avec source, lien et autre idée sans répétition dans le panneau.
+- Recettes déjà importées écartées par leur URL ; aucune création automatique, aucun changement du planning, des stocks ou des courses.
+- Import proposé avec l’aperçu éditable et la confirmation existants ; recherche réseau bornée, sélection temporaire en mémoire, gestion des erreurs de source.
+- Aucune dépendance, migration ou modification des restrictions Docker.
+
 ## Lisibilité du calendrier
 
 - Noms des plats et accompagnements centrés ; taille de police augmentée de 2 px sur ordinateur et téléphone. Pictogramme du plat centré au-dessus du menu.

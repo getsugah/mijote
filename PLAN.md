@@ -181,3 +181,12 @@ un script Bash avec configuration initiale privée, relance sans écrasement, mi
 à jour Git en avance rapide et désinstallation confirmée sans suppression du volume.
 Valider la syntaxe et les parcours avec des outils simulés et des données fictives ;
 ne pas toucher au service familial ni automatiser l’interface ZimaOS.
+
+## Découverte web dans les idées
+
+Ajouter une recherche volontaire sur un premier index public compatible ; ne
+renvoyer que titre, lien et source, sans enregistrer la recette. Réutiliser le
+téléchargement borné et l’import après validation. Exclure les liens vus et les
+recettes déjà importées ; cache temporaire en mémoire et gestion des pannes.
+Valider autorisation, absence d’effets métier, exclusion des liens non conformes,
+cache et passage au formulaire d’import avec des fixtures synthétiques.

@@ -273,3 +273,7 @@ class OfflineRemove(OfflineBase):
 class OfflineSync(Input):
     household_id: UUID
     operations: list[Annotated[OfflineCheck | OfflineAdd | OfflineEdit | OfflineRemove, Field(discriminator='action')]] = Field(min_length=1, max_length=50)
+
+
+class WebDiscovery(Input):
+    exclude: list[Annotated[str, Field(max_length=2000)]] = Field(default_factory=list, max_length=100)

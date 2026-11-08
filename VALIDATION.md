@@ -256,3 +256,22 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
 - Contrôle de confidentialité et `git diff --check` réussis.
 - Dockerfile et Compose inchangés. Aucun build, redémarrage du service réel,
   parcours graphique ou accès ZimaOS réalisé. Validation sur ZimaOS réel restante.
+
+## Découverte de recettes sur le web
+
+- 77 tests backend ciblés réussis : découverte, import, fetch sécurisé et suggestions
+  existantes. Sept nouveaux tests couvrent l’index synthétique, les liens non
+  conformes, exclusions/doublons, cache et expiration, concurrence, reprise après
+  erreur, authentification/CSRF/origine et absence de modification du tableau de bord.
+- 34 tests frontend réussis, dont trois nouveaux tests unitaires : recherche sur
+  demande seulement, exclusions et remise à zéro, passage au formulaire d’import
+  sans confirmation automatique, épuisement, panne et reconnexion.
+- Compilation TypeScript/Vite réussie ; confidentialité et `git diff --check` réussis.
+- Essai public en lecture seule : 12 liens éligibles extraits de l’index du Journal
+  des Femmes Cuisine ; sélection aléatoire puis prévisualisation JSON-LD réussies.
+  Aucune base, photo ou recette réelle enregistrée, aucun contenu réel ajouté aux tests.
+- Limites : un seul index pour cette première source ; sélection liée aux dernières
+  publications, sans personnalisation. La disponibilité et l’extraction dépendent
+  du site. Parcours visuel sur Chrome/Android restant à valider par l’utilisateur.
+- Aucun redémarrage du service familial ou build Docker effectué. Après récupération
+  du code, `bash install.sh update` reconstruit le conteneur sur le serveur cible.

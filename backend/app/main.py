@@ -295,6 +295,18 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
         values = history(db, limit, before)
         return {'items': values, 'next_before': values[-1]['meal_id'] if len(values) == limit else None}
 
+    @app.post(api + '/suggestions/web', dependencies=[Depends(preview_access)])
+    def web_suggestion(data: m.WebDiscovery):
+        from .web_ideas import discover
+        from .safe_fetch import ImportProblem
+        # Release SQLite before requesting the public index.
+        with connect(path) as db:
+            saved = [row['source_url'] for row in db.execute("SELECT source_url FROM recipes WHERE source_url != ''")]
+        try:
+            return discover(data.exclude, saved)
+        except ImportProblem as error:
+            raise HTTPException(422, 'Découverte web indisponible. ' + str(error)) from None
+
     @app.get(api + '/suggestions', dependencies=access)
     def recipe_suggestions(day: date, mode: str = 'varier', portions: int = Query(4, ge=1, le=30), exclude: str = Query('', max_length=2000), db=Depends(database)):
         from .comfort import suggestions

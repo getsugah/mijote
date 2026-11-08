@@ -136,6 +136,31 @@ aux portions du repas et calcule les manquants après réservation du stock. Exe
 400 g figurent aux courses. Les ingrédients restés uniquement dans les notes sont
 hors calcul.
 
+## Découvrir une recette sur le web
+
+Dans **Ma semaine → Des idées**, choisir **Découvrir un plat sur le web** pour
+recevoir une recette au hasard parmi les dernières publications du
+[Journal des Femmes Cuisine](https://cuisine.journaldesfemmes.fr/derniererecette/).
+Son nom, sa source et un lien vers la recette sont affichés. **Une autre idée sur
+le web** propose un autre résultat ; les liens déjà vus dans ce panneau et les
+recettes déjà importées depuis la même URL sont écartés. Quand la sélection est
+épuisée, **Revoir les idées web** permet de la parcourir à nouveau.
+
+**Voir la recette sur le site** ouvre la source dans un nouvel onglet.
+**Importer cette recette** ouvre le formulaire habituel avec son URL : cliquer
+sur **Prévisualiser**, vérifier puis confirmer pour l’ajouter au carnet. La simple
+découverte n’enregistre rien et ne modifie ni le planning, ni les stocks, ni les
+courses. Elle reste disponible même si le carnet est vide.
+
+Cette première source propose un choix limité aux recettes présentes sur son
+index, sans filtre selon les réserves, les préférences ou le temps de préparation.
+Une connexion Internet est nécessaire. Le serveur lit uniquement les titres et
+les liens de l’index public sur demande, avec les protections réseau de l’import ;
+aucune photo ni recette complète n’est téléchargée pendant la découverte. La
+sélection est gardée en mémoire pendant 15 minutes au maximum, sans stockage en
+base. Un changement du site, une panne ou un blocage peuvent rendre la découverte
+ou l’import indisponibles ; les idées du carnet continuent de fonctionner.
+
 ## Partager une recette depuis Android
 
 Avec Mijote installé depuis Chrome sur Android, ouvrir une recette puis choisir
