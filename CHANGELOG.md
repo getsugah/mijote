@@ -1,5 +1,9 @@
 # Journal de Mijote
 
+## Lisibilité du calendrier
+
+- Noms des plats et accompagnements centrés ; taille de police augmentée de 2 px sur ordinateur et téléphone. Pictogramme du plat centré au-dessus du menu.
+
 ## Installateur interactif de déploiement
 
 - Script Bash pour Linux et ZimaOS : prérequis, port 8095 proposé, IPv4 et origines, construction et contrôle de santé.
