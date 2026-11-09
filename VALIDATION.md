@@ -306,3 +306,20 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
 - Aucun accès aux données familiales ni parcours graphique automatisé. Après
   mise à jour du conteneur, recharger l’application et ouvrir « Emporter ma liste /
   courses hors connexion ». La copie existante doit s’afficher sans être effacée.
+
+## Annuler « Repas préparé »
+
+- 143 tests backend réussis, dont sept nouveaux tests : restitution des lots et
+  des seules quantités consommées, manque de stock, consommation corrigée, recette
+  modifiée ensuite, double envoi et concurrence, cycles préparer/annuler/préparer,
+  refus d’une annulation ancienne, contrôle session/CSRF et trace manquante.
+- 41 tests frontend réussis. Trois nouveaux tests rendent le vrai dialogue de
+  l’application sans navigateur : action d’annulation pour un repas préparé,
+  action de préparation pour un repas en attente, explication et confirmation
+  explicite avant la remise en stock.
+- Compilation TypeScript/Vite, confidentialité et `git diff --check` réussis.
+- Aucun changement de schéma, aucun redémarrage ni accès aux données familiales.
+- Vérification manuelle : après mise à jour, ouvrir un repas marqué préparé,
+  choisir « Annuler Repas préparé » puis confirmer. Vérifier le retour dans les
+  besoins, la restitution des quantités réellement déduites et la possibilité
+  de préparer à nouveau. Le journal conserve les mouvements et leur annulation.

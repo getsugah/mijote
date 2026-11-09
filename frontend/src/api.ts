@@ -3,7 +3,7 @@ export type Unit = 'g' | 'kg' | 'ml' | 'l' | 'piece'
 export interface Ingredient { id: number; name: string; dimension: 'masse' | 'volume' | 'piece' }
 export interface Line { ingredient_id: number; quantity: number; unit: Unit; name?: string }
 export interface Recipe { photo_version?: string | null; photo_source?: string | null; photo_attribution?: string | null; favorite?: number; to_try?: number; rating?: string; category?: string; comment?: string; variant?: string; id: number; name: string; kind: 'simple' | 'improvise' | 'recette'; portions: number; steps: string; minutes: number; source_url: string; source_author: string; ingredient_notes: string; ingredients: Line[] }
-export interface Meal { id: number; day: string; slot: 'midi' | 'soir'; status: Status; title: string; recipe_id: number | null; side_id: number | null; portions: number; prepared: number; recipe_name: string | null; side_name: string | null }
+export interface Meal { id: number; day: string; slot: 'midi' | 'soir'; status: Status; title: string; recipe_id: number | null; side_id: number | null; portions: number; prepared: number; preparation_id?: string | null; recipe_name: string | null; side_name: string | null }
 export interface Stock { id: number; ingredient_id: number; name: string; location: string; quantity: number; unit: Unit; expires: string | null }
 export interface Shopping { key: string; manual_id: number | null; ingredient_id: number; name: string; quantity: number; unit: Unit; checked: boolean }
 export interface Presence { day: number; slot: 'midi' | 'soir'; status: Status }

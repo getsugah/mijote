@@ -1,5 +1,12 @@
 # Journal de Mijote
 
+## Annuler un repas préparé
+
+- Action « Annuler Repas préparé » dans le calendrier, avec confirmation explicite.
+- Restitution des seules quantités réellement déduites dans les lots d’origine, retour du repas dans les besoins et recalcul des courses.
+- Historique des préparations corrigé, mouvements conservés dans le journal. Double envoi, annulations concurrentes et demandes anciennes protégés ; préparation à nouveau possible.
+- Aucune migration, dépendance ou modification des restrictions Docker.
+
 ## Correction des courses hors connexion
 
 - Écran blanc corrigé à l’ouverture d’une copie locale : la copie d’affichage accepte désormais les données réactives Vue.

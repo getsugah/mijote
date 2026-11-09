@@ -64,12 +64,23 @@ def create_week(db, start: date):
     return week(db, key)
 
 
+def preparation_id(db, ident):
+    # Ignore confirmations that merely reported an already-prepared meal.
+    for row in db.execute('SELECT id,response FROM operations WHERE kind=? ORDER BY rowid DESC', (f'prepare:{ident}',)):
+        if not json.loads(row['response']).get('already_prepared', True):
+            return row['id']
+    return None
+
+
 def week(db, key):
     if not db.execute('SELECT 1 FROM weeks WHERE start=?', (key,)).fetchone():
         raise HTTPException(404, 'Créer cette semaine pour appliquer le modèle habituel.')
-    return {'start': key, 'meals': rows(db, '''SELECT m.*,r.name AS recipe_name,s.name AS side_name
+    meals = rows(db, '''SELECT m.*,r.name AS recipe_name,s.name AS side_name
       FROM meals m LEFT JOIN recipes r ON r.id=m.recipe_id LEFT JOIN recipes s ON s.id=m.side_id
-      WHERE week_start=? ORDER BY day,CASE slot WHEN 'midi' THEN 0 ELSE 1 END''', (key,))}
+      WHERE week_start=? ORDER BY day,CASE slot WHEN 'midi' THEN 0 ELSE 1 END''', (key,))
+    for meal in meals:
+        meal['preparation_id'] = preparation_id(db, meal['id']) if meal['prepared'] else None
+    return {'start': key, 'meals': meals}
 
 
 def recipes(db):
@@ -263,6 +274,35 @@ def prepare(db, ident, data):
         db.execute('UPDATE meals SET prepared=1 WHERE id=?', (ident,))
         return {'prepared': True, 'already_prepared': False, 'shortages': shortages}
     return operation(db, data, f'prepare:{ident}', perform)
+
+
+def unprepare(db, ident, data):
+    def perform():
+        meal = require(db, 'meals', ident)
+        if not meal['prepared']:
+            return {'prepared': False, 'already_unprepared': True, 'restored': []}
+        active = preparation_id(db, ident)
+        if not active:
+            raise HTTPException(409, 'La confirmation d’origine de ce repas est introuvable. Aucune quantité ne peut être rétablie automatiquement ; vérifier le journal des réserves.')
+        if str(data.preparation_id) != active:
+            raise HTTPException(409, 'Ce repas a été préparé à nouveau depuis l’ouverture. Recharger avant d’annuler sa préparation.')
+        restored = []
+        for entry in rows(db, '''SELECT ingredient_id,stock_id,SUM(-delta) quantity FROM movements
+             WHERE operation_id=? AND delta<0 GROUP BY ingredient_id,stock_id''', (active,)):
+            changed = db.execute('UPDATE stock SET quantity=quantity+? WHERE id=? AND ingredient_id=?',
+                                 (entry['quantity'], entry['stock_id'], entry['ingredient_id']))
+            if changed.rowcount != 1:
+                raise HTTPException(409, 'Un lot consommé est introuvable. Aucune annulation partielle n’a été appliquée.')
+            movement(db, entry['ingredient_id'], entry['stock_id'], entry['quantity'],
+                     f'Annulation de la préparation du repas {ident}', str(data.operation_id))
+            ingredient = require(db, 'ingredients', entry['ingredient_id'])
+            restored.append({'ingredient_id': entry['ingredient_id'], 'stock_id': entry['stock_id'],
+                             'quantity': entry['quantity'] / 1000, 'unit': BASE_UNITS[ingredient['dimension']]})
+        # The stock journal and operation records retain the cancellation audit.
+        db.execute('DELETE FROM meal_history WHERE meal_id=?', (ident,))
+        db.execute('UPDATE meals SET prepared=0 WHERE id=?', (ident,))
+        return {'prepared': False, 'already_unprepared': False, 'restored': restored}
+    return operation(db, data, f'unprepare:{ident}', perform)
 
 
 def purchase(db, key, data):

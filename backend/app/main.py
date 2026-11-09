@@ -186,7 +186,7 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     def update_meal(ident: int, data: m.Meal, db=Depends(database)):
         current = s.require(db, 'meals', ident)
         if current['prepared']:
-            raise HTTPException(409, 'Ce repas est déjà préparé. Corriger le stock depuis son journal si nécessaire.')
+            raise HTTPException(409, 'Ce repas est déjà préparé. Annuler sa préparation avant de le modifier.')
         for recipe_id in (data.recipe_id, data.side_id):
             if recipe_id:
                 s.require(db, 'recipes', recipe_id)
@@ -197,6 +197,10 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     @app.post(api + '/meals/{ident}/prepare', dependencies=access)
     def prepare(ident: int, data: m.Preparation, db=Depends(database)):
         return s.prepare(db, ident, data)
+
+    @app.post(api + '/meals/{ident}/unprepare', dependencies=access)
+    def unprepare(ident: int, data: m.Unpreparation, db=Depends(database)):
+        return s.unprepare(db, ident, data)
 
     @app.post(api + '/ingredients', dependencies=access)
     def ingredient(data: m.Ingredient, db=Depends(database)):

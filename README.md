@@ -424,6 +424,20 @@ nécessite HTTPS ou localhost. Aucune API privée n’est mise en cache par le s
 6. Dans le repas, choisir **Ce repas est préparé**, vérifier les quantités consommées
    puis confirmer. Une confirmation répétée ne redéduit jamais les ingrédients.
 
+Pour corriger un repas marqué préparé par erreur, ouvrir sa case dans le calendrier,
+choisir **Annuler « Repas préparé »**, puis **Confirmer l’annulation**. Le repas
+redevient modifiable et entre à nouveau dans le calcul des courses. Les quantités
+réellement déduites sont remises dans leurs lots d’origine ; les manques signalés
+lors de la préparation ne créent aucun stock fictif. La recette actuelle n’est
+pas utilisée pour deviner la consommation passée.
+
+Le repas annulé quitte l’historique des préparations ; le journal des réserves
+conserve les déductions et leur annulation. Il peut ensuite être marqué préparé
+à nouveau avec la confirmation habituelle. Un double envoi ne restitue jamais le
+stock deux fois. Une annulation devenue ancienne ne peut pas défaire une nouvelle
+préparation. Si la confirmation d’origine est absente, l’annulation automatique
+est refusée avec un message explicite ; les données restent inchangées.
+
 Les réservations concernent tous les repas maison non préparés, dans l’ordre des
 dates, y compris dans d’autres semaines. Définir un créneau hors maison ou retirer
 son plat libère ses besoins. Les lots sont consommés par date limite puis ordre

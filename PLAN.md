@@ -198,3 +198,13 @@ entier ni ajout automatique de recettes. Migration additive pour les liens priv�
 limite de 20 sources et cache en mémoire borné ; réutiliser fetch sécurisé et import.
 Valider sécurité réseau, permissions, absence d’effets métier, migration, sauvegarde
 et gestion des liens avec des données fictives.
+
+## Annulation d’une préparation
+
+Proposer une action confirmée depuis le repas préparé. Réutiliser les opérations
+idempotentes et les mouvements pour restituer exactement les lots consommés ; ne
+pas déduire la consommation de la recette actuelle ou des manques. Retirer le
+repas de l’historique actif, conserver le journal et recalculer les courses.
+Identifier la préparation ciblée pour refuser une annulation ancienne après une
+nouvelle préparation. Tests de cycle complet, quantités corrigées, manque de stock,
+rejeu, concurrence, autorisation et rendu du formulaire.

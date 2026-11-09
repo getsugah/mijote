@@ -111,6 +111,11 @@ class Preparation(Input):
         return self
 
 
+class Unpreparation(Input):
+    operation_id: UUID
+    preparation_id: UUID | None = None
+
+
 class Manual(Line):
     pass
 
