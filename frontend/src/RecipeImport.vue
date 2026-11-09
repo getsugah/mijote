@@ -2,10 +2,11 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { api, ApiError, baseUnit, units, type Ingredient, type Unit } from './api'
 import Icon from './Icon.vue'
+import IngredientSuggestions from './IngredientSuggestions.vue'
 
 interface Suggestion { raw: string; name: string; quantity: number | null; unit: Unit | null; needs_review: boolean }
 interface Preview { image_url?: string; image_author?: string; name: string; portions: number | null; yield_text: string; minutes: number | null; steps: string; source_url: string; source_author: string; ingredient_notes: string; ingredients: Suggestion[]; warnings: string[]; method: string }
-interface ImportRow { key: number; raw: string; name: string; ingredient_id: number | null; quantity: number | null; unit: Unit | ''; include: boolean }
+interface ImportRow { allow_distinct?: boolean; key: number; raw: string; name: string; ingredient_id: number | null; quantity: number | null; unit: Unit | ''; include: boolean }
 const props = defineProps<{ ingredients: Ingredient[]; initial?: { url: string; text: string; message: string } | null }>()
 const emit = defineEmits<{ close: []; saved: [id: number]; unauthorized: [] }>()
 const dialog = ref<HTMLDialogElement | null>(null), busy = ref(false), error = ref('')
@@ -34,6 +35,7 @@ function changeIngredient(row: ImportRow) {
   const value = findIngredient(row.ingredient_id)
   if (value) { row.name = value.name; row.unit = baseUnit(value) }
 }
+function useIngredient(row: ImportRow, id: number) { row.ingredient_id = id; if (!units(findIngredient(id)).includes(row.unit as Unit)) row.unit = baseUnit(findIngredient(id)) }
 function addRow() { rows.value.push({ key: nextKey++, raw: '', name: '', ingredient_id: null, quantity: null, unit: '', include: true }) }
 function operationId() {
   if (crypto.randomUUID) return crypto.randomUUID()
@@ -50,7 +52,7 @@ async function analyze() {
     photo.value = null; keepPhoto.value = false; photoWarning.value = ''
     confirmationId.value = operationId()
     rows.value = result.ingredients.map(line => {
-      const match = props.ingredients.find(i => normalized(i.name) === normalized(line.name) && !!line.unit && units(i).includes(line.unit))
+      const match = props.ingredients.find(i => [i.name, ...(i.aliases || [])].some(name => normalized(name) === normalized(line.name)) && !!line.unit && units(i).includes(line.unit))
       return { key: nextKey++, raw: line.raw, name: line.name, ingredient_id: match?.id || null,
         quantity: line.quantity, unit: line.unit || '', include: !line.needs_review && !!line.quantity && !!line.unit && !!line.name }
     })
@@ -66,7 +68,7 @@ async function save() {
       name: p.name, kind: 'recette', portions: Number(p.portions), minutes: Number(p.minutes), steps: p.steps,
       source_url: p.source_url, source_author: p.source_author, ingredient_notes: p.ingredient_notes, ingredients: [],
     }, ...(keepPhoto.value && photo.value ? { photo: photo.value } : {}), items: rows.value.filter(row => row.include).map(row => ({ ingredient_id: row.ingredient_id,
-      name: row.name, quantity: Number(row.quantity), unit: row.unit })) })
+      name: row.name, quantity: Number(row.quantity), unit: row.unit, allow_distinct: !!row.allow_distinct })) })
     emit('saved', result.id)
   } catch (value) { handleError(value) } finally { busy.value = false }
 }
@@ -99,6 +101,7 @@ onUnmounted(() => dialog.value?.close())
           <label class="check-label"><input v-model="row.include" type="checkbox" :disabled="busy"><strong>{{ row.raw || 'Nouvelle ligne' }}</strong><span>{{ row.include ? 'Dans les besoins' : 'Texte seulement' }}</span></label>
           <fieldset :disabled="busy || !row.include"><label>Dans le répertoire<select v-model="row.ingredient_id" @change="changeIngredient(row)"><option :value="null">Créer un nouvel ingrédient</option><option v-for="i in ingredients" :key="i.id" :value="i.id">{{ i.name }}</option></select></label>
             <label v-if="!row.ingredient_id">Nom à conserver<input v-model="row.name" required maxlength="120" placeholder="Ex. farine de blé"></label>
+            <IngredientSuggestions v-if="!row.ingredient_id && row.unit && !row.allow_distinct" :name="row.name" :dimension="['g','kg'].includes(row.unit) ? 'masse' : row.unit === 'piece' ? 'piece' : 'volume'" :disabled="busy" @reuse="id => useIngredient(row, id)" @distinct="row.allow_distinct = true" @unauthorized="emit('unauthorized')" />
             <div class="form-row"><label>Quantité à utiliser<input v-model.number="row.quantity" type="number" min="0.001" step="0.001" required placeholder="À vérifier"></label><label>Unité<select v-model="row.unit" required><option value="" disabled>À choisir</option><option v-for="unit in allowedUnits(row)" :key="unit" :value="unit">{{ unitLabel(unit) }}</option></select></label></div>
           </fieldset><button type="button" class="text-button" @click="rows = rows.filter(r => r.key !== row.key)" :disabled="busy">Retirer cette ligne du calcul</button>
         </article>

@@ -123,3 +123,5 @@
 .web-source-list{padding-left:20px;font-size:13px}.web-source-list li{margin:12px 0;overflow-wrap:anywhere}
 .web-source-list .text-button,.web-source-list small{margin-left:12px}
 .web-sources input,.web-discovery select{min-width:0;max-width:100%}
+
+.ingredient-suggestions{padding:12px;border:1px solid var(--line);border-radius:10px;background:#faf5ec}.ingredient-suggestions p{margin-bottom:10px}

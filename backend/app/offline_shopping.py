@@ -19,10 +19,11 @@ def version(db, week, item):
 
 
 def snapshot(db, week):
+    from .ingredients import listing
     current = s.shopping(db, week)
     return {'household_id': household_id(db), 'week_start': week,
             'generated_at': datetime.now(timezone.utc).isoformat(),
-            'ingredients': s.rows(db, 'SELECT * FROM ingredients ORDER BY name COLLATE NOCASE'),
+            'ingredients': listing(db),
             'items': [{**item, 'version': version(db, week, item)} for item in current['items']]}
 
 

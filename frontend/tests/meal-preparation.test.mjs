@@ -13,14 +13,14 @@ const template = compileTemplate({ source: dialog, filename: 'App.vue', id: 'mea
 assert.deepEqual(template.errors, [])
 const code = template.code.replace(/from ["']vue["']/g, 'from ' + JSON.stringify(import.meta.resolve('vue')))
 const { render } = await import('data:text/javascript;base64,' + Buffer.from(code).toString('base64'))
-async function html(modal, prepared = 0) {
+async function html(modal, prepared = 0, extraDraft = {}) {
   return renderToString(createSSRApp({
     components: { Icon: { render: () => null } }, render,
     setup() { return {
-      modal, draft: { id: 7, day: '2026-11-09', slot: 'soir', prepared, status: 'maison', title: 'Plat fictif', recipe_id: null, side_id: null, portions: 4 },
-      modalTitle: 'Repas de test', busy: false, online: true, error: '', data: { recipes: [] },
+      modal, draft: { id: 7, day: '2026-11-09', slot: 'soir', prepared, status: 'maison', title: 'Plat fictif', recipe_id: null, side_id: null, portions: 4, ...extraDraft },
+      modalTitle: 'Repas de test', busy: false, online: true, error: '', data: { recipes: [], ingredients: [{ id: 7, name: 'Tomates', dimension: 'masse' }, { id: 8, name: 'Tomate', dimension: 'masse' }] },
       statuses: [{ id: 'maison', label: 'À la maison' }], dateLabel: () => '9 novembre',
-      close() {}, save() {}, openUnpreparation() {}, openPreparation() {},
+      close() {}, save() {}, openUnpreparation() {}, openPreparation() {}, previewIngredientMerge() {}, ingredient: () => ({ dimension: 'masse' }),
     } },
   }))
 }
@@ -45,4 +45,15 @@ test('cancellation explains stock restoration and requires explicit confirmation
   assert.match(content, /remises dans leurs lots d’origine/)
   assert.match(content, /Confirmer l’annulation/)
   assert.match(content, />Annuler<\/button>/)
+})
+
+
+test('ingredient merge requires a preview before the final confirmation is enabled', async () => {
+  const pending = await html('merge', 0, { target_id: 8, preview: null })
+  assert.match(pending, /Vérifier la fusion/)
+  assert.match(pending, /disabled>Confirmer la fusion/)
+  const ready = await html('merge', 0, { target_id: 8, preview: { source: { name: 'Tomates' }, target: { name: 'Tomate' }, counts: { recipe_ingredients: 2, stock: 1, movements: 3 } } })
+  assert.match(ready, /quantités seront additionnées/)
+  assert.match(ready, /Les lots, leurs dates et le journal seront conservés/)
+  assert.doesNotMatch(ready, /disabled>Confirmer la fusion/)
 })

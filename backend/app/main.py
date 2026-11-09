@@ -14,7 +14,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 
-from . import auth, models as m, services as s
+from . import auth, models as m, services as s, ingredients as ingredient_catalog
 from .db import connect, migrate
 
 
@@ -177,7 +177,7 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     @app.get(api + '/dashboard', dependencies=access)
     def dashboard(start: date, db=Depends(database)):
         return {'week': s.week(db, start.isoformat()), 'settings': s.settings(db), 'recipes': s.recipes(db),
-                'ingredients': s.rows(db, 'SELECT * FROM ingredients ORDER BY name COLLATE NOCASE'),
+                'ingredients': ingredient_catalog.listing(db),
                 'stock': s.stock(db), 'shopping': s.shopping(db, start.isoformat()),
                 'movements': [s.display(r) for r in s.rows(db, '''SELECT m.*,i.name,i.dimension FROM movements m
                    JOIN ingredients i ON i.id=m.ingredient_id ORDER BY m.id DESC LIMIT 100''')]}
@@ -202,25 +202,30 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     def unprepare(ident: int, data: m.Unpreparation, db=Depends(database)):
         return s.unprepare(db, ident, data)
 
+    @app.get(api + '/ingredients/matches', dependencies=access)
+    def ingredient_matches(name: str = Query(min_length=1, max_length=120), dimension: str = Query(default='masse', pattern='^(masse|volume|piece)$'), db=Depends(database)):
+        return ingredient_catalog.matches(db, name, dimension)
+
     @app.post(api + '/ingredients', dependencies=access)
-    def ingredient(data: m.Ingredient, db=Depends(database)):
-        ident = db.execute('INSERT INTO ingredients (name,dimension) VALUES (?,?)', (data.name, data.dimension)).lastrowid
-        return s.require(db, 'ingredients', ident)
+    def ingredient(data: m.IngredientCreate, db=Depends(database)):
+        return ingredient_catalog.create(db, data.name, data.dimension, data.reuse_id, data.allow_distinct)
 
     @app.put(api + '/ingredients/{ident}', dependencies=access)
     def update_ingredient(ident: int, data: m.Ingredient, db=Depends(database)):
-        current = s.require(db, 'ingredients', ident)
-        if current['dimension'] != data.dimension:
-            used = db.execute('''SELECT 1 FROM recipe_ingredients WHERE ingredient_id=? UNION ALL
-              SELECT 1 FROM stock WHERE ingredient_id=? UNION ALL SELECT 1 FROM shopping_manual WHERE ingredient_id=?''', (ident, ident, ident)).fetchone()
-            if used:
-                raise HTTPException(409, 'Un ingrédient utilisé conserve son type d’unité. Créer un ingrédient distinct.')
-        db.execute('UPDATE ingredients SET name=?,dimension=? WHERE id=?', (data.name, data.dimension, ident))
-        return s.require(db, 'ingredients', ident)
+        return ingredient_catalog.rename(db, ident, data)
+
+    @app.get(api + '/ingredients/{ident}/merge-preview', dependencies=access)
+    def ingredient_merge_preview(ident: int, target_id: int = Query(gt=0), db=Depends(database)):
+        return ingredient_catalog.merge_preview(db, ident, target_id)
+
+    @app.post(api + '/ingredients/{ident}/merge', dependencies=access)
+    def ingredient_merge(ident: int, data: m.IngredientMerge, db=Depends(database)):
+        return ingredient_catalog.merge(db, ident, data)
 
     @app.delete(api + '/ingredients/{ident}', dependencies=access)
     def delete_ingredient(ident: int, db=Depends(database)):
         s.require(db, 'ingredients', ident)
+        db.execute('DELETE FROM ingredient_aliases WHERE ingredient_id=?', (ident,))
         db.execute('DELETE FROM ingredients WHERE id=?', (ident,))
         return {'ok': True}
 

@@ -323,3 +323,21 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
   choisir « Annuler Repas préparé » puis confirmer. Vérifier le retour dans les
   besoins, la restitution des quantités réellement déduites et la possibilité
   de préparer à nouveau. Le journal conserve les mouvements et leur annulation.
+
+## Noms, variantes et fusion des ingrédients
+
+- 153 tests backend réussis, dont dix nouveaux tests sur propositions et confirmation
+  des pluriels, distinctions culinaires, renommage avec références intactes, fusion
+  des lignes de recettes, conservation des lots/journal/produits/articles manuels,
+  rejeu, aperçu périmé, mesures incompatibles, CSRF, conflits hors connexion, fusions
+  successives, annulation d’une préparation après fusion et sauvegarde/restauration.
+- Compatibilité des confirmations d’import existantes conservée : le nouveau
+  drapeau de création distincte, lorsqu’il est faux, n’altère pas leur empreinte.
+- 44 tests frontend réussis : propositions sans choix silencieux, réponses anciennes
+  ignorées et rendu du vrai dialogue avec aperçu obligatoire avant confirmation.
+- Compilation TypeScript/Vite, confidentialité et `git diff --check` réussis.
+- Migration additive 0006 testée via les parcours existants depuis les anciens
+  schémas ; aucune fusion automatique des données existantes.
+- Aucun déploiement ni accès aux données familiales. Vérification visuelle restante
+  après mise à jour : créer « tomates » en présence de « tomate », confirmer la
+  correspondance, puis vérifier une fusion de doublons après sauvegarde.

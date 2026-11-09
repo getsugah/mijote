@@ -22,6 +22,8 @@ def require(db, table, ident):
     row = db.execute(f'SELECT * FROM {table} WHERE id=?', (ident,)).fetchone()
     if row is None:
         raise HTTPException(404, 'Élément introuvable.')
+    if table == 'ingredients' and db.execute('SELECT 1 FROM ingredient_redirects WHERE source_id=?', (ident,)).fetchone():
+        raise HTTPException(409, 'Cet ingrédient a été fusionné. Rechargez la liste avant de modifier cet article.')
     return dict(row)
 
 
@@ -117,24 +119,20 @@ def save_recipe(db, data, ident=None):
 def confirm_import(db, data):
     def perform():
         from . import models
-        import unicodedata
-        def normalized(value):
-            return ' '.join(unicodedata.normalize('NFKC', value).casefold().split())
+        from . import ingredients as catalogue
         created, lines, seen = [], [], set()
         for item in data.items:
             dimension = UNITS[item.unit][0]
             ident = item.ingredient_id
             if ident is None:
-                # Exact normalized spelling only: never merge culinary synonyms by guesswork.
-                same = next((i for i in rows(db, 'SELECT * FROM ingredients')
-                             if normalized(i['name']) == normalized(item.name)), None)
-                if same:
-                    if same['dimension'] != dimension:
-                        raise HTTPException(409, 'Un ingrédient du même nom utilise un autre type d’unité. Corriger le nom ou la mesure.')
-                    ident = same['id']
-                else:
-                    ident = db.execute('INSERT INTO ingredients (name,dimension) VALUES (?,?)', (item.name, dimension)).lastrowid
+                match = catalogue.create(db, item.name, dimension, allow_distinct=item.allow_distinct)
+                ident = match['id']
+                if not match['reused']:
                     created.append(ident)
+            else:
+                current = require(db, 'ingredients', ident)
+                if item.name and catalogue.plural_key(item.name) == catalogue.plural_key(current['name']):
+                    catalogue.alias(db, item.name, ident)
             if ident in seen:
                 raise HTTPException(422, 'Regrouper les lignes du même ingrédient avant de confirmer.')
             seen.add(ident)
@@ -226,6 +224,10 @@ def operation(db, data, kind, perform):
     # Preserve replay hashes for imports confirmed before photos were introduced.
     if kind == 'recipe_import' and body.get('photo') is None:
         body.pop('photo', None)
+    if kind == 'recipe_import':
+        for item in body.get('items', []):
+            if not item.get('allow_distinct'):
+                item.pop('allow_distinct', None)
     digest = hashlib.sha256(json.dumps(body, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
     prior = db.execute('SELECT * FROM operations WHERE id=?', (ident,)).fetchone()
     if prior:

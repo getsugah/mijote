@@ -53,7 +53,7 @@ async function importComponent() {
   const output = ts.transpileModule(script.content, { compilerOptions: { target:ts.ScriptTarget.ES2022, module:ts.ModuleKind.ESNext } }).outputText
     .replace(/from ["']vue["']/g, 'from ' + JSON.stringify(import.meta.resolve('vue')))
     .replace(/from ["']\.\/api["']/g, 'from ' + JSON.stringify(api))
-    .replace(/from ["']\.\/Icon.vue["']/g, 'from ' + JSON.stringify(icon))
+    .replace(/from ["']\.\/(?:Icon|IngredientSuggestions).vue["']/g, 'from ' + JSON.stringify(icon))
   return (await import('data:text/javascript;base64,' + Buffer.from(output).toString('base64'))).default
 }
 test('a received link prepopulates the existing import and still requires preview', async () => {

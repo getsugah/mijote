@@ -208,3 +208,13 @@ repas de l’historique actif, conserver le journal et recalculer les courses.
 Identifier la préparation ciblée pour refuser une annulation ancienne après une
 nouvelle préparation. Tests de cycle complet, quantités corrigées, manque de stock,
 rejeu, concurrence, autorisation et rendu du formulaire.
+
+## Variantes et fusion des ingrédients
+
+Proposer des variantes singulier/pluriel à confirmer sans confondre les aliments
+qualifiés. Conserver les noms confirmés comme alias. Permettre le renommage sans
+suppression et une fusion avec aperçu vérifié, transaction et identifiant de rejeu.
+Conserver les lots, mouvements et identifiants historiques ; masquer les anciennes
+entrées fusionnées et refuser les demandes anciennes jusqu’à actualisation.
+Valider migration, sauvegarde, recettes avec quantités communes, stock, courses,
+annulation de préparation après fusion et conflits hors connexion.

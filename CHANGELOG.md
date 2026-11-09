@@ -1,5 +1,13 @@
 # Journal de Mijote
 
+## Noms et doublons des ingrédients
+
+- Propositions singulier/pluriel à confirmer lors de la création et de l’import ; réutilisation des noms et alias déjà confirmés, tout en conservant les distinctions culinaires.
+- Renommage sans suppression ni perte des liens ; nom précédent reconnu comme alias.
+- Fusion confirmée après aperçu, avec addition des lignes communes d’une recette et conservation des lots, dates, mouvements, produits et courses manuelles.
+- Rejeu protégé, refus d’un aperçu devenu ancien, contrôle des types de mesure et gestion des conflits de copies hors connexion.
+- Migration additive 0006, sans fusion automatique de données existantes ni nouvelle dépendance.
+
 ## Annuler un repas préparé
 
 - Action « Annuler Repas préparé » dans le calendrier, avec confirmation explicite.

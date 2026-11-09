@@ -26,6 +26,17 @@ class Ingredient(Input):
     dimension: Literal['masse', 'volume', 'piece']
 
 
+class IngredientCreate(Ingredient):
+    reuse_id: int | None = Field(default=None, gt=0)
+    allow_distinct: bool = False
+
+
+class IngredientMerge(Input):
+    operation_id: UUID
+    target_id: int = Field(gt=0)
+    preview_token: str = Field(pattern=r'^[0-9a-f]{64}$')
+
+
 class Line(Input):
     ingredient_id: int = Field(gt=0)
     quantity: Amount
@@ -161,6 +172,7 @@ class ImportPreview(Input):
 
 
 class ImportIngredient(Input):
+    allow_distinct: bool = False
     ingredient_id: int | None = Field(default=None, gt=0)
     name: str = Field(default='', max_length=120)
     quantity: Amount

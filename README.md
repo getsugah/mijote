@@ -451,6 +451,48 @@ millième supérieur. Les identifiants de confirmation sont conservés en base :
 action rejouée est idempotente, un même identifiant avec un autre contenu est refusé.
 Les transactions SQLite sérialisent les confirmations concurrentes.
 
+## Corriger les noms et éviter les doublons d’ingrédients
+
+Dans **Mes recettes → Mon répertoire d’ingrédients**, cliquer sur le nom ou le
+crayon pour corriger une faute d’orthographe. Enregistrer conserve le même
+identifiant : recettes, réserves et courses restent liés à cet ingrédient. La
+croix sert uniquement à supprimer une entrée inutilisée.
+
+Lors d’une création ou d’un import, Mijote signale les noms proches, par exemple
+**tomate / tomates**. Choisir **Utiliser « tomate »** pour confirmer qu’il s’agit
+du même aliment ; la variante sera reconnue ensuite. Un nom déjà connu ou un
+alias confirmé réutilise l’ingrédient existant. Si les aliments sont réellement
+différents, choisir **Créer un ingrédient distinct**. Cette distinction reste
+explicite : les accents et qualificatifs sont conservés ; « tomate », « tomate
+séchée », « sauce tomate », « pâtes » et « pâtés » ne sont pas réunis au hasard.
+Les propositions de pluriel sont prudentes et ne couvrent pas toutes les formes
+irrégulières ni toutes les fautes d’orthographe.
+
+Pour réunir deux doublons existants :
+
+1. Ouvrir celui qui doit rejoindre un autre ingrédient et choisir
+   **Fusionner avec un autre ingrédient**.
+2. Sélectionner le nom à conserver, puis **Vérifier la fusion**.
+3. Vérifier les noms et les références affichées, puis **Confirmer la fusion**.
+
+La fusion exige le même type de mesure (poids, volume ou pièces). Dans une recette
+qui contient les deux ingrédients, leurs quantités sont additionnées dans l’unité
+de base. Les lots restent séparés avec leurs quantités, emplacements et dates ;
+les articles manuels et les mouvements sont conservés. Les courses sont recalculées
+et les articles calculés concernés doivent être vérifiés puis cochés à nouveau.
+
+L’ancien nom devient un alias et l’ancienne entrée disparaît du répertoire actif.
+Les identifiants historiques sont conservés pour protéger les références et les
+confirmations déjà envoyées. Un ancien onglet ou une copie hors connexion peut
+signaler un conflit : synchroniser et vérifier la version actuelle, sans effacer
+une file de modifications non examinée. Si des données changent après l’aperçu,
+un nouvel aperçu est demandé avant la fusion.
+
+Faire une sauvegarde avant une fusion importante : il n’existe pas d’annulation
+automatique de cette action. La migration 0006 ajoute les alias et liens de fusion
+sans fusionner automatiquement les ingrédients existants. Ils sont inclus dans
+les sauvegardes habituelles. Aucune dépendance supplémentaire n’est nécessaire.
+
 ## Sauvegarder et restaurer
 
 La base inclut recettes, planning, stocks, journal, compte et sessions : conserver
