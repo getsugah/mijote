@@ -94,10 +94,10 @@ pour Docker si le compte n’a pas l’accès au démon. Aucun push ni publicati
   SQLite conservé pendant le réseau, confirmation atomique/idempotente sans stock,
   annulation complète sur unité invalide, distinctions culinaires conservées,
   métadonnées préservées avec un ancien client et migration 0001 → 0002 sans perte.
-- Essais publics réussis : Marmiton (12 lignes, JSON-LD), Good Food (6 lignes,
-  JSON-LD, nombre de pièces non assimilé à des personnes), 750g (6 lignes, HTML).
+- Essais publics réussis : source publique (12 lignes, JSON-LD), autre source publique (6 lignes,
+  JSON-LD, nombre de pièces non assimilé à des personnes), troisième source publique (6 lignes, HTML).
   Aucun contenu tiers de ces pages n’est enregistré dans les sources du projet.
-- Parcours HTTP Docker isolé : prévisualisation Marmiton/750g sans écrire en base,
+- Parcours HTTP Docker isolé : prévisualisation sur deux sources publiques sans écrire en base,
   puis collage et enregistrement d’une recette synthétique, confirmation rejouée
   sans doublon, attribution conservée, aucun mouvement de stock et URL locale refusée.
 - Image `mijote:0.2.0` :
@@ -199,7 +199,7 @@ ou menu système n’est automatisé. Pas d’OCR, de code-barres ou d’IA dans
 - Image finale : `sha256:a24aed6e7a5f899718fd8841a74e8e38939339b8af7fcced499364046648bf5b`.
 - Parcours HTTP isolé réussi sur données synthétiques : PNG transmis, JPEG réduit
   et dépourvu d’EXIF servi après authentification, import photo atomique et retrait.
-- Essai public Marmiton : image déclarée extraite, téléchargée par le transport
+- Essai sur une source publique : image déclarée extraite, téléchargée par le transport
   sécurisé et normalisée ; ni texte ni image de ce site enregistrés comme recette
   ni conservés dans les fixtures du projet. Aucune lecture de recette réelle du foyer.
 - Sauvegarde familiale privée 0600 vérifiée avant mise à jour. Même volume et compte
@@ -267,8 +267,7 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
   demande seulement, exclusions et remise à zéro, passage au formulaire d’import
   sans confirmation automatique, épuisement, panne et reconnexion.
 - Compilation TypeScript/Vite réussie ; confidentialité et `git diff --check` réussis.
-- Essai public en lecture seule : 12 liens éligibles extraits de l’index du Journal
-  des Femmes Cuisine ; sélection aléatoire puis prévisualisation JSON-LD réussies.
+- Essai public en lecture seule : 12 liens éligibles extraits d’un index culinaire public ; sélection aléatoire puis prévisualisation JSON-LD réussies.
   Aucune base, photo ou recette réelle enregistrée, aucun contenu réel ajouté aux tests.
 - Limites : un seul index pour cette première source ; sélection liée aux dernières
   publications, sans personnalisation. La disponibilité et l’extraction dépendent

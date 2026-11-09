@@ -74,40 +74,14 @@ recette** dans le carnet pour lire un lien et préremplir la recette avant valid
 
 ## Importer une recette
 
-Dans **Mes recettes → Importer une recette** :
+Dans **Mes recettes → Importer une recette**, utiliser un lien public ou coller
+le texte d’une recette. Une prévisualisation permet de corriger les portions,
+les ingrédients, les quantités et les étapes avant d’enregistrer.
 
-1. Coller une URL publique, puis choisir **Prévisualiser la recette**.
-2. Vérifier le titre, les portions de référence, la durée, les ingrédients et les étapes.
-3. Associer les lignes au répertoire existant ou corriger le nom des nouveaux ingrédients.
-4. Inclure uniquement les quantités et unités vérifiées dans les besoins ; les lignes
-   non cochées restent dans le texte d’origine, sans déduction automatique.
-5. Confirmer la vérification et enregistrer. La recette et les nouveaux ingrédients
-   sont créés ensemble ; le stock ne change pas. Une requête de confirmation rejouée
-   avec le même identifiant ne crée pas de doublon.
-
-L’extraction privilégie Schema.org Recipe en JSON-LD, puis utilise un repli HTML
-générique, sans liste fermée de sites. URL et auteur (lorsqu’il est disponible)
-sont conservés. Les quantités ambiguës, les cuillères, les pincées et autres mesures
-non convertibles ne sont pas transformées arbitrairement en grammes. Les portions
-absentes ou exprimées en nombre de pièces doivent être vérifiées.
-
-Si le site bloque l’accès, requiert un compte ou ne fournit pas de contenu lisible,
-utiliser **Coller le texte**. Les intitulés `Ingrédients` et `Préparation` aident à
-séparer les lignes. Le champ URL peut alors servir simplement d’attribution.
-Aucun cookie de consentement n’est accepté et aucun contrôle d’accès n’est contourné.
-Depuis la version 0.5.0, une photo proposée par le site peut être prévisualisée et conservée. Les textes et photos importés restent dans votre instance privée.
-
-Les téléchargements sont limités aux sites publics HTTP/HTTPS sur ports standards,
-avec validation DNS et connexion sur l’IP approuvée, certificat TLS du vrai domaine,
-redirections revalidées, 15 secondes au total et 3 Mio maximum (y compris après
-décompression). Les adresses privées/locales/métadonnées sont refusées. L’analyse
-ne conserve pas de transaction SQLite pendant le téléchargement.
-
-Essais publics réussis : [Marmiton](https://www.marmiton.org/recettes/recette_soupe-de-legumes_222646.aspx)
-et [Good Food](https://www.bbcgoodfood.com/recipes/easy-pancakes) en JSON-LD,
-[750g](https://www.750g.com/pate-a-crepes-r6965.htm) via le repli HTML. Ce résultat ne
-promet pas la lecture de tous les sites. Les contenus réels ne sont pas intégrés aux
-fixtures du projet ; les tests enregistrent seulement des recettes synthétiques.
+Seules les lignes quantifiées et validées participent aux besoins. Une photo
+peut être conservée lorsqu’elle est disponible. L’import ne modifie pas le stock.
+La compatibilité dépend de la source ; le collage de texte reste disponible en
+cas d’échec. Les contenus et leur attribution restent dans votre instance privée.
 
 ## Favoris, suggestions et courses hors connexion
 
@@ -136,50 +110,15 @@ aux portions du repas et calcule les manquants après réservation du stock. Exe
 400 g figurent aux courses. Les ingrédients restés uniquement dans les notes sont
 hors calcul.
 
-## Découvrir une recette sur le web
+## Découvrir de nouvelles idées
 
-Dans **Ma semaine → Des idées**, choisir **Découvrir un plat sur le web** pour
-recevoir une recette au hasard depuis la source choisie. Par défaut, les idées
-viennent des dernières publications du [Journal des Femmes Cuisine](https://cuisine.journaldesfemmes.fr/derniererecette/).
-Son nom, sa source et un lien vers la recette sont affichés. **Une autre idée sur
-le web** propose un autre résultat ; les liens déjà vus dans ce panneau et les
-recettes déjà importées depuis la même URL sont écartés. Quand la sélection est
-épuisée, **Revoir les idées web** permet de la parcourir à nouveau.
+Dans **Ma semaine → Des idées**, une découverte peut être consultée, remplacée
+par une autre proposition ou importée après vérification. Rien n’est enregistré
+ni ajouté aux courses automatiquement.
 
-**Voir la recette sur le site** ouvre la source dans un nouvel onglet.
-**Importer cette recette** ouvre le formulaire habituel avec son URL : cliquer
-sur **Prévisualiser**, vérifier puis confirmer pour l’ajouter au carnet. La simple
-découverte n’enregistre rien et ne modifie ni le planning, ni les stocks, ni les
-courses. Elle reste disponible même si le carnet est vide.
-
-Dans **Ajouter ou gérer les liens pour les idées**, coller l’URL d’un site, d’une
-page qui liste des recettes ou d’une recette précise, puis choisir **Vérifier et
-ajouter ce lien**. Mijote lit la page avec les protections de l’import et ne garde
-le lien que si des recettes sont reconnues. Choisir ensuite cette source dans
-**Source des idées** et demander une découverte. Jusqu’à 20 liens personnels
-peuvent être conservés, en plus de la source initiale. Les doublons sont signalés.
-**Retirer ce lien** demande confirmation et conserve les recettes déjà importées.
-
-Les liens restent privés dans la base SQLite : ils sont conservés au redémarrage,
-à la mise à jour et par la sauvegarde/restauration habituelle. La migration 0005
-ajoute cette liste sans modifier les recettes existantes. Faire une sauvegarde
-avant de mettre à jour l’installation.
-
-Chaque source fournit un choix limité aux recettes reconnues sur la page donnée,
-sans filtre selon les réserves, les préférences ou le temps de préparation.
-L’extraction reconnaît les données structurées Recipe/ItemList et certains liens
-de recettes usuels, sur le même domaine que la page finale. Elle ne parcourt pas
-le site entier et ne garantit pas la compatibilité de tous les sites. Si rien
-n’est reconnu, essayer une page listant les recettes plutôt que la page d’accueil,
-ou directement une recette. Les pages protégées, rendues uniquement en JavaScript
-ou bloquant l’accès automatisé peuvent être refusées ; aucun accès n’est contourné.
-
-Une connexion Internet est nécessaire pour vérifier et actualiser une source.
-Seuls les titres et liens sont utilisés pour les idées, sans téléchargement des
-photos ni enregistrement d’ingrédients. Les sélections sont gardées en mémoire
-pendant 15 minutes au maximum ; seul le lien source est conservé en base.
-Un changement du site, une panne ou un blocage peuvent rendre une source
-indisponible ; une autre source et les idées du carnet restent utilisables.
+**Ajouter ou gérer les liens pour les idées** permet de conserver jusqu’à 20 liens
+personnels, puis de choisir une source. Les liens sont vérifiés avant ajout et
+inclus dans les sauvegardes. Leur disponibilité et leur compatibilité peuvent varier.
 
 ## Partager une recette depuis Android
 
@@ -215,12 +154,8 @@ téléphone ou l’ordinateur. Vérifier l’aperçu puis **Conserver cette phot
 écran permet de la remplacer ou de la retirer sans supprimer la recette. Pour une
 nouvelle recette manuelle, l’enregistrer d’abord puis ouvrir son bouton Photo.
 
-Si la recette possède une URL source, **Proposer la photo du site source** cherche
-l’image annoncée sur cette page. Lors d’un nouvel import URL, la photo disponible
-est téléchargée et prévisualisée automatiquement. Décocher **Conserver cette photo**
-pour enregistrer seulement la recette. L’absence de photo ou un site qui refuse
-son téléchargement n’empêchent pas l’import du texte. Aucune image n’est choisie au
-hasard pour les recettes sans source.
+Une photo disponible lors d’un import peut être vérifiée avant conservation.
+Vous pouvez aussi ajouter, remplacer ou retirer une photo depuis votre appareil.
 
 Formats : **JPEG, PNG et WebP fixes**, jusqu’à **12 Mio et 24 mégapixels** en ajout
 manuel. HEIC, SVG et animations ne sont pas acceptés ; exporter en JPEG si nécessaire.
@@ -233,12 +168,9 @@ SQLite. **La sauvegarde/restauration habituelle inclut aussi les photos**, sans
 répertoire supplémentaire à copier. Leur ajout augmente donc la taille de la base
 et des sauvegardes. Les listes de courses hors connexion ne contiennent pas les photos.
 
-Le téléchargement des photos du web reprend les protections réseau de l’import :
-HTTP/HTTPS publics, DNS et redirections validés, connexion épinglée, 15 secondes et
-3 Mio maximum. Les images sont décodées puis réencodées avant affichage ; le navigateur
-ne charge pas directement le site tiers pour afficher une photo de recette.
-La source et l’attribution disponibles sont conservées et restent modifiables dans
-l’aperçu. Conserver ces contenus dans l’usage privé du foyer et respecter leurs droits.
+Les images sont vérifiées et réencodées avant leur conservation. La source et
+l’attribution disponibles sont conservées. Respecter les droits des contenus et
+les garder dans l’usage privé du foyer.
 
 Le traitement utilise [Pillow](https://python-pillow.org/), sous licence [MIT-CMU](https://pillow.readthedocs.io/en/stable/about.html#license) et
 licences tierces indiquées dans sa distribution. La dépendance est verrouillée ;

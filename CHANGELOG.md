@@ -36,7 +36,7 @@
 
 ## Découvertes de recettes sur le web
 
-- Bouton dans « Des idées » pour proposer une recette aléatoire de l’index public du Journal des Femmes Cuisine, avec source, lien et autre idée sans répétition dans le panneau.
+- Bouton dans « Des idées » pour proposer une recette aléatoire depuis une source culinaire publique, avec source, lien et autre idée sans répétition dans le panneau.
 - Recettes déjà importées écartées par leur URL ; aucune création automatique, aucun changement du planning, des stocks ou des courses.
 - Import proposé avec l’aperçu éditable et la confirmation existants ; recherche réseau bornée, sélection temporaire en mémoire, gestion des erreurs de source.
 - Aucune dépendance, migration ou modification des restrictions Docker.
@@ -107,7 +107,7 @@
 - Confirmation atomique et idempotente. Une erreur de ligne annule toute la création, sans laisser d’ingrédients orphelins.
 - Téléchargement borné, DNS/IP publics contrôlés puis connexion épinglée, TLS vérifié, redirections revalidées ; adresses locales, ports non standards, contenus non HTML/JSON et pages protégées refusés.
 - Aucun cookie, proxy d’environnement, sous-ressource ou photo téléchargé ; aucun contenu réel de recette copié dans les fixtures du projet.
-- 80 tests backend et 7 tests frontend réussis ; build Vue/TypeScript et image Docker réussis. Essais publics Marmiton/Good Food en JSON-LD et 750g en HTML, puis parcours HTTP d’import sur conteneur isolé validés.
+- 80 tests backend et 7 tests frontend réussis ; build Vue/TypeScript et image Docker réussis. Essais sur plusieurs sources publiques et parcours HTTP d’import sur conteneur isolé validés.
 - Mise à jour LAN appliquée après sauvegarde privée vérifiée ; même volume familial, compte conservé, migration 0002, intégrité et accès protégé de l’import contrôlés.
 
 ## 0.1.1 — Calendrier et menu imprimable
