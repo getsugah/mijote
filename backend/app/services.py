@@ -82,7 +82,8 @@ def week(db, key):
       WHERE week_start=? ORDER BY day,CASE slot WHEN 'midi' THEN 0 ELSE 1 END''', (key,))
     for meal in meals:
         meal['preparation_id'] = preparation_id(db, meal['id']) if meal['prepared'] else None
-    return {'start': key, 'meals': meals}
+    from .meal_items import enrich
+    return {'start': key, 'meals': [enrich(db, meal) for meal in meals]}
 
 
 def recipes(db):
@@ -149,8 +150,16 @@ def confirm_import(db, data):
 
 
 def meal_requirements(db, meal):
+    from .meal_items import stored
     required = defaultdict(int)
-    for recipe_id in (meal['recipe_id'], meal['side_id']):
+    recipes = [meal['recipe_id'], meal['side_id']]
+    if meal.get('id'):
+        for item in stored(db, meal['id']):
+            if item['recipe_id']:
+                recipes.append(item['recipe_id'])
+            if item['ingredient_id']:
+                required[item['ingredient_id']] += item['quantity']
+    for recipe_id in recipes:
         if recipe_id:
             recipe = require(db, 'recipes', recipe_id)
             for row in db.execute('SELECT * FROM recipe_ingredients WHERE recipe_id=?', (recipe_id,)):
@@ -246,7 +255,8 @@ def prepare(db, ident, data):
             return {'prepared': True, 'already_prepared': True, 'shortages': []}
         if meal['status'] != 'maison':
             raise HTTPException(409, 'Seul un repas à la maison peut être confirmé.')
-        if not meal['recipe_id'] and not meal['title']:
+        from .meal_items import has_food
+        if not has_food(db, meal):
             raise HTTPException(422, 'Choisir un plat avant de confirmer le repas.')
         required = meal_requirements(db, meal)
         if data.quantities is not None:

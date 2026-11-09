@@ -14,7 +14,7 @@ const events = ref<any[]>([]), cursor = ref<number | null>(null), target = ref(0
 const source = ref(''), preview = ref<any>(null), preferences = ref<any>({})
 const ratings = { '': 'Pas encore d’avis', a_refaire: 'À refaire', pas_mal: 'Pas mal', a_ameliorer: 'À améliorer', ne_plus_proposer: 'Ne plus proposer' }
 const categories = { autre: 'Autre', viande: 'Viande', poisson: 'Poisson', legumes: 'Légumes', vegetarien: 'Végétarien', feculents: 'Féculents', dessert: 'Dessert' }
-const empty = computed(() => props.data.week.meals.filter(m => m.status === 'maison' && !m.prepared && !m.title && !m.recipe_id && !m.side_id))
+const empty = computed(() => props.data.week.meals.filter(m => m.status === 'maison' && !m.prepared && !m.title && !m.recipe_id && !m.side_id && !m.side_ingredient && !m.dishes?.length))
 const selected = computed(() => empty.value.find(m => m.id === target.value))
 function uuid() { const b = crypto.getRandomValues(new Uint8Array(16)); b[6] = (b[6]! & 15) | 64; b[8] = (b[8]! & 63) | 128; const s = Array.from(b, x => x.toString(16).padStart(2, '0')).join(''); return `${s.slice(0,8)}-${s.slice(8,12)}-${s.slice(12,16)}-${s.slice(16,20)}-${s.slice(20)}` }
 async function run(action: () => Promise<void>) { if (busy.value) return; busy.value = true; error.value = ''; notice.value = ''; try { await action() } catch (e: any) { error.value = e.message; if (e.status === 401) emit('unauthorized') } finally { busy.value = false } }
@@ -86,7 +86,7 @@ watch(target, () => { if (props.section === 'ideas') void suggestions(true) })
     <template v-else-if="section === 'copy'">
       <h3>Réutiliser une semaine</h3><p>Seuls les créneaux maison vides de la semaine affichée seront remplis. Les présences et les repas existants sont conservés.</p>
       <form @submit.prevent="copyPreview" class="comfort-actions"><label>Lundi de la semaine source<input type="date" v-model="source" required @input="preview = null"></label><button class="secondary" :disabled="busy || !source">Voir l’aperçu</button></form>
-      <div v-if="preview"><ul><li v-for="item in preview.items" :key="item.target_id">{{ item.day }} · {{ item.slot }} : {{ item.title }} <span v-if="item.side_name">+ {{ item.side_name }}</span> · {{ item.portions }} portions</li></ul><p>{{ preview.items.length }} repas à copier · {{ preview.skipped }} créneaux ignorés.</p><button class="primary" @click="copy" :disabled="busy || !preview.items.length">Confirmer la copie</button></div>
+      <div v-if="preview"><ul><li v-for="item in preview.items" :key="item.target_id">{{ item.day }} · {{ item.slot }} : {{ item.title }} <span v-if="item.side_name">+ {{ item.side_name }}</span><span v-for="(dish, index) in item.dishes" :key="index"> · {{ dish.name || dish.title }}</span> · {{ item.portions }} portions</li></ul><p>{{ preview.items.length }} repas à copier · {{ preview.skipped }} créneaux ignorés.</p><button class="primary" @click="copy" :disabled="busy || !preview.items.length">Confirmer la copie</button></div>
     </template>
     <template v-else>
       <h3>{{ section === 'ideas' ? 'Une idée pour le prochain repas ?' : 'Les repas préparés' }}</h3>
@@ -113,7 +113,7 @@ watch(target, () => { if (props.section === 'ideas') void suggestions(true) })
           <p class="hint">Ces découvertes ne tiennent pas compte de vos réserves ni de vos préférences. Une connexion Internet est nécessaire ; certains sites peuvent refuser l’import.</p>
         </section>
       </template>
-      <template v-else><article v-for="event in events" :key="event.meal_id" class="comfort-card"><h4>{{ event.main_name }} <small v-if="event.side_name">+ {{ event.side_name }}</small></h4><p>{{ event.portions }} portions · prévu le {{ event.planned_day }} {{ event.slot }}<br>{{ event.prepared_at ? `Confirmé le ${new Date(event.prepared_at).toLocaleString('fr-FR')}` : 'Ancien repas préparé : date de confirmation inconnue' }}</p><button class="secondary small" @click="reuse(event.meal_id)" :disabled="busy || !selected">Replanifier ce repas</button></article><p v-if="!events.length && !busy">Aucun repas confirmé pour le moment.</p><button v-if="cursor" class="secondary" @click="history(true)" :disabled="busy">Afficher les précédents</button></template>
+      <template v-else><article v-for="event in events" :key="event.meal_id" class="comfort-card"><h4>{{ event.main_name }} <small v-if="event.side_name">+ {{ event.side_name }}</small></h4><p v-if="event.dishes?.length">{{ event.dishes.map((d: any) => `${d.course === 'entree' ? 'Entrée' : d.course === 'dessert' ? 'Dessert' : 'Plat'} : ${d.name}`).join(' · ') }}</p><p>{{ event.portions }} portions · prévu le {{ event.planned_day }} {{ event.slot }}<br>{{ event.prepared_at ? `Confirmé le ${new Date(event.prepared_at).toLocaleString('fr-FR')}` : 'Ancien repas préparé : date de confirmation inconnue' }}</p><button class="secondary small" @click="reuse(event.meal_id)" :disabled="busy || !selected">Replanifier ce repas</button></article><p v-if="!events.length && !busy">Aucun repas confirmé pour le moment.</p><button v-if="cursor" class="secondary" @click="history(true)" :disabled="busy">Afficher les précédents</button></template>
     </template>
   </section>
 </template>

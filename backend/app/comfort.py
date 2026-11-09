@@ -6,16 +6,22 @@ from collections import Counter
 from datetime import date, timedelta
 
 from fastapi import HTTPException
-from . import services as s
+from . import services as s, meal_items
 
 
 def record_preparation(db, meal):
     main = s.require(db, 'recipes', meal['recipe_id']) if meal['recipe_id'] else None
     side = s.require(db, 'recipes', meal['side_id']) if meal['side_id'] else None
+    details = meal_items.enrich(db, meal)
+    additions = meal_items.stored(db, meal['id'])
     db.execute("""INSERT OR IGNORE INTO meal_history VALUES (?,?,?,strftime('%Y-%m-%dT%H:%M:%fZ','now'),?,?,?,?,?)""",
                (meal['id'], meal['day'], meal['slot'], meal['recipe_id'], meal['side_id'],
-                main['name'] if main else meal['title'], side['name'] if side else '', meal['portions']))
-    for ident in (meal['recipe_id'], meal['side_id']):
+                main['name'] if main else meal['title'] or 'Repas composé', details['side_name'] or '', meal['portions']))
+    for item in additions:
+        if item['role'] == 'dish':
+            db.execute('INSERT INTO meal_history_dishes VALUES (?,?,?,?,?)',
+                       (meal['id'], item['position'], item['recipe_id'], meal_items.label(db, item), item['course']))
+    for ident in (meal['recipe_id'], meal['side_id'], *[item['recipe_id'] for item in additions]):
         if ident:
             db.execute('UPDATE recipes SET to_try=0 WHERE id=?', (ident,))
 
@@ -31,9 +37,12 @@ def history(db, limit=100, before=None):
         args.extend((anchor[0], before))
     args.append(limit)
     # Stable composite cursor: real preparation time, then meal id.
-    return s.rows(db, f'''SELECT h.*,r.rating,r.favorite FROM meal_history h
+    events = s.rows(db, f'''SELECT h.*,r.rating,r.favorite FROM meal_history h
       LEFT JOIN recipes r ON r.id=h.main_recipe_id {where}
       ORDER BY COALESCE(h.prepared_at,h.planned_day||'T00:00:00.000Z') DESC,h.meal_id DESC LIMIT ?''', args)
+    for event in events:
+        event['dishes'] = s.rows(db, 'SELECT recipe_id,name,course FROM meal_history_dishes WHERE meal_id=? ORDER BY position', (event['meal_id'],))
+    return events
 
 
 def preferences(db, ident, data):
@@ -54,7 +63,8 @@ def suggestions(db, mode, at, portions, excluded):
     recipes = {r['id']: r for r in s.recipes(db)}
     for event in cooked:
         day = (event['prepared_at'] or event['planned_day'])[:10]
-        for ident in {event['main_recipe_id'], event['side_recipe_id']} - {None}:
+        extra_ids = {r['recipe_id'] for r in db.execute('SELECT recipe_id FROM meal_history_dishes WHERE meal_id=?', (event['meal_id'],))}
+        for ident in ({event['main_recipe_id'], event['side_recipe_id']} | extra_ids) - {None}:
             last[ident] = max(last.get(ident, ''), day)
             if ident in recipes and 0 <= (at - date.fromisoformat(day)).days < 14:
                 category_counts[recipes[ident]['category']] += 1
@@ -67,7 +77,8 @@ def suggestions(db, mode, at, portions, excluded):
         for ident, q in s.meal_requirements(db, meal).items():
             available[ident] = max(0, available.get(ident, 0) - q)
         if abs((date.fromisoformat(meal['day']) - at).days) < 7:
-            for ident in {meal['recipe_id'], meal['side_id']} - {None}:
+            extra_ids = {item['recipe_id'] for item in meal_items.stored(db, meal['id'])}
+            for ident in ({meal['recipe_id'], meal['side_id']} | extra_ids) - {None}:
                 planned[ident] += 1
     choices = []
     for ident, recipe in recipes.items():
@@ -109,8 +120,9 @@ def suggestions(db, mode, at, portions, excluded):
     return [value for _, value in sorted(choices, key=lambda item: item[0])[:8]]
 
 
-def empty_home(meal):
-    return meal['status'] == 'maison' and not any(meal[k] for k in ('prepared', 'title', 'recipe_id', 'side_id'))
+def empty_home(meal, db=None):
+    filled = meal_items.has_food(db, meal) if db is not None else any(meal.get(k) for k in ('title', 'recipe_id', 'side_id', 'side_ingredient', 'dishes'))
+    return meal['status'] == 'maison' and not meal['prepared'] and not filled
 
 
 def copy_preview(db, target_start, source_start):
@@ -119,11 +131,11 @@ def copy_preview(db, target_start, source_start):
     source, target = s.week(db, source_start), s.week(db, target_start)
     values, skipped = [], 0
     for old, new in zip(source['meals'], target['meals']):
-        if old['status'] != 'maison' or not (old['recipe_id'] or old['title']) or not empty_home(new):
+        if old['status'] != 'maison' or not meal_items.has_food(db, old) or not empty_home(new, db):
             skipped += 1
             continue
         values.append({'target_id': new['id'], 'day': new['day'], 'slot': new['slot'],
-                       'title': old['recipe_name'] or old['title'], 'side_name': old['side_name'],
+                       'title': old['recipe_name'] or old['title'] or 'Repas composé', 'side_name': old['side_name'], 'dishes': old['dishes'],
                        'source_meal_id': old['id'], 'portions': old['portions']})
     token = hashlib.sha256(json.dumps([source, target], sort_keys=True).encode()).hexdigest()
     return {'items': values, 'skipped': skipped, 'preview_token': token}
@@ -131,12 +143,13 @@ def copy_preview(db, target_start, source_start):
 
 def reuse(db, target_id, source_id):
     old, new = s.require(db, 'meals', source_id), s.require(db, 'meals', target_id)
-    if not empty_home(new):
+    if not empty_home(new, db):
         raise HTTPException(409, 'Le créneau cible doit être à la maison, vide et non préparé.')
-    if not old['recipe_id'] and not old['title']:
+    if not meal_items.has_food(db, old):
         raise HTTPException(422, 'Le repas source ne contient pas de plat.')
     db.execute('UPDATE meals SET title=?,recipe_id=?,side_id=?,portions=? WHERE id=?',
                (old['title'], old['recipe_id'], old['side_id'], old['portions'], target_id))
+    meal_items.copy(db, source_id, target_id)
 
 
 def copy_week(db, target_start, data):

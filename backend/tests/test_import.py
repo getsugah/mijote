@@ -180,4 +180,4 @@ def test_additive_migration_preserves_existing_recipes_and_quantities(tmp_path):
     with sqlite3.connect(database) as db:
         assert db.execute('SELECT quantity FROM stock').fetchone()[0] == 125000
         assert db.execute('SELECT name,source_author,ingredient_notes FROM recipes').fetchone() == ('Riz maison', '', '')
-        assert db.execute('SELECT version_num FROM alembic_version').fetchone()[0] == '0006'
+        assert db.execute('SELECT version_num FROM alembic_version').fetchone()[0] == '0007'

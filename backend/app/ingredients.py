@@ -81,7 +81,8 @@ def rename(db, ident, data):
     if current['dimension'] != data.dimension:
         used = db.execute('''SELECT 1 FROM recipe_ingredients WHERE ingredient_id=? UNION ALL
           SELECT 1 FROM stock WHERE ingredient_id=? UNION ALL SELECT 1 FROM shopping_manual WHERE ingredient_id=?
-          UNION ALL SELECT 1 FROM movements WHERE ingredient_id=? UNION ALL SELECT 1 FROM products WHERE ingredient_id=?''', (ident,)*5).fetchone()
+          UNION ALL SELECT 1 FROM movements WHERE ingredient_id=? UNION ALL SELECT 1 FROM products WHERE ingredient_id=?
+          UNION ALL SELECT 1 FROM meal_dishes WHERE ingredient_id=?''', (ident,)*6).fetchone()
         if used:
             raise HTTPException(409, 'Un ingrédient utilisé conserve son type d’unité.')
     alias(db, current['name'], ident)
@@ -96,7 +97,7 @@ def merge_preview(db, source_id, target_id):
     if source['dimension'] != target['dimension']:
         raise HTTPException(422, 'La fusion exige le même type de mesure : poids, volume ou pièces.')
     references = {}
-    for table in ('recipe_ingredients', 'stock', 'movements', 'products', 'shopping_manual', 'shopping_checks', 'ingredient_aliases'):
+    for table in ('recipe_ingredients', 'stock', 'movements', 'products', 'shopping_manual', 'shopping_checks', 'ingredient_aliases', 'meal_dishes'):
         references[table] = s.rows(db, f'SELECT * FROM {table} WHERE ingredient_id IN (?,?) ORDER BY rowid', (source_id, target_id))
     redirects = s.rows(db, 'SELECT * FROM ingredient_redirects WHERE target_id IN (?,?) ORDER BY source_id', (source_id, target_id))
     token = hashlib.sha256(json.dumps([source, target, references, redirects], sort_keys=True).encode()).hexdigest()
@@ -115,7 +116,7 @@ def merge(db, source_id, data):
           ON CONFLICT(recipe_id,ingredient_id) DO UPDATE SET quantity=quantity+excluded.quantity''', (target_id, source_id))
         db.execute('DELETE FROM recipe_ingredients WHERE ingredient_id=?', (source_id,))
         # Keep lots, dates, movement IDs and manual shopping lines separate.
-        for table in ('stock', 'movements', 'products', 'shopping_manual'):
+        for table in ('stock', 'movements', 'products', 'shopping_manual', 'meal_dishes'):
             db.execute(f'UPDATE {table} SET ingredient_id=? WHERE ingredient_id=?', (target_id, source_id))
         checks = s.rows(db, 'SELECT * FROM shopping_checks WHERE ingredient_id=?', (source_id,))
         for check in checks:

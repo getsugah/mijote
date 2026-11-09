@@ -1,5 +1,13 @@
 # Journal de Mijote
 
+## Repas composés, accompagnements et impression des courses
+
+- Accompagnement choisi parmi les recettes ou directement dans le répertoire d’ingrédients avec quantité totale et unité.
+- Bouton Ajouter pour plusieurs recettes, ingrédients ou intitulés libres, classés Entrée, Plat ou Dessert dans le calendrier et l’impression.
+- Cumul de toutes les quantités dans les besoins ; préparation, annulation, copie, historique, suggestions et fusion d’ingrédients adaptés.
+- Impression A4 de la liste de courses courante, avec quantités, cases et ajouts personnels, sans effet sur le stock.
+- Migration additive 0007 et conservation des nouveaux champs lors des requêtes d’anciens clients ; aucune nouvelle dépendance.
+
 ## Noms et doublons des ingrédients
 
 - Propositions singulier/pluriel à confirmer lors de la création et de l’import ; réutilisation des noms et alias déjà confirmés, tout en conservant les distinctions culinaires.

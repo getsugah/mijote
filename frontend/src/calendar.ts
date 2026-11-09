@@ -1,4 +1,5 @@
 import type { Meal } from './api'
+import { mealGroups } from './mealItems'
 
 /** National French holidays, computed locally. Local/overseas additions are not included.
  * Reference: https://calendrier.api.gouv.fr/jours-feries/metropole/2026.json
@@ -37,12 +38,13 @@ export function holidayName(value: string): string | undefined {
   return cached.get(year)?.[value]
 }
 
-export function mealPrintContent(meal?: Meal) {
+export function mealPrintContent(meal?: Meal): { title: string; side: string; detail: string; prepared: boolean; sections?: { label: string; names: string[] }[] } {
   if (!meal) return { title: 'À prévoir', side: '', detail: '', prepared: false }
   const away = { travail: 'Au travail', exterieur: 'À l’extérieur', a_decider: 'À décider' }
   if (meal.status !== 'maison') return { title: away[meal.status], side: '', detail: '', prepared: false }
-  const title = meal.recipe_name || meal.title || 'À prévoir'
+  const names = [meal.recipe_name || meal.title, ...(meal.dishes || []).map(d => d.name || d.title)].filter(Boolean)
+  const title = names.join(' · ') || (meal.side_name ? 'Repas' : 'À prévoir')
   return { title, side: meal.side_name || '',
-    detail: meal.recipe_name || meal.title || meal.side_name ? `${meal.portions} portion${meal.portions > 1 ? 's' : ''}` : '',
-    prepared: !!meal.prepared }
+    detail: names.length || meal.side_name ? `${meal.portions} portion${meal.portions > 1 ? 's' : ''}` : '',
+    prepared: !!meal.prepared, ...(meal.dishes?.length ? { sections: mealGroups(meal).map(g => ({ label: g.label, names: g.names })) } : {}) }
 }

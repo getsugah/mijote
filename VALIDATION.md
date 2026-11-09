@@ -341,3 +341,22 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
 - Aucun déploiement ni accès aux données familiales. Vérification visuelle restante
   après mise à jour : créer « tomates » en présence de « tomate », confirmer la
   correspondance, puis vérifier une fusion de doublons après sauvegarde.
+
+## Repas composés, accompagnements et impression des courses
+
+- 163 tests backend réussis. Dix nouveaux tests couvrent plusieurs recettes et
+  ingrédients directs avec portions/conversions, cumul sur plusieurs jours,
+  préparation/annulation, historique figé, repas composés sans plat principal,
+  passage hors maison, copie/réutilisation sans écrasement, validation et rollback,
+  fusion d’ingrédients, sauvegarde/restauration et catégories Entrée/Plat/Dessert.
+- 50 tests frontend réussis : vrai éditeur avec bouton Ajouter, ingrédients en
+  accompagnement, sérialisation de toutes les lignes, conservation des unités et
+  catégories, ordre des sections imprimées, impression des courses avec cases,
+  quantités, ajouts personnels, liste vide et texte échappé sans mutation des données.
+- Compilation TypeScript/Vite, confidentialité et `git diff --check` réussis.
+- Migration additive 0007 : anciens plats principaux et accompagnements conservés,
+  nouvelles lignes et instantanés d’historique inclus dans les sauvegardes.
+- Aucun déploiement du service familial ni automatisation graphique. Après
+  sauvegarde et mise à jour, vérifier manuellement un repas avec entrée, plat,
+  accompagnement ingrédient et dessert, ses courses, puis les impressions menu
+  et courses sur le navigateur et l’imprimante utilisés.

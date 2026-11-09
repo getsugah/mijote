@@ -92,12 +92,39 @@ class Week(Input):
     start: date
 
 
+class MealDish(Input):
+    course: Literal['entree', 'plat', 'dessert'] = 'plat'
+    recipe_id: int | None = Field(default=None, gt=0)
+    ingredient_id: int | None = Field(default=None, gt=0)
+    title: str = Field(default='', max_length=120)
+    quantity: Amount | None = None
+    unit: Unit | None = None
+
+    @model_validator(mode='after')
+    def one_kind(self):
+        if sum(bool(value) for value in (self.recipe_id, self.ingredient_id, self.title)) != 1:
+            raise ValueError('Chaque ajout doit être une recette, un ingrédient ou un intitulé libre.')
+        if self.ingredient_id and (self.quantity is None or self.unit is None):
+            raise ValueError('Préciser la quantité totale et l’unité de l’ingrédient pour ce repas.')
+        if not self.ingredient_id and (self.quantity is not None or self.unit is not None):
+            raise ValueError('Les quantités directes concernent seulement les ingrédients.')
+        return self
+
+
 class Meal(Input):
     status: Status
     title: str = Field(default='', max_length=120)
     recipe_id: int | None = Field(default=None, gt=0)
     side_id: int | None = Field(default=None, gt=0)
     portions: int = Field(ge=1, le=30)
+    side_ingredient: Line | None = None
+    dishes: list[MealDish] = Field(default_factory=list, max_length=20)
+
+    @model_validator(mode='after')
+    def one_side(self):
+        if self.side_id and self.side_ingredient:
+            raise ValueError('Choisir une recette ou un ingrédient pour cet accompagnement.')
+        return self
 
 
 class Stock(Line):

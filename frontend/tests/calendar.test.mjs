@@ -7,7 +7,9 @@ import { createSSRApp } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 
 const source = readFileSync(new URL('../src/calendar.ts', import.meta.url), 'utf8')
-const compiled = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText
+const mealCode = ts.transpileModule(readFileSync(new URL('../src/mealItems.ts', import.meta.url), 'utf8'), { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText
+const mealUrl = 'data:text/javascript;base64,' + Buffer.from(mealCode).toString('base64')
+const compiled = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText.replace(/from ["']\.\/mealItems["']/g, 'from ' + JSON.stringify(mealUrl))
 const { frenchPublicHolidays, holidayName, mealPrintContent } = await import('data:text/javascript;base64,' + Buffer.from(compiled).toString('base64'))
 
 test('all eleven national holiday dates match the official 2026 calendar', () => {
@@ -70,4 +72,23 @@ test('the printable component renders seven days and fourteen slots without cont
   assert.match(html, /Au travail/)
   assert.match(html, /Armistice 1918/)
   assert.doesNotMatch(html, /Recette gardée hors menu|<button|<input|<select/)
+})
+
+
+test('printing includes every added dish and the quantified ingredient side', () => {
+  const meal = { status: 'maison', title: 'Plat principal fictif', portions: 4, prepared: 0,
+    side_name: 'Riz fictif · 200 g', dishes: [{ name: 'Salade fictive' }, { title: 'Dessert fictif' }] }
+  const printed = mealPrintContent(meal)
+  assert.match(printed.title, /Plat principal fictif.*Salade fictive.*Dessert fictif/)
+  assert.equal(printed.side, 'Riz fictif · 200 g')
+  assert.equal(mealPrintContent({ ...meal, status: 'travail' }).side, '')
+  assert.doesNotMatch(mealPrintContent({ ...meal, status: 'travail' }).title, /Salade/)
+})
+
+
+test('printed course sections put starters before mains and desserts', () => {
+  const result = mealPrintContent({ status: 'maison', title: 'Plat fictif', portions: 4, prepared: 0,
+    dishes: [{ name: 'Dessert fictif', course: 'dessert' }, { name: 'Entrée fictive', course: 'entree' }] })
+  assert.deepEqual(result.sections.map(s => s.label), ['Entrée', 'Plat', 'Dessert'])
+  assert.equal(result.sections[0].names[0], 'Entrée fictive')
 })

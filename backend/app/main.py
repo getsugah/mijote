@@ -14,7 +14,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 
-from . import auth, models as m, services as s, ingredients as ingredient_catalog
+from . import auth, models as m, services as s, ingredients as ingredient_catalog, meal_items
 from .db import connect, migrate
 
 
@@ -157,7 +157,7 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     @app.post(api + '/weeks/{start}/template', dependencies=access)
     def apply_template(start: date, db=Depends(database)):
         current = s.week(db, start.isoformat())
-        if any(meal['prepared'] or meal['title'] or meal['recipe_id'] or meal['side_id'] for meal in current['meals']):
+        if any(meal['prepared'] or meal_items.has_food(db, meal) for meal in current['meals']):
             raise HTTPException(409, 'Le modèle ne peut être appliqué qu’à une semaine sans repas planifié.')
         model = s.settings(db)
         for entry in model['presence']:
@@ -192,7 +192,8 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
                 s.require(db, 'recipes', recipe_id)
         db.execute('UPDATE meals SET status=?,title=?,recipe_id=?,side_id=?,portions=? WHERE id=?',
                    (data.status, data.title, data.recipe_id, data.side_id, data.portions, ident))
-        return s.require(db, 'meals', ident)
+        meal_items.save(db, ident, data)
+        return meal_items.enrich(db, s.require(db, 'meals', ident))
 
     @app.post(api + '/meals/{ident}/prepare', dependencies=access)
     def prepare(ident: int, data: m.Preparation, db=Depends(database)):
@@ -392,7 +393,7 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     def plan_suggestion(ident: int, data: m.PlanSuggestion, db=Depends(database)):
         from .comfort import empty_home
         def perform():
-            if not empty_home(s.require(db, 'meals', ident)):
+            if not empty_home(s.require(db, 'meals', ident), db):
                 raise HTTPException(409, 'Le créneau a changé : choisir un repas maison vide.')
             s.require(db, 'recipes', data.recipe_id)
             db.execute('UPDATE meals SET recipe_id=? WHERE id=?', (data.recipe_id, ident))

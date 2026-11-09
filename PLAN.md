@@ -218,3 +218,22 @@ Conserver les lots, mouvements et identifiants historiques ; masquer les ancienn
 entrées fusionnées et refuser les demandes anciennes jusqu’à actualisation.
 Valider migration, sauvegarde, recettes avec quantités communes, stock, courses,
 annulation de préparation après fusion et conflits hors connexion.
+
+## Repas composés et accompagnements ingrédients
+
+Conserver les champs de plat principal et d’accompagnement recette existants.
+Ajouter un accompagnement ingrédient quantifié et des lignes supplémentaires
+recette, ingrédient ou intitulé libre. Les recettes suivent les portions du repas ;
+les ingrédients directs sont saisis en quantité totale pour ce repas. Migration
+additive sans conversion des repas existants. Inclure toutes les lignes dans
+besoins, préparation/annulation, copie, réutilisation, historique, impression et
+fusion d’ingrédients. Préserver les champs nouveaux lors des requêtes d’anciens
+clients. Valider ces parcours avec des données fictives sans interface automatisée.
+
+Ajouter également une impression A4 de la liste de courses courante, sans réseau
+supplémentaire ni changement des cases côté serveur. Réutiliser l’impression
+native et isoler les feuilles menu/courses ; tester quantités, cases et liste vide.
+
+Classer les ajouts en Entrée/Plat/Dessert, conserver ce classement dans les copies
+et l’historique, et afficher les groupes dans l’ordre culinaire au calendrier et
+à l’impression. Le plat principal et son accompagnement restent dans le groupe Plat.

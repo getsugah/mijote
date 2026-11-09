@@ -44,7 +44,7 @@ pas couverts par cette licence du projet et restent exclus de sa publication.
 ## Organiser les repas et les courses
 
 - Planning sur sept jours, midi et soir, selon un modèle de présence modifiable.
-- Portions familiales par défaut et exception par repas ; plat et accompagnement.
+- Portions familiales par défaut et exception par repas ; plusieurs plats et accompagnements.
 - Intitulés simples, plats improvisés et recettes avec ingrédients et quantités.
 - Réserves par emplacement et date facultative, corrections et journal.
 - Besoins calculés entre les repas sans déduire le stock lors de la planification.
@@ -450,6 +450,49 @@ Les quantités sont stockées en milli-unités entières et les besoins arrondis
 millième supérieur. Les identifiants de confirmation sont conservés en base : une
 action rejouée est idempotente, un même identifiant avec un autre contenu est refusé.
 Les transactions SQLite sérialisent les confirmations concurrentes.
+
+## Composer un repas : entrée, plat, dessert
+
+Ouvrir une case du calendrier pour choisir le plat principal habituel. Dans
+**Accompagnement**, la liste propose maintenant **Recettes** et **Ingrédients** :
+vous pouvez sélectionner directement du riz, des pâtes, des pommes de terre ou
+un autre ingrédient du répertoire, puis indiquer sa quantité et son unité.
+
+Le bouton **+ Ajouter un plat ou un ingrédient** ajoute une ligne au même repas.
+Choisir son type **Entrée**, **Plat** ou **Dessert**, puis une recette, un ingrédient
+quantifié ou un intitulé libre. Répéter pour compléter le menu, puis enregistrer.
+Chaque ligne peut être retirée ; jusqu’à 20 ajouts sont possibles par repas.
+Les catégories sont affichées dans l’ordre entrée, plat, dessert dans le calendrier
+et le menu imprimé. Un intitulé libre décrit le menu sans créer de besoin fictif.
+
+Les quantités des **recettes** sont ajustées aux portions du repas. Pour un
+**ingrédient choisi directement**, la quantité saisie est le **total pour ce repas** :
+par exemple 400 g de riz pour toute la famille. Si vous changez les portions,
+ajustez vous-même ce total. Les ingrédients communs à plusieurs plats ou repas
+sont additionnés, puis les réserves sont prises en compte sans double comptage.
+
+« Ce repas est préparé » confirme l’ensemble du repas ; les quantités réellement
+utilisées restent vérifiables avant validation. Annuler cette préparation restaure
+les déductions de l’ensemble du repas. Les copies, réutilisations et l’historique
+conservent les ajouts et leur catégorie. Un créneau contenant seulement des ajouts
+ou un accompagnement est considéré comme rempli et n’est pas écrasé par une copie.
+Les choix restent enregistrés si le repas passe temporairement hors maison.
+
+La migration 0007 conserve les plats principaux et accompagnements existants,
+et ajoute les éléments du menu dans des tables dédiées, incluses dans les
+sauvegardes habituelles. Faire une sauvegarde avant la mise à jour.
+
+## Imprimer la liste de courses
+
+Dans **Mes courses**, choisir **Imprimer la liste**. La feuille A4 portrait contient
+la semaine, les articles, les quantités et des cases à cocher, avec l’état actuel
+du panier. Les ajouts personnels sont également inclus. Depuis la fenêtre du
+navigateur, choisir une imprimante ou **Enregistrer au format PDF**.
+
+L’impression utilise la liste affichée, sans modifier les courses ni les réserves.
+Les cases cochées sur papier ne se synchronisent pas automatiquement. L’impression
+du menu reste accessible séparément dans **Ma semaine → Imprimer la semaine**.
+Le résultat sur l’imprimante et le téléphone utilisés reste à vérifier manuellement.
 
 ## Corriger les noms et éviter les doublons d’ingrédients
 
