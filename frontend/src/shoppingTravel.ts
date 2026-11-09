@@ -23,7 +23,8 @@ export function saveSnapshot(snapshot: Snapshot) { return updateTravel(state => 
   return { schema: 1, snapshot, queue: state?.queue || [] }
 }) }
 export function localItems(state: TravelState): TravelItem[] {
-  const items = structuredClone(state.snapshot.items)
+  // Vue wraps the snapshot in proxies; copy the flat items without cloning proxies.
+  const items = state.snapshot.items.map(item => ({ ...item }))
   for (const { body: b } of state.queue) {
     if (b.action === 'add') { const i = state.snapshot.ingredients.find(i => i.id === b.ingredient_id); items.push({ key: 'local-' + b.operation_id, manual_id: -1, ingredient_id: b.ingredient_id, name: i?.name || 'Ingrédient retiré', quantity: b.quantity, unit: b.unit, checked: b.checked, version: '' }); continue }
     const i = items.findIndex(i => i.key === b.item_key); if (i < 0) continue

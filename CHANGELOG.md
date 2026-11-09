@@ -1,5 +1,10 @@
 # Journal de Mijote
 
+## Correction des courses hors connexion
+
+- Écran blanc corrigé à l’ouverture d’une copie locale : la copie d’affichage accepte désormais les données réactives Vue.
+- Liste sauvegardée et modifications en attente conservées ; aucun changement des règles de stock ou de synchronisation.
+
 ## Liens personnalisés pour les idées
 
 - Ajout d’un lien vérifié dans « Des idées », choix de la source et retrait après confirmation, sans suppression des recettes importées.

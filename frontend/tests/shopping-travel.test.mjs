@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { beforeEach, test } from 'node:test'
 import 'fake-indexeddb/auto'
 import ts from 'typescript'
+import { ref } from 'vue'
 
 const source = readFileSync(new URL('../src/shoppingTravel.ts', import.meta.url), 'utf8')
 const code = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText
@@ -75,4 +76,28 @@ test('a view left open in another tab cannot overwrite a newer local snapshot', 
   await saveSnapshot(fresh)
   await assert.rejects(change('check', { item_key: 'auto-1', checked: true, expected_version: 'a'.repeat(64) }), /autre onglet/)
   assert.equal((await readTravel()).queue.length, 0)
+})
+
+
+test('offline items render from Vue reactive state without changing the saved snapshot', async () => {
+  await change('check', { item_key: 'auto-1', checked: true })
+  await change('add', { ingredient_id: 1, quantity: 2, unit: 'kg' })
+  const state = ref(await readTravel()).value
+  const items = localItems(state)
+  assert.equal(items.length, 2)
+  assert.equal(items[0].checked, true)
+  assert.equal(items[1].quantity, 2)
+  assert.equal(state.snapshot.items[0].checked, false)
+  items[0].quantity = 999
+  assert.equal(state.snapshot.items[0].quantity, 100)
+  const saved = await readTravel()
+  assert.equal(saved.snapshot.items[0].quantity, 100)
+  assert.equal(saved.snapshot.items[0].checked, false)
+  assert.equal(saved.queue.length, 2)
+})
+
+test('an empty saved offline list also renders from Vue reactive state', async () => {
+  const empty = snapshot(); empty.items = []
+  await saveSnapshot(empty)
+  assert.deepEqual(localItems(ref(await readTravel()).value), [])
 })

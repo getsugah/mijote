@@ -291,3 +291,18 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
   conserve les recettes, photos et données existantes sur les bases de test.
 - Vérification visuelle Chrome/Android restante ; compatibilité des autres sites
   à vérifier par l’ajout d’un lien. Aucun déploiement du service familial réalisé.
+
+## Écran blanc des courses hors connexion
+
+- Cause reproduite avant correction : `structuredClone` refuse le tableau rendu
+  réactif par Vue et lève « [object Array] could not be cloned » à l’ouverture
+  d’une copie de courses, même vide.
+- Copie des articles plats pour l’affichage ; aucune modification du stockage,
+  des opérations en attente, du stock ou du protocole de synchronisation.
+- 38 tests frontend réussis, dont deux régressions avec `ref` Vue : liste contenant
+  une case cochée et un ajout en attente, et copie vide. Isolation du tableau
+  affiché et conservation de la copie IndexedDB vérifiées.
+- Compilation TypeScript/Vite, confidentialité et `git diff --check` réussis.
+- Aucun accès aux données familiales ni parcours graphique automatisé. Après
+  mise à jour du conteneur, recharger l’application et ouvrir « Emporter ma liste /
+  courses hors connexion ». La copie existante doit s’afficher sans être effacée.
