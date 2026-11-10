@@ -209,8 +209,13 @@ def shopping(db, key):
     return {'items': items, 'needs': computed}
 
 
+def stock_version(lot):
+    state = {field: lot[field] for field in ('id', 'ingredient_id', 'quantity', 'location', 'expires', 'label')}
+    return hashlib.sha256(json.dumps(state, sort_keys=True).encode()).hexdigest()
+
+
 def stock(db):
-    return [display(r) for r in rows(db, '''SELECT s.*,i.name,i.dimension FROM stock s JOIN ingredients i ON i.id=s.ingredient_id
+    return [{**display(r), 'version': stock_version(r)} for r in rows(db, '''SELECT s.*,i.name AS ingredient_name,COALESCE(NULLIF(s.label,''),i.name) AS name,i.dimension FROM stock s JOIN ingredients i ON i.id=s.ingredient_id
        ORDER BY CASE WHEN expires IS NULL THEN 1 ELSE 0 END,expires,s.id''')]
 
 
@@ -220,9 +225,11 @@ def movement(db, ident, lot, delta, reason, operation=None):
 
 
 def add_stock(db, line, reason='Entrée manuelle', operation=None):
+    from .locations import ensure
+    location = ensure(db, line.location)
     q = quantity(db, line.ingredient_id, line.quantity, line.unit)
     lot = db.execute('INSERT INTO stock (ingredient_id,location,quantity,expires) VALUES (?,?,?,?)',
-                     (line.ingredient_id, line.location, q, line.expires.isoformat() if line.expires else None)).lastrowid
+                     (line.ingredient_id, location, q, line.expires.isoformat() if line.expires else None)).lastrowid
     movement(db, line.ingredient_id, lot, q, reason, operation)
     return {'id': lot}
 

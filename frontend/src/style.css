@@ -143,3 +143,6 @@
 
 .meal-menu-group{display:block;width:100%;margin:6px 0;text-align:center}.meal-menu-group>small{display:block;font-size:10px;font-weight:650;color:#7f6f7a;margin-bottom:4px}.meal-menu-group>strong{display:block}
 @media print{.print-meal-section{margin-bottom:3mm}.print-meal-section>small{display:block;font-size:8pt;color:#555}.print-meal-section>strong{display:block;font-size:10pt}}
+
+.location-choice { margin: 0 0 1rem; display: grid; gap: .35rem; }
+.location-choice > .text-button { justify-self: start; }

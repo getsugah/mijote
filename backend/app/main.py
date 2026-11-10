@@ -14,7 +14,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 
-from . import auth, models as m, services as s, ingredients as ingredient_catalog, meal_items
+from . import auth, models as m, services as s, ingredients as ingredient_catalog, meal_items, locations, shopping_groups
 from .db import connect, migrate
 
 
@@ -178,6 +178,7 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     def dashboard(start: date, db=Depends(database)):
         return {'week': s.week(db, start.isoformat()), 'settings': s.settings(db), 'recipes': s.recipes(db),
                 'ingredients': ingredient_catalog.listing(db),
+                'locations': locations.listing(db), 'weeks': [r['start'] for r in s.rows(db, 'SELECT start FROM weeks ORDER BY start')],
                 'stock': s.stock(db), 'shopping': s.shopping(db, start.isoformat()),
                 'movements': [s.display(r) for r in s.rows(db, '''SELECT m.*,i.name,i.dimension FROM movements m
                    JOIN ingredients i ON i.id=m.ingredient_id ORDER BY m.id DESC LIMIT 100''')]}
@@ -420,6 +421,26 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
         db.execute('DELETE FROM recipes WHERE id=?', (ident,))
         return {'ok': True}
 
+    @app.get(api + '/locations', dependencies=access)
+    def list_locations(db=Depends(database)):
+        return locations.listing(db)
+
+    @app.post(api + '/locations', dependencies=access)
+    def create_location(data: m.Location, db=Depends(database)):
+        return {'name': locations.ensure(db, data.name)}
+
+    @app.post(api + '/shopping/selection', dependencies=access)
+    def shopping_selection(data: m.ShoppingSelection, db=Depends(database)):
+        return shopping_groups.selection(db, data.weeks)
+
+    @app.patch(api + '/shopping/selection/check', dependencies=access)
+    def selection_check(data: m.SelectionCheck, db=Depends(database)):
+        return shopping_groups.check(db, data)
+
+    @app.post(api + '/shopping/selection/complete', dependencies=access)
+    def selection_complete(data: m.SelectionPurchase, db=Depends(database)):
+        return shopping_groups.purchase(db, data)
+
     @app.post(api + '/stock', dependencies=access)
     def stock(data: m.Stock, db=Depends(database)):
         return s.add_stock(db, data)
@@ -427,9 +448,30 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     @app.patch(api + '/stock/{ident}', dependencies=access)
     def correct_stock(ident: int, data: m.Correction, db=Depends(database)):
         lot = s.require(db, 'stock', ident)
+        if data.version is not None and data.version != s.stock_version(lot):
+            raise HTTPException(409, 'Cet article a changé depuis son ouverture. Fermer puis rouvrir sa fiche avant de modifier les réserves.')
         q = s.quantity(db, lot['ingredient_id'], data.quantity, data.unit)
-        db.execute('UPDATE stock SET quantity=? WHERE id=?', (q, ident))
-        s.movement(db, lot['ingredient_id'], ident, q - lot['quantity'], data.reason)
+        updates = {'quantity': q}
+        changes = []
+        if 'name' in data.model_fields_set and data.name is not None:
+            name = ' '.join(data.name.split())
+            if not name:
+                raise HTTPException(422, 'Le nom de l’article est obligatoire.')
+            ingredient = s.require(db, 'ingredients', lot['ingredient_id'])
+            updates['label'] = '' if name == ingredient['name'] else name
+            if updates['label'] != lot['label']:
+                changes.append(f"Nom : {lot['label'] or ingredient['name']} → {name}")
+        if 'location' in data.model_fields_set and data.location is not None:
+            updates['location'] = locations.ensure(db, data.location)
+            if updates['location'] != lot['location']:
+                changes.append(f"Emplacement : {lot['location']} → {updates['location']}")
+        if 'expires' in data.model_fields_set:
+            updates['expires'] = data.expires.isoformat() if data.expires else None
+            if updates['expires'] != lot['expires']:
+                changes.append(f"Date : {lot['expires'] or 'sans date'} → {updates['expires'] or 'sans date'}")
+        db.execute('UPDATE stock SET ' + ','.join(f'{field}=?' for field in updates) + ' WHERE id=?', (*updates.values(), ident))
+        reason = data.reason + ((' · ' + ' · '.join(changes)) if changes else '')
+        s.movement(db, lot['ingredient_id'], ident, q - lot['quantity'], reason)
         return {'ok': True}
 
     @app.post(api + '/weeks/{start}/shopping/manual', dependencies=access)

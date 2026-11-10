@@ -83,7 +83,35 @@ def main():
     assert len(result['movements']) == 4  # two incoming lots, then one consumption per lot
     assert sum(entry['delta'] for entry in result['movements']) == 0
     assert not result['shopping']['items']
-    print('Container HTTP acceptance scenario: passed; purchase and preparation replayed without duplicate stock movements.')
+    # The household is still the disposable one created above, never a real installation.
+    location = api('/locations', 'POST', {'name': 'Étagère de validation'})['name']
+    assert location in api('/locations')
+    lot = result['stock'][0]
+    api(f"/stock/{lot['id']}", 'PATCH', {'version': lot['version'], 'name': 'Bocal de validation',
+        'quantity': 40, 'unit': 'g', 'location': location, 'expires': None, 'reason': 'Inventaire fictif'})
+    edited = next(item for item in dashboard()['stock'] if item['id'] == lot['id'])
+    assert edited['name'] == 'Bocal de validation' and edited['location'] == location
+    assert edited['ingredient_name'] == 'Riz de validation' and edited['quantity'] == 40
+    second_week = (date.fromisoformat(monday) + timedelta(days=7)).isoformat()
+    later = api('/weeks', 'POST', {'start': second_week})
+    for target in [week['meals'][1], later['meals'][0]]:
+        api(f"/meals/{target['id']}", 'PUT', {'status': 'maison', 'recipe_id': recipe, 'title': '', 'portions': 4})
+    for key in [monday, second_week]:
+        api(f'/weeks/{key}/shopping/manual', 'POST', {'ingredient_id': ingredient, 'quantity': 10, 'unit': 'g'})
+    scope = {'weeks': [monday, second_week]}
+    grouped = api('/shopping/selection', 'POST', scope)['items'][0]
+    assert grouped['quantity'] == 380 and len(grouped['sources']) == 4
+    api('/shopping/selection/check', 'PATCH', {**scope, 'ingredient_id': ingredient, 'checked': True, 'version': grouped['version']})
+    assert sum(item['quantity'] for item in dashboard()['stock']) == 40
+    grouped = api('/shopping/selection', 'POST', scope)['items'][0]
+    purchase = {**scope, 'operation_id': str(uuid4()), 'items': [{'ingredient_id': ingredient,
+        'requested_ingredient_id': ingredient, 'quantity': 380, 'unit': 'g', 'location': location,
+        'version': grouped['version']}]}
+    first = api('/shopping/selection/complete', 'POST', purchase)
+    assert api('/shopping/selection/complete', 'POST', purchase) == first
+    assert sum(item['quantity'] for item in dashboard()['stock']) == 420
+    assert api('/shopping/selection', 'POST', scope)['items'] == []
+    print('Container HTTP acceptance: stock editing, locations, combined weeks, purchases and preparation replay passed.')
 
 
 if __name__ == '__main__':

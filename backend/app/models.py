@@ -133,6 +133,10 @@ class Stock(Line):
 
 
 class Correction(Input):
+    version: str | None = Field(default=None, pattern=r'^[a-f0-9]{64}$')
+    name: str | None = Field(default=None, max_length=120)
+    location: Name | None = None
+    expires: date | None = None
     quantity: Nonnegative
     unit: Unit
     reason: str = Field(min_length=1, max_length=250)
@@ -326,3 +330,35 @@ class WebDiscovery(Input):
 
 class WebSource(Input):
     url: str = Field(min_length=1, max_length=2000)
+
+
+class Location(Input):
+    name: Name
+
+
+class ShoppingSelection(Input):
+    weeks: list[date] = Field(min_length=1, max_length=12)
+
+    @model_validator(mode='after')
+    def selected_weeks(self):
+        if len(set(self.weeks)) != len(self.weeks) or any(day.weekday() != 0 for day in self.weeks):
+            raise ValueError('Choisir des semaines distinctes commençant un lundi.')
+        self.weeks = sorted(self.weeks)
+        return self
+
+
+class SelectionCheck(ShoppingSelection):
+    ingredient_id: int = Field(gt=0)
+    checked: bool
+    version: str = Field(pattern=r'^[a-f0-9]{64}$')
+
+
+class SelectionPurchaseLine(Stock):
+    requested_ingredient_id: int = Field(gt=0)
+    version: str = Field(pattern=r'^[a-f0-9]{64}$')
+    found: bool = True
+
+
+class SelectionPurchase(ShoppingSelection):
+    operation_id: UUID
+    items: list[SelectionPurchaseLine] = Field(min_length=1, max_length=200)

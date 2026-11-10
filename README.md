@@ -54,6 +54,28 @@ pas couverts par cette licence du projet et restent exclus de sa publication.
 Les changements sont décrits dans [CHANGELOG.md](CHANGELOG.md) et les
 vérifications dans [VALIDATION.md](VALIDATION.md).
 
+## Réserves et emplacements
+
+Dans **Mes réserves**, cliquez sur un aliment pour modifier son nom, sa quantité,
+son unité compatible, son emplacement et sa date limite. Le nom saisi est propre
+à ce lot : il ne renomme pas l’ingrédient dans toutes les recettes. L’historique et
+les quantités déjà consommées sont conservés. Si le lot change pendant l’édition,
+fermez puis rouvrez sa fiche avant de recommencer.
+
+Le sélecteur affiche tous les emplacements sans devoir taper. **Nouvel emplacement**
+permet d’en enregistrer un, même vide. Le même choix est proposé à l’ajout d’un
+aliment et lors de la confirmation des achats.
+
+Dans **Mes courses**, **Regrouper des semaines** permet de sélectionner de deux à
+douze semaines déjà créées. Les aliments communs sont additionnés sans compter
+deux fois les réserves. Les listes d’origine restent conservées. Le panier, la
+confirmation des achats et l’impression utilisent alors les semaines sélectionnées.
+**Revenir à cette semaine** quitte le regroupement sans supprimer les listes.
+Le regroupement n’est pas une copie de données ni un déplacement des repas.
+
+Le regroupement reste disponible en ligne et à l’impression. La copie de courses
+hors connexion reste limitée à une seule semaine, comme auparavant.
+
 ## Calendrier et impression
 
 Les jours fériés nationaux français ont un en-tête coloré et leur nom dans le

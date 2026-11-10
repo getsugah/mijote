@@ -116,3 +116,23 @@ n’est automatisé. Les tests automatisés couvrent la réception HTTP et le fo
    la navigation inférieure et l’absence de déplacement horizontal de la page.
 7. Sauvegarde/restauration des images et retrait des métadonnées sont couverts par
    les tests ; ne pas utiliser les données du foyer comme jeux de test.
+
+
+## Réserves et courses de plusieurs semaines
+
+1. Dans Mes réserves, ouvrir un lot et modifier son nom, sa quantité, son emplacement
+   et sa date. Vérifier que les recettes gardent le nom de leur ingrédient associé.
+2. Ouvrir le sélecteur d’emplacements sans taper : les choix sont visibles. Créer
+   un nouvel emplacement, recharger puis le sélectionner dans le filtre et dans
+   un ajout de réserve. Un emplacement vide doit rester disponible.
+3. Prévoir le même ingrédient sur deux semaines puis ouvrir Mes courses et
+   Regrouper des semaines. Choisir ces semaines et vérifier le total manquant.
+4. Cocher un article regroupé puis vérifier la présence dans les paniers des
+   semaines sources. Cocher ne doit ajouter aucune réserve.
+5. Confirmer un achat, éventuellement avec une quantité différente ou un article
+   non trouvé. Vérifier le stock, les courses recalculées et l’absence de doublon
+   si la confirmation est rejouée après une interruption réseau.
+6. Imprimer la liste regroupée : toutes les semaines choisies doivent apparaître.
+   Revenir à cette semaine doit conserver les listes originales.
+7. La copie hors connexion reste limitée à une semaine. Le bouton est désactivé
+   pour le regroupement, avec l’impression proposée comme copie multi-semaines.

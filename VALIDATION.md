@@ -359,3 +359,28 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
   sauvegarde et mise à jour, vérifier manuellement un repas avec entrée, plat,
   accompagnement ingrédient et dessert, ses courses, puis les impressions menu
   et courses sur le navigateur et l’imprimante utilisés.
+
+
+## Réserves éditables, emplacements et courses regroupées
+
+- 179 tests backend réussis sur bases temporaires : migrations et sauvegardes,
+  noms propres aux lots, unités et dates, emplacements persistants, annulation de
+  préparation après édition, refus d’une fiche de réserve devenue ancienne.
+- Réservations entre semaines conservées, somme des courses sans double stock,
+  paniers partiels, listes sources intactes, substitutions, articles non trouvés,
+  achats idempotents et concurrents, refus des listes devenues anciennes et
+  atomicité sur plusieurs articles vérifiés.
+- 53 tests frontend réussis, dont affichage des emplacements sans saisie et
+  impression des semaines sélectionnées ; TypeScript et compilation Vite réussis.
+- Image Docker de test construite avec le Dockerfile existant. Le premier build
+  sans réseau n’avait pas les dépendances en cache ; le build standard a réussi.
+- Scénario HTTP complet réussi sur un conteneur neuf, en lecture seule avec bases
+  temporaires en mémoire, port limité à la boucle locale, privilèges supprimés.
+  Édition de lot, création d’emplacement, regroupement de deux semaines, panier et
+  double confirmation d’achat vérifiés. Le conteneur de test a été arrêté ; aucun
+  volume ni aucune donnée de l’installation existante n’ont été utilisés.
+- Migration additive 0008 : lots, quantités, liens et journal conservés. Aucun
+  ingrédient du catalogue n’est renommé par l’édition du nom d’un lot.
+- Limite explicite : le regroupement est une vue en ligne et imprimable ; la copie
+  hors connexion reste mono-semaine. Le regroupement peut être quitté sans supprimer
+  les listes sources. La recette visuelle et tactile reste manuelle.

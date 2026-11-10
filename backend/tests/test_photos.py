@@ -156,4 +156,4 @@ def test_photos_survive_backup_restore_and_recipe_deletion_cascades(tmp_path):
     with sqlite3.connect(path) as db:
         assert db.execute('SELECT length(data) FROM recipe_photos').fetchone()[0]>0
         assert not db.execute('PRAGMA foreign_key_check').fetchall()
-        assert db.execute('SELECT version_num FROM alembic_version').fetchone()[0]=='0007'
+        assert db.execute('SELECT version_num FROM alembic_version').fetchone()[0]=='0008'

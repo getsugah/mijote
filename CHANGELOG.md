@@ -1,5 +1,14 @@
 # Journal de Mijote
 
+## Réserves modifiables et courses regroupées
+
+- Édition du nom propre à un lot, de sa quantité, de l’unité compatible, de l’emplacement et de la date ; catalogue des ingrédients et recettes inchangés.
+- Emplacements persistants, visibles sans saisie dans un sélecteur, créables même vides ; filtre des réserves par emplacement.
+- Regroupement à la demande de deux à douze semaines, addition des ingrédients communs et conservation des listes sources et des réservations.
+- Panier et achats regroupés transactionnels et idempotents, gestion des remplacements et articles non trouvés ; impression des semaines sélectionnées.
+- Protection contre les fiches ou listes devenues anciennes ; migration additive 0008 conservant lots, quantités et mouvements.
+- Copie hors connexion inchangée, limitée à une semaine ; regroupement disponible en ligne et à l’impression.
+
 ## Repas composés, accompagnements et impression des courses
 
 - Accompagnement choisi parmi les recettes ou directement dans le répertoire d’ingrédients avec quantité totale et unité.

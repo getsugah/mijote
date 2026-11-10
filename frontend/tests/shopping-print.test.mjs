@@ -37,3 +37,12 @@ test('printing an empty shopping list shows a clear message', async () => {
   assert.match(html, /Rien à acheter/)
   assert.doesNotMatch(html, /<table/)
 })
+
+test('combined shopping printing lists the selected weeks instead of a misleading single-week range', async () => {
+  const html = await renderToString(createSSRApp(component, { start: '2026-11-09', weeks: ['2026-11-09', '2026-11-23'], items: [{ key: 'selection-1', name: 'Riz de test', quantity: 250, unit: 'g', checked: true, manual_id: null, ingredient_id: 1 }] }))
+  assert.match(html, /Semaines regroupées/)
+  assert.match(html, /09\/11\/2026/)
+  assert.match(html, /23\/11\/2026/)
+  assert.match(html, /250 g/)
+  assert.doesNotMatch(html, /15 novembre 2026/)
+})

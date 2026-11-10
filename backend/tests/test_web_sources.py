@@ -130,4 +130,4 @@ def test_migration_preserves_existing_recipes(tmp_path):
     with connect(path) as db:
         assert db.execute('SELECT name FROM recipes').fetchone()[0] == 'Recette fictive'
         assert db.execute('SELECT COUNT(*) FROM web_sources').fetchone()[0] == 0
-        assert db.execute('SELECT version_num FROM alembic_version').fetchone()[0] == '0007'
+        assert db.execute('SELECT version_num FROM alembic_version').fetchone()[0] == '0008'

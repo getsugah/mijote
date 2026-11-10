@@ -5,13 +5,13 @@ export interface Line { ingredient_id: number; quantity: number; unit: Unit; nam
 export interface Recipe { photo_version?: string | null; photo_source?: string | null; photo_attribution?: string | null; favorite?: number; to_try?: number; rating?: string; category?: string; comment?: string; variant?: string; id: number; name: string; kind: 'simple' | 'improvise' | 'recette'; portions: number; steps: string; minutes: number; source_url: string; source_author: string; ingredient_notes: string; ingredients: Line[] }
 export interface MealDish { course?: 'entree' | 'plat' | 'dessert'; recipe_id: number | null; ingredient_id: number | null; title: string; quantity: number | null; unit: Unit | null; name?: string }
 export interface Meal { id: number; day: string; slot: 'midi' | 'soir'; status: Status; title: string; recipe_id: number | null; side_id: number | null; side_ingredient?: Line | null; dishes?: MealDish[]; portions: number; prepared: number; preparation_id?: string | null; recipe_name: string | null; side_name: string | null }
-export interface Stock { id: number; ingredient_id: number; name: string; location: string; quantity: number; unit: Unit; expires: string | null }
-export interface Shopping { key: string; manual_id: number | null; ingredient_id: number; name: string; quantity: number; unit: Unit; checked: boolean }
+export interface Stock { version: string; label: string; ingredient_name: string;  id: number; ingredient_id: number; name: string; location: string; quantity: number; unit: Unit; expires: string | null }
+export interface Shopping { version?: string; partially_checked?: boolean; sources?: { week_start: string; key: string; checked: boolean }[];  key: string; manual_id: number | null; ingredient_id: number; name: string; quantity: number; unit: Unit; checked: boolean }
 export interface Presence { day: number; slot: 'midi' | 'soir'; status: Status }
 export interface Settings { portions: number; presence: Presence[] }
 export interface Need { ingredient_id: number; name: string; unit: Unit; required: number; reserved: number; missing: number }
 export interface Dashboard {
-  week: { start: string; meals: Meal[] }; settings: Settings; recipes: Recipe[]; ingredients: Ingredient[]; stock: Stock[];
+  locations: string[]; weeks: string[]; week: { start: string; meals: Meal[] }; settings: Settings; recipes: Recipe[]; ingredients: Ingredient[]; stock: Stock[];
   shopping: { items: Shopping[]; needs: { items: Need[]; meals: { meal_id: number; ingredients: { ingredient_id: number; required: number }[] }[] } };
   movements: { id: number; name: string; delta: number; unit: Unit; reason: string; created: string }[]
 }

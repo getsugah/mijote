@@ -237,3 +237,15 @@ native et isoler les feuilles menu/courses ; tester quantités, cases et liste v
 Classer les ajouts en Entrée/Plat/Dessert, conserver ce classement dans les copies
 et l’historique, et afficher les groupes dans l’ordre culinaire au calendrier et
 à l’impression. Le plat principal et son accompagnement restent dans le groupe Plat.
+
+## Réserve et regroupement de courses — demande ciblée
+
+Réutiliser les lots et mouvements : nom local au lot, quantité, unité compatible,
+emplacement et date modifiables sans renommer le catalogue. Migration additive
+pour les emplacements persistants et le nom local ; aucune suppression de données.
+Sélecteur d’emplacements partagé avec création et filtre de réserve.
+Regroupement explicite de deux à douze semaines, conservant leurs listes sources,
+leurs réservations et leur historique. Sommes en milli-unités, panier agrégé,
+validation transactionnelle et achat idempotent. Impression multi-semaines ; la
+copie hors connexion reste explicitement mono-semaine. Tester migrations, stock,
+réservations, concurrence, achats répétés, substitutions, impression et formulaires.
