@@ -253,3 +253,7 @@ réservations, concurrence, achats répétés, substitutions, impression et form
 ## Emplacements et apparence
 
 Renommer les emplacements et supprimer avec transfert des lots vers un autre emplacement, sans toucher aux quantités ni au journal. Ajouter une variante sombre aubergine/orange mémorisée par navigateur. Vérifier API sur base isolée, tests frontend et compilation TypeScript/Vite ; contrôle visuel manuel.
+
+## Application de la maquette validée
+
+Sauvegarde cohérente privée de l’instance active vérifiée avant modification. Changer uniquement le frontend : planning en lignes midi/soir, panneau de détail, navigation et listes compactes, thèmes clair/sombre. Réutiliser les API, formulaires de confirmation, photos locales et données existantes ; aucune migration ni modification de schéma, aucun remplacement de données. Tester avec fixtures fictives et sauvegarde/restauration sur bases temporaires. Validation graphique manuelle avant mise à jour de l’instance familiale.

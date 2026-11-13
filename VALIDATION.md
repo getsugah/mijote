@@ -390,3 +390,13 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
 - Tests stock et annulation : 16 réussis sur bases temporaires, dont renommage, transfert lors de la suppression, conflits de noms et conservation du journal.
 - Frontend : 53 tests réussis ; compilation TypeScript/Vite réussie.
 - Validation visuelle manuelle restante : dans Mes réserves, renommer puis supprimer un emplacement avec transfert ; dans Mon organisation, choisir le sombre et recharger, vérifier planning, recettes, courses et mobile.
+
+## Interface de la maquette intégrée
+
+- Sauvegarde cohérente privée de l’instance active réalisée avant les changements ; intégrité SQLite, clés étrangères et empreintes SHA-256 vérifiées. Sources et configuration également conservées. La sauvegarde n’a pas été restaurée sur l’instance familiale.
+- Backend, schéma, migrations et configuration du volume Docker inchangés. Les actions et formulaires existants restent utilisés pour les achats, les stocks, la préparation et son annulation.
+- Frontend : 57 tests réussis, dont 4 nouveaux tests de rendu sur les quatorze créneaux, les plats et accompagnements, les photos, les repas hors maison, les états préparés/hors connexion et la conservation des données de présentation.
+- Backend : 49 tests ciblés réussis (sauvegarde/restauration, photos, édition de stock, règles de consommation et annulation) sur bases temporaires fictives. Avertissement préexistant de dépréciation Starlette/httpx.
+- Compilation Vue/TypeScript/Vite réussie. Contrôle de confidentialité et vérification du diff effectués.
+- Aperçu intégré préparé dans le dossier de preuve de concept avec création vérifiée d’une maison fictive neuve. Aucun serveur de test laissé actif.
+- Validation manuelle restante : planning en lignes et panneau de détail sur ordinateur ; affichage téléphone, navigation et formulaires ; recettes et photos existantes ; clair/sombre ; impression hebdomadaire et courses. Pas d’automatisation graphique. Instance familiale non mise à jour.

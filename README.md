@@ -41,6 +41,16 @@ La provenance du nom, du logo SVG et des variantes PNG est documentée dans
 Les recettes, photos et autres contenus personnels ajoutés ou importés ne sont
 pas couverts par cette licence du projet et restent exclus de sa publication.
 
+## Nouvelle présentation
+
+L’interface reprend le planning en lignes midi/soir et la palette aubergine/violet de la maquette. Sur ordinateur, sélectionner un créneau affiche ses détails à droite ; **Modifier le repas** ouvre le formulaire existant. Sur téléphone, toucher le créneau ouvre directement ce formulaire. Le menu supérieur donne aussi accès aux suggestions, à l’historique et aux paramètres.
+
+Les miniatures proviennent des photos déjà enregistrées pour vos recettes. Une marmite remplace les photos absentes. Les repas au travail ou à l’extérieur conservent leurs choix enregistrés sans les afficher comme des repas à cuisiner.
+
+Cette évolution ne contient **aucune migration de base** : recettes, photos, ingrédients, stocks, historiques et plannings sont conservés. Les actions de préparation et d’achat nécessitent toujours leur confirmation. Faire une sauvegarde cohérente avec la procédure **Sauvegarder et restaurer** avant de mettre à jour une installation utilisée. Conserver le volume Docker existant ; ne pas réinitialiser la maison.
+
+Les anciens libellés **Mes réserves**, **Mes courses** et **Mon organisation** correspondent maintenant à **Stocks**, **Courses** et **Paramètres**. Les fonctions décrites ci-dessous restent disponibles.
+
 ## Organiser les repas et les courses
 
 - Planning sur sept jours, midi et soir, selon un modèle de présence modifiable.

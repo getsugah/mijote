@@ -37,3 +37,7 @@ licence de marque.
 Les photos de recettes importées ou ajoutées par les utilisateurs restent leurs
 contenus privés et ne font pas partie de ces visuels distribués. Leurs droits et
 attributions restent distincts de ceux du code et du logo de Mijote.
+
+## Marmite de la nouvelle interface
+
+`frontend/public/marmite.svg` est un pictogramme vectoriel orange dessiné localement avec Codex pour la preuve de concept, puis réutilisé dans l’interface. Il ne contient aucune photographie ni extrait de la capture de référence. Les photos de démonstration de la maquette ne sont pas intégrées à l’application ; celle-ci utilise les photos privées déjà associées aux recettes. Les icônes PWA existantes sont conservées.

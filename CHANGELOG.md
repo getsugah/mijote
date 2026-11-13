@@ -1,5 +1,17 @@
 # Journal de Mijote
 
+## Interface de la maquette
+
+- Journée en cours surlignée sur toute la ligne en ambre, avec badge « Aujourd’hui », en clair et en sombre.
+- Suggestions en lignes pleine largeur, textes avec retour à la ligne et bouton sous le texte sur petit écran.
+
+- Planning en sept lignes midi/soir, photos des recettes et panneau du repas sélectionné ; liste verticale et navigation compacte sur téléphone.
+- Navigation aubergine/violet, marmite orange, recettes et réserves compactes, filtres directs et photos dans les suggestions.
+- Consultation du planning sans modification des repas ; formulaires et confirmations existants pour éditer, préparer ou acheter.
+- Thème sombre accordé à la nouvelle palette ; impression et courses hors connexion conservées.
+- Aucun changement du backend, du schéma SQLite ou des données ; sauvegarde cohérente de l’instance effectuée avant les travaux.
+
+
 ## Emplacements et mode sombre
 
 - Renommage des emplacements et suppression avec transfert des articles vers un autre emplacement ; quantités et historique préservés.

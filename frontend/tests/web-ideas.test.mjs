@@ -6,7 +6,8 @@ import { parse, compileScript } from '@vue/compiler-sfc'
 import { effectScope } from 'vue'
 
 const moduleUrl = code => 'data:text/javascript;base64,' + Buffer.from(code).toString('base64')
-const stub = moduleUrl('export async function api(...args) { return globalThis.webIdeaTestApi(...args) }')
+const realApi = moduleUrl(ts.transpileModule(readFileSync(new URL('../src/api.ts', import.meta.url), 'utf8'), { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText)
+const stub = moduleUrl(`export async function api(...args) { return globalThis.webIdeaTestApi(...args) }; export { photoUrl } from ${JSON.stringify(realApi)}`)
 const { descriptor } = parse(readFileSync(new URL('../src/ComfortPanel.vue', import.meta.url), 'utf8'))
 const script = compileScript(descriptor, { id: 'web-ideas-unit' })
 const code = ts.transpileModule(script.content, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText

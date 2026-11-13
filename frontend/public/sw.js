@@ -1,5 +1,5 @@
 /* Cache only public application files. Opt-in private shopping data lives in IndexedDB. */
-const CACHE = 'mijote-shell-v2';
+const CACHE = 'mijote-shell-v3';
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
@@ -7,7 +7,7 @@ self.addEventListener('install', event => {
     if (!response.ok) throw new Error('Application shell unavailable');
     const html = await response.clone().text();
     const assets = [...html.matchAll(/(?:src|href)=["'](\/assets\/[^"']+)["']/g)].map(match => match[1]);
-    await cache.addAll(['/icon.svg', '/manifest.webmanifest', ...assets]);
+    await cache.addAll(['/icon.svg', '/marmite.svg', '/manifest.webmanifest', ...assets]);
     await cache.put('/', response);
   })());
 });
