@@ -384,3 +384,9 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
 - Limite explicite : le regroupement est une vue en ligne et imprimable ; la copie
   hors connexion reste mono-semaine. Le regroupement peut être quitté sans supprimer
   les listes sources. La recette visuelle et tactile reste manuelle.
+
+## Emplacements et apparence
+
+- Tests stock et annulation : 16 réussis sur bases temporaires, dont renommage, transfert lors de la suppression, conflits de noms et conservation du journal.
+- Frontend : 53 tests réussis ; compilation TypeScript/Vite réussie.
+- Validation visuelle manuelle restante : dans Mes réserves, renommer puis supprimer un emplacement avec transfert ; dans Mon organisation, choisir le sombre et recharger, vérifier planning, recettes, courses et mobile.

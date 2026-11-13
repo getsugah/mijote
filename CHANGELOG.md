@@ -1,5 +1,11 @@
 # Journal de Mijote
 
+## Emplacements et mode sombre
+
+- Renommage des emplacements et suppression avec transfert des articles vers un autre emplacement ; quantités et historique préservés.
+- Variante sombre aubergine et orange, sélectionnable dans Mon organisation et mémorisée sur l’appareil.
+
+
 ## Réserves modifiables et courses regroupées
 
 - Édition du nom propre à un lot, de sa quantité, de l’unité compatible, de l’emplacement et de la date ; catalogue des ingrédients et recettes inchangés.

@@ -113,3 +113,34 @@ def test_backup_keeps_custom_names_and_empty_locations(tmp_path):
         assert db.execute('SELECT label,quantity,location FROM stock WHERE id=?', (lot,)).fetchone() == ('Bocal de test', 75000, 'Cellier')
         assert db.execute("SELECT COUNT(*) FROM stock_locations WHERE name='Étagère de test'").fetchone()[0] == 1
         assert not db.execute('PRAGMA foreign_key_check').fetchall()
+
+
+def test_rename_and_delete_location_transfer_lots_and_keep_history(client):
+    ident, _, _ = seed(client)
+    lot = call(client, 'post', '/stock', {'ingredient_id': ident, 'quantity': 100, 'unit': 'g'})['id']
+    before = dashboard(client)
+    call(client, 'patch', '/locations/Placard', {'name': '  Garde   manger '})
+    renamed = dashboard(client)
+    assert renamed['stock'][0]['location'] == 'Garde manger'
+    assert renamed['stock'][0]['version'] != before['stock'][0]['version']
+    assert 'Placard' not in renamed['locations']
+    call(client, 'delete', '/locations/Garde%20manger', {'name': 'Réfrigérateur'})
+    after = dashboard(client)
+    assert after['stock'][0]['id'] == lot
+    assert after['stock'][0]['quantity'] == 100
+    assert after['stock'][0]['location'] == 'Réfrigérateur'
+    assert after['movements'] == before['movements']
+    assert 'Garde manger' not in after['locations']
+
+
+def test_location_conflicts_and_invalid_deletions_are_atomic(client):
+    seed(client)
+    before = dashboard(client)
+    call(client, 'patch', '/locations/Placard', {'name': 'RÉFRIGÉRATEUR'}, expected=409)
+    call(client, 'patch', '/locations/Placard', {'name': '   '}, expected=422)
+    call(client, 'delete', '/locations/Placard', {'name': 'Placard'}, expected=422)
+    call(client, 'delete', '/locations/Placard', {'name': 'Inconnu'}, expected=422)
+    call(client, 'patch', '/locations/Inconnu', {'name': 'Autre'}, expected=404)
+    assert dashboard(client)['locations'] == before['locations']
+    call(client, 'patch', '/locations/Placard', {'name': 'PLACARD'})
+    assert 'PLACARD' in dashboard(client)['locations']

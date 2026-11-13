@@ -66,6 +66,10 @@ Le sélecteur affiche tous les emplacements sans devoir taper. **Nouvel emplacem
 permet d’en enregistrer un, même vide. Le même choix est proposé à l’ajout d’un
 aliment et lors de la confirmation des achats.
 
+**Gérer les emplacements** permet de renommer un emplacement ou de le supprimer après avoir choisi où déplacer ses articles, y compris les lots épuisés conservés dans l’historique. Les quantités restent identiques.
+
+Dans **Mon organisation → Apparence**, choisissez la palette claire ou sa variante sombre aubergine et orange. Le choix est conservé dans ce navigateur.
+
 Dans **Mes courses**, **Regrouper des semaines** permet de sélectionner de deux à
 douze semaines déjà créées. Les aliments communs sont additionnés sans compter
 deux fois les réserves. Les listes d’origine restent conservées. Le panier, la

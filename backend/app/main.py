@@ -429,6 +429,14 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     def create_location(data: m.Location, db=Depends(database)):
         return {'name': locations.ensure(db, data.name)}
 
+    @app.patch(api + '/locations/{original}', dependencies=access)
+    def rename_location(original: str, data: m.Location, db=Depends(database)):
+        return locations.change(db, original, data.name)
+
+    @app.delete(api + '/locations/{original}', dependencies=access)
+    def delete_location(original: str, data: m.Location, db=Depends(database)):
+        return locations.change(db, original, data.name, remove=True)
+
     @app.post(api + '/shopping/selection', dependencies=access)
     def shopping_selection(data: m.ShoppingSelection, db=Depends(database)):
         return shopping_groups.selection(db, data.weeks)

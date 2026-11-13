@@ -249,3 +249,7 @@ leurs réservations et leur historique. Sommes en milli-unités, panier agrégé
 validation transactionnelle et achat idempotent. Impression multi-semaines ; la
 copie hors connexion reste explicitement mono-semaine. Tester migrations, stock,
 réservations, concurrence, achats répétés, substitutions, impression et formulaires.
+
+## Emplacements et apparence
+
+Renommer les emplacements et supprimer avec transfert des lots vers un autre emplacement, sans toucher aux quantités ni au journal. Ajouter une variante sombre aubergine/orange mémorisée par navigateur. Vérifier API sur base isolée, tests frontend et compilation TypeScript/Vite ; contrôle visuel manuel.

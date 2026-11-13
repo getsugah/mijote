@@ -146,3 +146,28 @@
 
 .location-choice { margin: 0 0 1rem; display: grid; gap: .35rem; }
 .location-choice > .text-button { justify-self: start; }
+
+.location-manager{margin:0 0 20px}.location-manager form{margin-bottom:24px}.location-manager fieldset>label{margin-top:20px}
+/* The dark variant keeps Mijote's aubergine and warm orange identity. */
+@media screen {
+  :root[data-appearance="dark"]{color-scheme:dark;color:#f0e5ee;background:#211923;--plum:#bca0c4;--orange:#d8793c;--muted:#b8a7b6;--line:#514052;--cream:#211923;--green:#a1c9a7}
+  :root[data-appearance="dark"] body{background:#211923;color:#f0e5ee}
+  :root[data-appearance="dark"] :is(.sidebar,.auth-story){background-color:#38203e}
+  :root[data-appearance="dark"] :is(.meal-card,.recipe-card,.stock-location,.shopping-list,.settings-card,.ingredient-panel,.comfort-panel,.comfort-card,.shopping-preview,dialog){background:#302533;border-color:var(--line);color:#f0e5ee}
+  :root[data-appearance="dark"] :is(input,select,textarea,.secondary){background:#382c3b;border-color:#69506b;color:#f0e5ee}
+  :root[data-appearance="dark"] :is(input,textarea)::placeholder{color:#b8a7b6}
+  :root[data-appearance="dark"] :is(h1,h2,h3,h4,label,summary,.stock-line,.movement,.meal-slot,.meal-menu-group strong,.recipe-body,.shopping-line b){color:#f0e5ee}
+  :root[data-appearance="dark"] :is(p,small,.hint,.eyebrow,.empty-dish,.presence-title,.today-label,.quiet-note){color:#c8b6c6}
+  :root[data-appearance="dark"] :is(.planning-note,.shopping-summary,.inline-help,.inline-ingredient,.purchase-item,.ingredient-tags>div,.list-heading h3 span,.empty-icon,.round-icon){background:#403044;border-color:#69506b;color:#edd3bd}
+  :root[data-appearance="dark"] :is(.recipe-cover,.recipe-cover.simple,.recipe-cover.improvise){background:#47384a;color:#d9b9a0}
+  :root[data-appearance="dark"] .empty{background:#302533;border-color:#69506b}
+  :root[data-appearance="dark"] :is(.stock-line,.shopping-line,.movement){border-color:var(--line)}
+  :root[data-appearance="dark"] :is(.meal-card.filled,.shopping-line.checked){background:#303b32}
+  :root[data-appearance="dark"] .meal-card:not(.filled){background:#302533}
+  :root[data-appearance="dark"] :is(.text-button,.icon-button,.ingredient-tags button:not(.icon-button)){color:#e4b6d9}
+  :root[data-appearance="dark"] :is(.secondary,.icon-button):hover:not(:disabled){background:#4c3950}
+  :root[data-appearance="dark"] :is(.alert,.alert.error){background:#493039;border-color:#996170;color:#ffe1d9}
+  :root[data-appearance="dark"] .alert.success{background:#293e30;border-color:#5e8b67;color:#d7f2dd}
+  :root[data-appearance="dark"] :is(.expired,.holiday-name){color:#ffb695}
+  :root[data-appearance="dark"] .sidebar .brand>span{color:white}
+}
