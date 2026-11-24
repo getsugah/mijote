@@ -1,16 +1,16 @@
-# Vérification manuelle — Phase A
+# Vérification manuelle
 
 Cette recette complète les tests métier et HTTP. Aucun navigateur ni clic n’est
 automatisé. Utiliser une maison de test si les données réelles ne doivent pas changer.
 
-## Ordinateur : Chrome sous Debian/GNOME
+## Phase A — Ordinateur : Chrome sous Debian/GNOME
 
 1. Ouvrir l’application, créer le compte et vérifier la lisibilité des messages.
-2. Dans l’organisation, définir quatre portions et les midis travaillés habituels.
+2. Dans Paramètres, définir quatre portions et les midis travaillés habituels.
 3. Passer à une nouvelle semaine pour constater l’application du modèle. Revenir
    sur un midi travaillé et le passer maison : le modèle doit rester inchangé.
 4. Créer « Riz » au poids puis une recette de quatre portions utilisant 200 g.
-   Ajouter 50 g aux réserves et planifier la recette : les courses indiquent 150 g.
+   Ajouter 50 g aux stocks et planifier la recette : les courses indiquent 150 g.
 5. Passer temporairement ce repas hors maison puis revenir maison : le plat est
    conservé et les besoins disparaissent puis reviennent, sans mouvement de stock.
 6. Cocher l’article : le stock reste 50 g. Terminer les courses avec 150 g réellement
@@ -20,7 +20,7 @@ automatisé. Utiliser une maison de test si les données réelles ne doivent pas
 8. Vérifier les formulaires au clavier, le focus des dialogues, les erreurs, la
    suppression refusée d’une recette utilisée et la déconnexion.
 
-## Android : Chrome
+## Phase A — Android : Chrome
 
 1. Accéder au serveur sur le réseau privé ou son URL HTTPS ; vérifier le planning
    vertical midi/soir, la navigation inférieure et les zones tactiles.
@@ -40,7 +40,7 @@ et fonctions avancées restent hors de cette recette initiale ; les ajouts sont 
 - Afficher la semaine du 9 novembre 2026 : le 11 novembre porte un en-tête coloré
   et le libellé Armistice 1918. Vérifier que les statuts maison/travail restent ceux choisis.
 - Tester une semaine de Pâques et une semaine chevauchant le nouvel an.
-- Cliquer **Imprimer la semaine** et vérifier l’aperçu A4 paysage : 7 jours,
+- Dans Menus, cliquer **Imprimer** et vérifier l’aperçu A4 paysage : 7 jours,
   midi et soir, plats, accompagnements et portions, sans navigation ni formulaires.
 - Un créneau au travail affiche son statut même si une recette y est conservée.
 - Vérifier aussi les titres longs, une semaine vide et l’enregistrement au format PDF.
@@ -48,7 +48,7 @@ et fonctions avancées restent hors de cette recette initiale ; les ajouts sont 
 
 ## Import URL et collage (0.2.0)
 
-1. Dans Mes recettes, choisir Importer une recette et un lien public. Vérifier
+1. Dans Recettes, choisir Importer une recette et un lien public. Vérifier
    que la prévisualisation ne crée encore ni recette ni ingrédient.
 2. Vérifier portions, durée et étapes. Associer un ingrédient existant ; vérifier
    qu’une ligne sans quantité reste décochée et conservée en texte original.
@@ -67,9 +67,9 @@ et fonctions avancées restent hors de cette recette initiale ; les ajouts sont 
 2. Confirmer un repas préparé puis consulter Historique. Replanifier dans un créneau
    maison vide ; vérifier que le nouveau repas n’est pas déjà préparé et qu’aucun
    stock n’est consommé à sa planification.
-3. Dans Ma semaine, ouvrir Des idées, comparer les quatre modes et leurs raisons,
+3. Ouvrir Suggestions, comparer les quatre modes et leurs raisons,
    puis Une autre idée. Une recette « Ne plus proposer » ne doit plus être suggérée.
-4. Ouvrir Copier un menu, choisir une semaine existante et examiner l’aperçu. Vérifier
+4. Dans Menus, ouvrir Copier une semaine, choisir une semaine existante et examiner l’aperçu. Vérifier
    que travail, extérieur, repas existants et préparations sont conservés.
 5. Sur Android, enregistrer la liste à emporter, garder l’onglet ouvert sur HTTP local,
    couper le réseau, cocher et ajouter un article personnel, modifier sa quantité.
@@ -118,17 +118,17 @@ n’est automatisé. Les tests automatisés couvrent la réception HTTP et le fo
    les tests ; ne pas utiliser les données du foyer comme jeux de test.
 
 
-## Réserves et courses de plusieurs semaines
+## Stocks et courses de plusieurs semaines
 
-1. Dans Mes réserves, ouvrir un lot et modifier son nom, sa quantité, son emplacement
+1. Dans Stocks, ouvrir un lot et modifier son nom, sa quantité, son emplacement
    et sa date. Vérifier que les recettes gardent le nom de leur ingrédient associé.
 2. Ouvrir le sélecteur d’emplacements sans taper : les choix sont visibles. Créer
    un nouvel emplacement, recharger puis le sélectionner dans le filtre et dans
-   un ajout de réserve. Un emplacement vide doit rester disponible.
-3. Prévoir le même ingrédient sur deux semaines puis ouvrir Mes courses et
+   un ajout de stock. Un emplacement vide doit rester disponible.
+3. Prévoir le même ingrédient sur deux semaines puis ouvrir Courses et
    Regrouper des semaines. Choisir ces semaines et vérifier le total manquant.
 4. Cocher un article regroupé puis vérifier la présence dans les paniers des
-   semaines sources. Cocher ne doit ajouter aucune réserve.
+   semaines sources. Cocher ne doit ajouter aucun stock.
 5. Confirmer un achat, éventuellement avec une quantité différente ou un article
    non trouvé. Vérifier le stock, les courses recalculées et l’absence de doublon
    si la confirmation est rejouée après une interruption réseau.

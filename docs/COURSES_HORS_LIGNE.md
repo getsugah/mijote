@@ -1,6 +1,6 @@
 # Emporter les courses — version 0.3.0
 
-Dans **Mes courses**, ouvrir **Emporter ma liste / courses hors connexion**, puis
+Dans **Courses**, ouvrir **Emporter ma liste / courses hors connexion**, puis
 **Enregistrer la liste de la semaine**. Ce choix conserve une copie privée sur
 l’appareil : liste, répertoire d’ingrédients utile et modifications en attente.
 Ni mot de passe, ni jeton de session, ni planning complet ne sont enregistrés dans
