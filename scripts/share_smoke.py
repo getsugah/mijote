@@ -10,7 +10,7 @@ from urllib.error import HTTPError
 def main():
     base = sys.argv[1].rstrip('/')
     parsed = urlsplit(base)
-    if parsed.scheme != 'http' or parsed.hostname != '127.0.0.1' or not parsed.port or parsed.port == 8080 or parsed.path:
+    if parsed.scheme != 'http' or parsed.hostname != '127.0.0.1' or not parsed.port or parsed.port in (8080, 8095) or parsed.path:
         raise SystemExit('Utiliser une instance isolée sur loopback et un port de validation distinct.')
     def initialized():
         with urlopen(base+'/api/v1/auth/status') as response:

@@ -12,7 +12,7 @@ from uuid import uuid4
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('url', nargs='?', default='http://127.0.0.1:8080')
+    parser.add_argument('url', nargs='?', default='http://127.0.0.1:8095')
     parser.add_argument('--scenario', action='store_true', help='Create test data only if the household is uninitialized')
     args = parser.parse_args()
     base = args.url.rstrip('/')

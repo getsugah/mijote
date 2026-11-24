@@ -1,5 +1,11 @@
 # Journal de Mijote
 
+## Port par défaut 8095
+
+- `compose.yaml`, `.env.example`, `install.sh` et les origines de secours de l’API utilisent 8095 par défaut, comme l’installation guidée. Un `.env` qui définit déjà `MIJOTE_PORT` reste inchangé.
+- Les scripts de validation refusent désormais les ports 8080 et 8095 ; `scripts/smoke.py` vise 8095 par défaut.
+- README raccourci ; documentation répartie dans `docs/`.
+
 ## Tags et propositions à valider
 
 - Module Python déterministe proposant un titre de présentation et des tags à partir des ingrédients, du titre et du temps saisis, sans IA ni écriture pendant la prévisualisation.

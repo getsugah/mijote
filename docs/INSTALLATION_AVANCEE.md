@@ -78,8 +78,8 @@ docker compose ps
 ```
 
 Cette méthode utilise les valeurs de `.env.example` : écoute sur `127.0.0.1` et port
-**8080** (variable `MIJOTE_PORT`). Ouvrir `http://localhost:8080`, puis créer le compte
-familial. Pour utiliser le port 8095 comme `install.sh`, modifier `MIJOTE_PORT` et
+**8095** (variable `MIJOTE_PORT`), comme `install.sh`. Ouvrir `http://localhost:8095`,
+puis créer le compte familial. Pour un autre port, modifier `MIJOTE_PORT` et
 `MIJOTE_ALLOWED_ORIGINS` dans `.env` avant le démarrage.
 
 Les commandes Docker peuvent nécessiter `sudo`. Un seul service sert l’interface et

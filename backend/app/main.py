@@ -21,7 +21,7 @@ from .db import connect, migrate
 def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     path = db_path or Path(os.getenv('MIJOTE_DATA_DIR', './data')) / 'mijote.sqlite3'
     secure = secure_cookie if secure_cookie is not None else os.getenv('MIJOTE_SECURE_COOKIE', 'true').lower() == 'true'
-    origins = {x.strip().rstrip('/') for x in os.getenv('MIJOTE_ALLOWED_ORIGINS', 'http://localhost:8080,http://127.0.0.1:8080').split(',') if x.strip()}
+    origins = {x.strip().rstrip('/') for x in os.getenv('MIJOTE_ALLOWED_ORIGINS', 'http://localhost:8095,http://127.0.0.1:8095').split(',') if x.strip()}
     failures: dict[str, list[float]] = {}
     rate_lock = threading.Lock()
     dummy_hash = auth.password_hash('unusable-placeholder-password')

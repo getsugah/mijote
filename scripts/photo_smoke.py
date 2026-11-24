@@ -15,7 +15,7 @@ from PIL import Image
 def main():
     base=sys.argv[1].rstrip('/')
     target=urlsplit(base)
-    if target.scheme!='http' or target.hostname!='127.0.0.1' or not target.port or target.port==8080 or target.path:
+    if target.scheme!='http' or target.hostname!='127.0.0.1' or not target.port or target.port in (8080, 8095) or target.path:
         raise SystemExit('Utiliser une instance isolée sur loopback et un port distinct.')
     opener=build_opener(HTTPCookieProcessor(http.cookiejar.CookieJar()));csrf=''
     def call(path,method='GET',body=None,raw=None,expected=200):

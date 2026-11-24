@@ -94,9 +94,9 @@ fi
 compose config --quiet || fail 'Configuration Compose invalide. Vérifiez .env.'
 resolved=$(compose config --environment)
 value() { printf '%s\n' "$resolved" | sed -n "s/^$1=//p"; }
-port=$(value MIJOTE_PORT); port=${port:-8080}
+port=$(value MIJOTE_PORT); port=${port:-8095}
 bind=$(value MIJOTE_BIND); bind=${bind:-127.0.0.1}
-origins=$(value MIJOTE_ALLOWED_ORIGINS); origins=${origins:-http://localhost:8080}
+origins=$(value MIJOTE_ALLOWED_ORIGINS); origins=${origins:-http://localhost:8095}
 container=$(compose ps --all --quiet mijote)
 # Une relance peut réutiliser le port déjà publié par son propre conteneur.
 running=false
