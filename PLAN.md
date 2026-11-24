@@ -257,3 +257,11 @@ Renommer les emplacements et supprimer avec transfert des lots vers un autre emp
 ## Application de la maquette validée
 
 Sauvegarde cohérente privée de l’instance active vérifiée avant modification. Changer uniquement le frontend : planning en lignes midi/soir, panneau de détail, navigation et listes compactes, thèmes clair/sombre. Réutiliser les API, formulaires de confirmation, photos locales et données existantes ; aucune migration ni modification de schéma, aucun remplacement de données. Tester avec fixtures fictives et sauvegarde/restauration sur bases temporaires. Validation graphique manuelle avant mise à jour de l’instance familiale.
+
+## Propositions de recettes et tags
+
+Sauvegarde privée cohérente vérifiée avant modification. Ajouter un module Python déterministe de propositions sans écriture, deux tables SQLite additives (tags et liens recettes), validation explicite du titre/des tags/de la photo dans les formulaires manuels et d’import. Préserver les tags omis par les anciens clients et les photos non modifiées. Pas d’IA, pas de garantie alimentaire déduite ; photos du site source via les contrôles d’import existants. Vérifier migration, transactions, sauvegarde/restauration et rendu sur données fictives ; aperçu réseau séparé de l’instance familiale.
+
+## Recherche de titres et photos par API
+
+Intégrer TheMealDB V1 sur action de l’utilisateur : requête limitée au nom saisi, résultats avec titre original/photo/catégories et validation indépendante. Adaptation locale des noms français courants, recherche modifiable ; pas de traduction automatique des titres ni de remplacement des ingrédients. Téléchargements sécurisés existants, photos limitées au domaine et chemin officiels, attribution conservée. Aucun changement de schéma supplémentaire ni mise à jour de la base familiale.

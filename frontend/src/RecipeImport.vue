@@ -3,6 +3,8 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { api, ApiError, baseUnit, units, type Ingredient, type Unit } from './api'
 import Icon from './Icon.vue'
 import IngredientSuggestions from './IngredientSuggestions.vue'
+import RecipeSuggestions from './RecipeSuggestions.vue'
+import RecipeSearch from './RecipeSearch.vue'
 
 interface Suggestion { raw: string; name: string; quantity: number | null; unit: Unit | null; needs_review: boolean }
 interface Preview { image_url?: string; image_author?: string; name: string; portions: number | null; yield_text: string; minutes: number | null; steps: string; source_url: string; source_author: string; ingredient_notes: string; ingredients: Suggestion[]; warnings: string[]; method: string }
@@ -11,13 +13,13 @@ const props = defineProps<{ ingredients: Ingredient[]; initial?: { url: string; 
 const emit = defineEmits<{ close: []; saved: [id: number]; unauthorized: [] }>()
 const dialog = ref<HTMLDialogElement | null>(null), busy = ref(false), error = ref('')
 const mode = ref<'url' | 'text'>(props.initial && !props.initial.url ? 'text' : 'url'), url = ref(props.initial?.url || ''), pasted = ref(props.initial?.text || ''), preview = ref<Preview | null>(null), rows = ref<ImportRow[]>([])
-const confirmed = ref(false)
+const confirmed = ref(false), tags = ref<string[]>([])
 const confirmationId = ref('')
 const photo = ref<{ data_base64: string; source_url: string; attribution: string } | null>(null), keepPhoto = ref(false), photoWarning = ref('')
 async function loadPhoto() {
   photo.value = null; keepPhoto.value = false; photoWarning.value = ''
   if (!preview.value?.image_url) return
-  try { const value = await api('/recipes/import/photo/preview', 'POST', { url: preview.value.image_url, attribution: preview.value.image_author || preview.value.source_author || '' }); photo.value = { data_base64: value.data_base64, source_url: value.source_url, attribution: value.attribution }; keepPhoto.value = true }
+  try { const value = await api('/recipes/import/photo/preview', 'POST', { url: preview.value.image_url, attribution: preview.value.image_author || preview.value.source_author || '' }); photo.value = { data_base64: value.data_base64, source_url: value.source_url, attribution: value.attribution }; keepPhoto.value = false }
   catch (e) { if (e instanceof ApiError && e.status === 401) handleError(e); else photoWarning.value = 'Photo indisponible. Vous pouvez enregistrer la recette sans photo et en ajouter une depuis votre appareil.' }
 }
 async function retryPhoto() { if (busy.value) return; busy.value = true; try { await loadPhoto() } finally { busy.value = false } }
@@ -48,7 +50,7 @@ async function analyze() {
   busy.value = true; error.value = ''; confirmed.value = false
   try {
     const result = await api<Preview>('/recipes/import/preview', 'POST', { mode: mode.value, url: url.value, text: pasted.value })
-    preview.value = result
+    preview.value = result; tags.value = []
     photo.value = null; keepPhoto.value = false; photoWarning.value = ''
     confirmationId.value = operationId()
     rows.value = result.ingredients.map(line => {
@@ -66,7 +68,7 @@ async function save() {
     const p = preview.value
     const result = await api<{ id: number }>('/recipes/import/confirm', 'POST', { operation_id: confirmationId.value, recipe: {
       name: p.name, kind: 'recette', portions: Number(p.portions), minutes: Number(p.minutes), steps: p.steps,
-      source_url: p.source_url, source_author: p.source_author, ingredient_notes: p.ingredient_notes, ingredients: [],
+      source_url: p.source_url, source_author: p.source_author, ingredient_notes: p.ingredient_notes, ingredients: [], tags: tags.value,
     }, ...(keepPhoto.value && photo.value ? { photo: photo.value } : {}), items: rows.value.filter(row => row.include).map(row => ({ ingredient_id: row.ingredient_id,
       name: row.name, quantity: Number(row.quantity), unit: row.unit, allow_distinct: !!row.allow_distinct })) })
     emit('saved', result.id)
@@ -92,8 +94,8 @@ onUnmounted(() => dialog.value?.close())
       <template v-else>
         <div class="import-notice"><strong>Une dernière vérification avant de cuisiner</strong><p>Seules les lignes cochées ci-dessous serviront aux besoins et aux déductions de stock. Les autres restent dans le texte d’origine.</p></div>
         <ul v-if="preview.warnings.length" class="import-warnings"><li v-for="(warning, index) in preview.warnings" :key="index">{{ warning }}</li></ul>
-        <section v-if="preview.image_url" class="import-photo"><h3>Photo proposée par le site</h3><img v-if="photo" :src="'data:image/jpeg;base64,' + photo.data_base64" alt="Photo proposée pour la recette" class="photo-preview"><p v-if="photoWarning" class="hint" role="status">{{ photoWarning }}</p><template v-if="photo"><label class="check-label"><input v-model="keepPhoto" type="checkbox" :disabled="busy">Conserver cette photo avec la recette</label><label>Attribution fournie par le site<input v-model="photo.attribution" maxlength="300" :disabled="busy"></label><p class="photo-credit"><a :href="photo.source_url" target="_blank" rel="noopener noreferrer">Source de la photo</a></p></template><button v-else type="button" class="secondary small" @click="retryPhoto" :disabled="busy">Réessayer la photo</button></section>
-        <label>Nom de la recette<input v-model="preview.name" required maxlength="120" :disabled="busy"></label>
+        <section v-if="preview.image_url" class="import-photo"><h3>Photo proposée</h3><img v-if="photo" :src="'data:image/jpeg;base64,' + photo.data_base64" alt="Photo proposée pour la recette" class="photo-preview"><p v-if="photoWarning" class="hint" role="status">{{ photoWarning }}</p><template v-if="photo"><label class="check-label"><input v-model="keepPhoto" type="checkbox" :disabled="busy">Conserver cette photo avec la recette</label><label>Attribution fournie par le site<input v-model="photo.attribution" maxlength="300" :disabled="busy"></label><p class="photo-credit"><a :href="photo.source_url" target="_blank" rel="noopener noreferrer">Source de la photo</a></p></template><button v-else type="button" class="secondary small" @click="retryPhoto" :disabled="busy">Réessayer la photo</button></section>
+        <label>Nom de la recette<input v-model="preview.name" required maxlength="120" :disabled="busy"></label><RecipeSearch :name="preview.name" :ingredients="rows.map(row => row.name).filter(Boolean)" :tags="tags" :photo="keepPhoto ? photo : null" :disabled="busy" @name="preview.name = $event" @photo="photo = $event; keepPhoto = !!$event" @tags="tags = $event" @unauthorized="emit('unauthorized')" /><RecipeSuggestions :name="preview.name" :ingredients="rows.map(row => row.name).filter(Boolean)" :minutes="Number(preview.minutes) || 0" v-model="tags" :disabled="busy" :allow-photo="false" @name="preview.name = $event" @unauthorized="emit('unauthorized')" />
         <div class="form-row"><label>Portions de référence<input v-model.number="preview.portions" type="number" min="1" max="30" required placeholder="À préciser" :disabled="busy"><small v-if="preview.yield_text">Source : {{ preview.yield_text }}</small></label><label>Temps total (minutes)<input v-model.number="preview.minutes" type="number" min="0" max="1440" required placeholder="0 si inconnu" :disabled="busy"></label></div>
         <h3>Ingrédients et quantités <small>{{ selected }} ligne(s) incluse(s)</small></h3>
         <p class="hint">Associez chaque ligne à votre répertoire ou corrigez son nom pour créer un nouvel ingrédient. Les mesures non reconnues ne sont pas converties automatiquement.</p>

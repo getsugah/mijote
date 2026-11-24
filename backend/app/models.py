@@ -43,6 +43,19 @@ class Line(Input):
     unit: Unit
 
 
+class PhotoDraft(Input):
+    data_base64: str = Field(min_length=1, max_length=699052)
+    source_url: str = Field(default='', max_length=2000)
+    attribution: str = Field(default='', max_length=300)
+
+    @field_validator('source_url')
+    @classmethod
+    def valid_source(cls, value):
+        from .safe_fetch import validate_url
+        return validate_url(value).url if value else ''
+
+
+
 class Recipe(Input):
     name: Name
     kind: Literal['simple', 'improvise', 'recette'] = 'recette'
@@ -53,6 +66,15 @@ class Recipe(Input):
     source_author: str = Field(default='', max_length=300)
     ingredient_notes: str = Field(default='', max_length=12000)
     ingredients: list[Line] = Field(default_factory=list, max_length=100)
+    tags: list[Annotated[str, Field(min_length=1, max_length=50)]] = Field(default_factory=list, max_length=20)
+    photo: PhotoDraft | None = None
+
+    @field_validator('tags')
+    @classmethod
+    def valid_tags(cls, values):
+        from .recipe_advice import normalized_tags
+        return normalized_tags(values)
+
 
     @field_validator('source_url')
     @classmethod
@@ -69,6 +91,20 @@ class Recipe(Input):
         if len({line.ingredient_id for line in self.ingredients}) != len(self.ingredients):
             raise ValueError('Regrouper les quantités d’un même ingrédient.')
         return self
+
+
+class RecipeAdvice(Input):
+    name: str = Field(default='', max_length=120)
+    ingredients: list[Annotated[str, Field(min_length=1, max_length=120)]] = Field(default_factory=list, max_length=100)
+    minutes: int = Field(default=0, ge=0, le=1440)
+
+
+class RecipeSearch(Input):
+    query: str = Field(min_length=1, max_length=120)
+
+
+class MealDBPhoto(Input):
+    meal_id: str = Field(pattern=r'^[1-9][0-9]{0,11}$')
 
 
 class Presence(Input):
@@ -216,16 +252,6 @@ class ImportIngredient(Input):
         return self
 
 
-class PhotoDraft(Input):
-    data_base64: str = Field(min_length=1, max_length=699052)
-    source_url: str = Field(default='', max_length=2000)
-    attribution: str = Field(default='', max_length=300)
-
-    @field_validator('source_url')
-    @classmethod
-    def valid_source(cls, value):
-        from .safe_fetch import validate_url
-        return validate_url(value).url if value else ''
 
 
 class PhotoSource(Input):
@@ -247,7 +273,7 @@ class ImportConfirmation(Input):
 
     @model_validator(mode='after')
     def one_list(self):
-        if self.recipe.ingredients or self.recipe.kind != 'recette':
+        if self.recipe.ingredients or self.recipe.photo is not None or self.recipe.kind != 'recette':
             raise ValueError('Utiliser les lignes de confirmation pour la recette importée.')
         return self
 

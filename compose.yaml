@@ -6,6 +6,7 @@ services:
     ports:
       - "${MIJOTE_BIND:-127.0.0.1}:${MIJOTE_PORT:-8080}:8000"
     environment:
+      MIJOTE_THEMEALDB_KEY: "${MIJOTE_THEMEALDB_KEY:-1}"
       MIJOTE_SECURE_COOKIE: "${MIJOTE_SECURE_COOKIE:-false}"
       MIJOTE_ALLOWED_ORIGINS: "${MIJOTE_ALLOWED_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}"
     volumes:

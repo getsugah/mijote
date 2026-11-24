@@ -235,6 +235,29 @@ def create_app(db_path: Path | None = None, secure_cookie: bool | None = None):
     def recipe(data: m.Recipe, db=Depends(database)):
         return s.save_recipe(db, data)
 
+    @app.post(api + '/recipes/search/mealdb', dependencies=[Depends(preview_access)])
+    def mealdb_search(data: m.RecipeSearch):
+        from . import mealdb
+        from .safe_fetch import ImportProblem
+        try:
+            return mealdb.search(data.query)
+        except ImportProblem as error:
+            raise HTTPException(422, 'Recherche TheMealDB indisponible : ' + str(error)) from None
+
+    @app.post(api + '/recipes/search/mealdb/photo', dependencies=[Depends(preview_access)])
+    def mealdb_photo(data: m.MealDBPhoto):
+        from . import mealdb
+        from .safe_fetch import ImportProblem
+        try:
+            return mealdb.preview_photo(data.meal_id)
+        except ImportProblem as error:
+            raise HTTPException(422, 'Photo TheMealDB indisponible : ' + str(error)) from None
+
+    @app.post(api + '/recipes/advice', dependencies=[Depends(preview_access)])
+    def recipe_advice(data: m.RecipeAdvice):
+        from .recipe_advice import propose
+        return propose(data)
+
     @app.post(api + '/recipes/import/preview', dependencies=[Depends(preview_access)])
     def import_preview(data: m.ImportPreview):
         from .recipe_import import preview

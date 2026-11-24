@@ -90,13 +90,18 @@ def recipes(db):
     result = rows(db, '''SELECT r.*,p.digest AS photo_version,p.source_url AS photo_source,
       p.attribution AS photo_attribution FROM recipes r LEFT JOIN recipe_photos p ON p.recipe_id=r.id
       ORDER BY r.name COLLATE NOCASE''')
+    from .recipe_advice import tags_by_recipe
+    tags = tags_by_recipe(db)
     for recipe in result:
+        recipe['tags'] = tags.get(recipe['id'], [])
         recipe['ingredients'] = [display(r) for r in rows(db, '''SELECT ri.ingredient_id,ri.quantity,i.name,i.dimension
           FROM recipe_ingredients ri JOIN ingredients i ON i.id=ri.ingredient_id WHERE recipe_id=?''', (recipe['id'],))]
     return result
 
 
 def save_recipe(db, data, ident=None):
+    from . import photos
+    image = photos.from_draft(data.photo) if data.photo is not None else None
     converted = [(line.ingredient_id, quantity(db, line.ingredient_id, line.quantity, line.unit))
                  for line in data.ingredients]
     author, notes = data.source_author, data.ingredient_notes
@@ -114,6 +119,11 @@ def save_recipe(db, data, ident=None):
         db.execute('UPDATE recipes SET name=?,kind=?,portions=?,steps=?,minutes=?,source_url=?,source_author=?,ingredient_notes=? WHERE id=?', (*fields, ident))
         db.execute('DELETE FROM recipe_ingredients WHERE recipe_id=?', (ident,))
     db.executemany('INSERT INTO recipe_ingredients VALUES (?,?,?)', [(ident, i, q) for i, q in converted])
+    if 'tags' in data.model_fields_set:
+        from .recipe_advice import save_tags
+        save_tags(db, ident, data.tags)
+    if image is not None:
+        photos.save(db, ident, image, data.photo.source_url, data.photo.attribution)
     return {'id': ident}
 
 

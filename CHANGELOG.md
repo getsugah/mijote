@@ -1,5 +1,14 @@
 # Journal de Mijote
 
+## Tags et propositions à valider
+
+- Module Python déterministe proposant un titre de présentation et des tags à partir des ingrédients, du titre et du temps saisis, sans IA ni écriture pendant la prévisualisation.
+- Choix individuel des tags, tags personnels, suppression et filtre du carnet ; titre applicable séparément avant l’enregistrement.
+- Photo du site source proposée et prévisualisée dans l’éditeur ; enregistrement avec la recette uniquement après choix explicite. La photo proposée lors d’un import n’est plus cochée par défaut.
+- Migration additive 0009 : tables des tags et de leurs liens ; recettes, photos, stocks et historiques existants conservés, sans classement automatique.
+- Anciennes requêtes d’édition sans champ tags compatibles : elles conservent les tags existants. Validation transactionnelle des tags et de la photo.
+
+
 ## Interface de la maquette
 
 - Journée en cours surlignée sur toute la ligne en ambre, avec badge « Aujourd’hui », en clair et en sombre.

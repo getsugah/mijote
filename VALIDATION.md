@@ -400,3 +400,12 @@ exhaustif. Voir docs/LICENSE_AUDIT.md pour le périmètre et les limites de l’
 - Compilation Vue/TypeScript/Vite réussie. Contrôle de confidentialité et vérification du diff effectués.
 - Aperçu intégré préparé dans le dossier de preuve de concept avec création vérifiée d’une maison fictive neuve. Aucun serveur de test laissé actif.
 - Validation manuelle restante : planning en lignes et panneau de détail sur ordinateur ; affichage téléphone, navigation et formulaires ; recettes et photos existantes ; clair/sombre ; impression hebdomadaire et courses. Pas d’automatisation graphique. Instance familiale non mise à jour.
+
+## Tags et propositions validables
+
+- Nouvelle sauvegarde privée complète et cohérente de l’instance familiale vérifiée avant intervention. La base familiale n’a pas été migrée et aucun déploiement n’a été effectué.
+- Migration 0009 vérifiée sur données fictives : anciennes recettes, lots et journal inchangés ; nouvelles tables vides. Sauvegarde/restauration des tags et photos vérifiée.
+- Backend : 188 tests vérifiés, dont 7 nouveaux tests sur les propositions sans écriture, choix explicites, validation atomique, anciens clients, import idempotent, migration, restauration et protection authentification/CSRF. La suite complète a donné 187 réussites ; la dernière assertion historique de version de schéma a été adaptée à 0009 puis son test ciblé a réussi.
+- Frontend : 62 tests réussis, dont 5 nouveaux tests sur le caractère facultatif des propositions, les réponses tardives, les choix distincts de titre/tags/photo, les erreurs et les contrôles sans soumission implicite. Compilation TypeScript/Vite réussie.
+- Aperçu réseau sur base fictive : connexion avec origine distante, propositions sans modification du tableau de bord, enregistrement des seuls tags choisis et stocks/journal inchangés vérifiés par HTTP.
+- Validation manuelle Chrome restante : rendu et choix dans l’éditeur, import, photo d’un site public compatible, annulation, rechargement et filtre des tags. Aucune automatisation graphique.

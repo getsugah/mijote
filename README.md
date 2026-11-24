@@ -47,7 +47,7 @@ L’interface reprend le planning en lignes midi/soir et la palette aubergine/vi
 
 Les miniatures proviennent des photos déjà enregistrées pour vos recettes. Une marmite remplace les photos absentes. Les repas au travail ou à l’extérieur conservent leurs choix enregistrés sans les afficher comme des repas à cuisiner.
 
-Cette évolution ne contient **aucune migration de base** : recettes, photos, ingrédients, stocks, historiques et plannings sont conservés. Les actions de préparation et d’achat nécessitent toujours leur confirmation. Faire une sauvegarde cohérente avec la procédure **Sauvegarder et restaurer** avant de mettre à jour une installation utilisée. Conserver le volume Docker existant ; ne pas réinitialiser la maison.
+La refonte visuelle seule n’ajoute **aucune migration de base** : recettes, photos, ingrédients, stocks, historiques et plannings sont conservés. Les actions de préparation et d’achat nécessitent toujours leur confirmation. Faire une sauvegarde cohérente avec la procédure **Sauvegarder et restaurer** avant de mettre à jour une installation utilisée. Conserver le volume Docker existant ; ne pas réinitialiser la maison.
 
 Les anciens libellés **Mes réserves**, **Mes courses** et **Mon organisation** correspondent maintenant à **Stocks**, **Courses** et **Paramètres**. Les fonctions décrites ci-dessous restent disponibles.
 
@@ -63,6 +63,18 @@ Les anciens libellés **Mes réserves**, **Mes courses** et **Mon organisation**
 
 Les changements sont décrits dans [CHANGELOG.md](CHANGELOG.md) et les
 vérifications dans [VALIDATION.md](VALIDATION.md).
+
+## Tags, titre et photo proposés
+
+Dans l’éditeur d’une recette et dans la prévisualisation d’import, **Tags et propositions** permet de demander un titre et des tags. Le titre est normalisé s’il existe ; sans titre, un intitulé descriptif peut être proposé à partir des ingrédients. Le moteur utilise des règles locales, sans service d’IA ni transmission du contenu à un fournisseur d’IA.
+
+Choisir **Utiliser ce titre**, cliquer sur les tags souhaités ou saisir ses propres tags, puis **Enregistrer**. Les propositions seules n’écrivent rien. Les tags se retirent individuellement et permettent de filtrer le carnet. Limites : 20 tags par recette, 50 caractères par tag ; vocabulaire de propositions volontairement limité. Aucun classement alimentaire ou contrôle d’allergènes n’est garanti.
+
+Pour une saisie manuelle avec un lien source, **Proposer la photo du site source** réutilise les contrôles de téléchargement existants. Vérifier l’image et sa source, choisir la photo puis enregistrer la recette. Sans image compatible, l’ajout depuis l’appareil reste disponible après enregistrement. Lors d’un import, cocher explicitement **Conserver cette photo**. Une photo existante reste conservée sans nouveau choix.
+
+Cette fonction ajoute la migration **0009**, avec deux tables dédiées aux tags. Elle ne modifie pas les recettes ni les photos existantes et ne tague rien automatiquement. Faire une sauvegarde complète avant mise à jour. Pour revenir à une version antérieure à cette migration, restaurer la sauvegarde antérieure avec le code correspondant ; aucun retour de schéma destructif n’est automatisé.
+
+Le parcours de test est décrit dans [docs/TAGS_RECETTES.md](docs/TAGS_RECETTES.md).
 
 ## Réserves et emplacements
 
